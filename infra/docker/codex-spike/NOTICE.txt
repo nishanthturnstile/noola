@@ -1,0 +1,20 @@
+Vendored data, Apache-2.0:
+
+OpenAI Codex, Copyright 2025 OpenAI
+models.json is derived from codex-rs/models-manager/models.json at
+https://github.com/openai/codex/tree/a956835d020762cb2b570053af06f643a11c0ecc
+(rust-v0.160.0). Only gpt-6.1-sol is retained. Tool capabilities are disabled,
+optional UI metadata removed, and its original instructions_template is retained
+as base_instructions. This is local client metadata, not a model entitlement.
+
+Moby profiles contributors
+seccomp.json is derived from seccomp/default.json at
+https://github.com/moby/profiles/tree/5ad5f40ecde90d78e4a7c861c003fe92747d5518
+(seccomp/v0.2.1). Three additional allow rules permit clone only with CLONE_NEWUSER,
+unshare only for CLONE_NEWUSER, and mount/umount2/pivot_root. All other rules are
+unchanged. The container remains non-root, capability-free, with no-new-privileges.
+These exceptions enable nested bubblewrap; they increase reachable kernel surface
+and must be revalidated for another host or runtime version. No unconfined profile,
+CAP_SYS_ADMIN, privileged container, or host sysctl change is used.
+
+See UPSTREAM-LICENSE.txt and docs/reviews/CODEX-SDK-SPIKE.md in this repository.

@@ -9,7 +9,9 @@ services:
     user: '1000:1000'
     read_only: true
     cap_drop: [ALL]
-    security_opt: [no-new-privileges:true]
+    security_opt:
+      - no-new-privileges:true
+      - seccomp=./seccomp.json
     mem_limit: 1g
     cpus: 1
     pids_limit: 128

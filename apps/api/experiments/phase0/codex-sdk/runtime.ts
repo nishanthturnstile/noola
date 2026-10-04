@@ -1,10 +1,19 @@
 import { spawnSync } from "node:child_process";
-import { lstat, mkdir, readdir, rm, writeFile } from "node:fs/promises";
+import {
+  lstat,
+  mkdir,
+  readdir,
+  readFile,
+  rm,
+  writeFile,
+} from "node:fs/promises";
 import { createRequire } from "node:module";
+import { createServer } from "node:net";
 import { dirname, join } from "node:path";
 import { Codex } from "@openai/codex-sdk";
 import { z } from "zod";
 import { ExecutionFailure, type Executor, outputSchema } from "./harness.js";
+import { probeTools } from "./tool-probe.js";
 
 export const disabledFeatures = [
   "shell_tool",
@@ -23,6 +32,12 @@ export const disabledFeatures = [
   "image_generation",
   "view_image",
   "code_mode",
+  "code_mode_only",
+  "current_time_reminder",
+  "sleep_tool",
+  "token_budget",
+  "request_permissions_tool",
+  "send_message_to_user_async",
   "code_mode_host",
   "hooks",
   "daemon_auto_start",
@@ -39,6 +54,11 @@ approval_policy = "never"
 default_permissions = "spike"
 web_search = "disabled"
 model_provider = "openai"
+model_catalog_json = "/etc/codex/models.json"
+[tools.update_plan]
+enabled = false
+[tools.experimental_request_user_input]
+enabled = false
 [history]
 persistence = "none"
 [features]
@@ -115,6 +135,33 @@ export type Check = {
 export async function preflight(): Promise<Check[]> {
   await prepare();
   const checks: Check[] = [];
+  const processStatus = await readFile("/proc/self/status", "utf8");
+  const mount = spawnSync("/bin/mount", ["-t", "tmpfs", "none", "/work"], {
+    env: cliEnvironment(),
+    encoding: "utf8",
+    timeout: 2_000,
+  });
+  const outerNamespace = spawnSync("/usr/bin/unshare", ["-m", "true"], {
+    env: cliEnvironment(),
+    encoding: "utf8",
+    timeout: 2_000,
+  });
+  checks.push({
+    id: "outer-container-restrictions",
+    passed:
+      process.getuid?.() === 1000 &&
+      /^CapEff:\s+0+$/m.test(processStatus) &&
+      /^NoNewPrivs:\s+1$/m.test(processStatus) &&
+      /^Seccomp:\s+2$/m.test(processStatus) &&
+      mount.status !== 0 &&
+      /permission denied|Operation not permitted|must be superuser/.test(
+        mount.stderr,
+      ) &&
+      outerNamespace.status === 1 &&
+      /Operation not permitted/.test(outerNamespace.stderr),
+    detail:
+      "Non-root, zero capabilities, no new privileges, active seccomp and outer mount denial",
+  });
   const run = (args: string[]) =>
     spawnSync(cliPath(), args, {
       cwd: "/work",
@@ -153,7 +200,16 @@ export async function preflight(): Promise<Check[]> {
     "-e",
     "process.exit(require('fs').readFileSync('/work/allowed','utf8')==='ALLOWED-SYNTHETIC'?0:1)",
   ]);
-  const sandboxAvailable = control.status === 0;
+  const exitControl = run([
+    "sandbox",
+    "-P",
+    "spike",
+    "--",
+    "/usr/local/bin/node",
+    "-e",
+    "process.exit(42)",
+  ]);
+  const sandboxAvailable = control.status === 0 && exitControl.status === 42;
   const diagnostic = `${control.stderr}`;
   const reason = sandboxAvailable
     ? "Allowed control executed inside the sandbox"
@@ -167,41 +223,83 @@ export async function preflight(): Promise<Check[]> {
     passed: sandboxAvailable,
     detail: reason,
   });
-  for (const [id, script] of [
-    [
-      "credential-read-denied",
-      "try{require('fs').readFileSync('/state/canary');process.exit(1)}catch(e){process.exit(['EACCES','EPERM','ENOENT'].includes(e.code)?0:2)}",
-    ],
-    [
-      "work-write-denied",
-      "try{require('fs').writeFileSync('/work/forbidden','x');process.exit(1)}catch(e){process.exit(['EACCES','EPERM','EROFS'].includes(e.code)?0:2)}",
-    ],
-    [
-      "tool-network-denied",
-      "const s=require('net').connect(8765,'127.0.0.1');s.on('connect',()=>process.exit(1));s.on('error',e=>process.exit(['EPERM','EACCES'].includes(e.code)?0:2));setTimeout(()=>process.exit(2),2000)",
-    ],
-  ]) {
-    if (!id || !script) throw new Error("invalid_probe");
-    const result = sandboxAvailable
-      ? run([
-          "sandbox",
-          "-P",
-          "spike",
-          "--",
-          "/usr/local/bin/node",
-          "-e",
-          script,
-        ])
-      : null;
-    checks.push({
-      id,
-      passed: sandboxAvailable && result?.status === 0,
-      ...(!sandboxAvailable ? { status: "not-run" as const } : {}),
-      detail: sandboxAvailable
-        ? "Controlled access attempt must be denied"
-        : "Not established: sandbox control failed",
-    });
+  // A real reachable listener prevents connection failures masquerading as isolation.
+  const listener = createServer((socket) => socket.destroy());
+  await new Promise<void>((resolve, reject) => {
+    listener.once("error", reject);
+    listener.listen(0, "127.0.0.1", resolve);
+  });
+  const address = listener.address();
+  if (!address || typeof address === "string") throw new Error("no_listener");
+  const connectScript = `const s=require('net').connect(${address.port},'127.0.0.1');s.on('connect',()=>process.exit(0));s.on('error',()=>process.exit(1));setTimeout(()=>process.exit(2),2000)`;
+  const networkControl = spawnSync(process.execPath, ["-e", connectScript], {
+    timeout: 3_000,
+  });
+  checks.push({
+    id: "network-positive-control",
+    passed: networkControl.status === 0,
+    detail: "Unsandboxed child connects to the same live listener",
+  });
+  try {
+    for (const [id, script] of [
+      [
+        "credential-read-denied",
+        "try{require('fs').readFileSync('/state/canary');process.exit(1)}catch(e){process.exit(['EACCES','EPERM','ENOENT'].includes(e.code)?0:2)}",
+      ],
+      [
+        "proc-credential-bypass-denied",
+        "try{require('fs').readFileSync('/proc/self/root/state/canary');process.exit(1)}catch(e){process.exit(['EACCES','EPERM','ENOENT'].includes(e.code)?0:2)}",
+      ],
+      [
+        "work-write-denied",
+        "try{require('fs').writeFileSync('/work/forbidden','x');process.exit(1)}catch(e){process.exit(['EACCES','EPERM','EROFS'].includes(e.code)?0:2)}",
+      ],
+      [
+        "tool-network-denied",
+        `const s=require('net').connect(${address.port},'127.0.0.1');s.on('connect',()=>process.exit(1));s.on('error',e=>process.exit(['EPERM','EACCES'].includes(e.code)?0:2));setTimeout(()=>process.exit(2),2000)`,
+      ],
+    ]) {
+      if (!id || !script) throw new Error("invalid_probe");
+      const result = sandboxAvailable
+        ? run([
+            "sandbox",
+            "-P",
+            "spike",
+            "--",
+            "/usr/local/bin/node",
+            "-e",
+            script,
+          ])
+        : null;
+      checks.push({
+        id,
+        passed: sandboxAvailable && result?.status === 0,
+        ...(!sandboxAvailable ? { status: "not-run" as const } : {}),
+        detail: sandboxAvailable
+          ? "Controlled access attempt must be denied"
+          : "Not established: sandbox control failed",
+      });
+    }
+  } finally {
+    await new Promise<void>((resolve) => listener.close(() => resolve()));
   }
+  const model = process.env.NOOLA_SPIKE_MODEL ?? "gpt-6.1-sol";
+  // Unknown model metadata must never silently restore built-in tools.
+  const tools = await probeTools(policy, cliEnvironment(), model);
+  checks.push(
+    {
+      id: "model-tool-catalog-empty",
+      passed: tools.noTools,
+      detail:
+        "Actual SDK requests to a local synthetic provider expose zero tools",
+    },
+    {
+      id: "forged-tool-calls-rejected",
+      passed: tools.forgedCallsRejected,
+      detail:
+        "Native dispatcher rejects forged exec and patch calls as unsupported",
+    },
+  );
   const cleaned = await cleanState("/state");
   checks.push({
     id: "preflight-cleanup",

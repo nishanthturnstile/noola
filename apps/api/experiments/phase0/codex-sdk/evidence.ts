@@ -10,9 +10,14 @@ const evidenceSchema = z.discriminatedUnion("kind", [
       z.object({
         id: z.enum([
           "pinned-cli",
+          "outer-container-restrictions",
+          "network-positive-control",
+          "model-tool-catalog-empty",
+          "forged-tool-calls-rejected",
           "effective-disabled-features",
           "sandbox-positive-control",
           "credential-read-denied",
+          "proc-credential-bypass-denied",
           "work-write-denied",
           "tool-network-denied",
           "preflight-cleanup",

@@ -38,5 +38,7 @@ JS
 FROM node:24.21.0-bookworm-slim@sha256:0e0ff40c39bc087845bfb27465a0df4ea419520094bc35842ff83dd8cbe6f9b6
 WORKDIR /runtime
 COPY --from=build /runtime ./
+COPY infra/docker/codex-spike/models.json /etc/codex/models.json
+COPY infra/docker/codex-spike/requirements.toml /etc/codex/requirements.toml
 USER node
 ENTRYPOINT ["node", "container.js"]
