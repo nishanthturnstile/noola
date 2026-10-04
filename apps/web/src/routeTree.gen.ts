@@ -10,33 +10,128 @@
 
 import { Route as rootRouteImport } from "./routes/__root";
 import { Route as IndexRouteImport } from "./routes/index";
+import { Route as AccountRouteImport } from "./routes/account";
+import { Route as EnrollRouteImport } from "./routes/enroll";
+import { Route as ForgotPasswordRouteImport } from "./routes/forgot-password";
+import { Route as RecoveryRouteImport } from "./routes/recovery";
+import { Route as ResetRouteImport } from "./routes/reset";
+import { Route as SignInRouteImport } from "./routes/sign-in";
+import { Route as VerifyRouteImport } from "./routes/verify";
 
 const IndexRoute = IndexRouteImport.update({
   id: "/",
   path: "/",
   getParentRoute: () => rootRouteImport,
 } as any);
+const AccountRoute = AccountRouteImport.update({
+  id: "/account",
+  path: "/account",
+  getParentRoute: () => rootRouteImport,
+} as any);
+const EnrollRoute = EnrollRouteImport.update({
+  id: "/enroll",
+  path: "/enroll",
+  getParentRoute: () => rootRouteImport,
+} as any);
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: "/forgot-password",
+  path: "/forgot-password",
+  getParentRoute: () => rootRouteImport,
+} as any);
+const RecoveryRoute = RecoveryRouteImport.update({
+  id: "/recovery",
+  path: "/recovery",
+  getParentRoute: () => rootRouteImport,
+} as any);
+const ResetRoute = ResetRouteImport.update({
+  id: "/reset",
+  path: "/reset",
+  getParentRoute: () => rootRouteImport,
+} as any);
+const SignInRoute = SignInRouteImport.update({
+  id: "/sign-in",
+  path: "/sign-in",
+  getParentRoute: () => rootRouteImport,
+} as any);
+const VerifyRoute = VerifyRouteImport.update({
+  id: "/verify",
+  path: "/verify",
+  getParentRoute: () => rootRouteImport,
+} as any);
 
 export interface FileRoutesByFullPath {
   "/": typeof IndexRoute;
+  "/account": typeof AccountRoute;
+  "/enroll": typeof EnrollRoute;
+  "/forgot-password": typeof ForgotPasswordRoute;
+  "/recovery": typeof RecoveryRoute;
+  "/reset": typeof ResetRoute;
+  "/sign-in": typeof SignInRoute;
+  "/verify": typeof VerifyRoute;
 }
 export interface FileRoutesByTo {
   "/": typeof IndexRoute;
+  "/account": typeof AccountRoute;
+  "/enroll": typeof EnrollRoute;
+  "/forgot-password": typeof ForgotPasswordRoute;
+  "/recovery": typeof RecoveryRoute;
+  "/reset": typeof ResetRoute;
+  "/sign-in": typeof SignInRoute;
+  "/verify": typeof VerifyRoute;
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport;
   "/": typeof IndexRoute;
+  "/account": typeof AccountRoute;
+  "/enroll": typeof EnrollRoute;
+  "/forgot-password": typeof ForgotPasswordRoute;
+  "/recovery": typeof RecoveryRoute;
+  "/reset": typeof ResetRoute;
+  "/sign-in": typeof SignInRoute;
+  "/verify": typeof VerifyRoute;
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath;
-  fullPaths: "/";
+  fullPaths:
+    | "/"
+    | "/account"
+    | "/enroll"
+    | "/forgot-password"
+    | "/recovery"
+    | "/reset"
+    | "/sign-in"
+    | "/verify";
   fileRoutesByTo: FileRoutesByTo;
-  to: "/";
-  id: "__root__" | "/";
+  to:
+    | "/"
+    | "/account"
+    | "/enroll"
+    | "/forgot-password"
+    | "/recovery"
+    | "/reset"
+    | "/sign-in"
+    | "/verify";
+  id:
+    | "__root__"
+    | "/"
+    | "/account"
+    | "/enroll"
+    | "/forgot-password"
+    | "/recovery"
+    | "/reset"
+    | "/sign-in"
+    | "/verify";
   fileRoutesById: FileRoutesById;
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute;
+  AccountRoute: typeof AccountRoute;
+  EnrollRoute: typeof EnrollRoute;
+  ForgotPasswordRoute: typeof ForgotPasswordRoute;
+  RecoveryRoute: typeof RecoveryRoute;
+  ResetRoute: typeof ResetRoute;
+  SignInRoute: typeof SignInRoute;
+  VerifyRoute: typeof VerifyRoute;
 }
 
 declare module "@tanstack/react-router" {
@@ -48,11 +143,67 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof IndexRouteImport;
       parentRoute: typeof rootRouteImport;
     };
+    "/account": {
+      id: "/account";
+      path: "/account";
+      fullPath: "/account";
+      preLoaderRoute: typeof AccountRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/enroll": {
+      id: "/enroll";
+      path: "/enroll";
+      fullPath: "/enroll";
+      preLoaderRoute: typeof EnrollRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/forgot-password": {
+      id: "/forgot-password";
+      path: "/forgot-password";
+      fullPath: "/forgot-password";
+      preLoaderRoute: typeof ForgotPasswordRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/recovery": {
+      id: "/recovery";
+      path: "/recovery";
+      fullPath: "/recovery";
+      preLoaderRoute: typeof RecoveryRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/reset": {
+      id: "/reset";
+      path: "/reset";
+      fullPath: "/reset";
+      preLoaderRoute: typeof ResetRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/sign-in": {
+      id: "/sign-in";
+      path: "/sign-in";
+      fullPath: "/sign-in";
+      preLoaderRoute: typeof SignInRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/verify": {
+      id: "/verify";
+      path: "/verify";
+      fullPath: "/verify";
+      preLoaderRoute: typeof VerifyRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AccountRoute: AccountRoute,
+  EnrollRoute: EnrollRoute,
+  ForgotPasswordRoute: ForgotPasswordRoute,
+  RecoveryRoute: RecoveryRoute,
+  ResetRoute: ResetRoute,
+  SignInRoute: SignInRoute,
+  VerifyRoute: VerifyRoute,
 };
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

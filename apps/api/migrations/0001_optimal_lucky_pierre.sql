@@ -1,0 +1,4 @@
+ALTER TABLE "invitation" ADD COLUMN "emailEventId" text;--> statement-breakpoint
+ALTER TABLE "invitation" ADD CONSTRAINT "invitation_emailEventId_email_event_id_fk" FOREIGN KEY ("emailEventId") REFERENCES "public"."email_event"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "dependent" ADD CONSTRAINT "dependent_ownerId_unique" UNIQUE("ownerId");--> statement-breakpoint
+ALTER TABLE "membership" ADD CONSTRAINT "membership_account_state" CHECK (("membership"."state"='invited' AND "membership"."userId" IS NULL) OR ("membership"."state" IN ('verification','active') AND "membership"."userId" IS NOT NULL));

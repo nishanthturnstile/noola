@@ -36,6 +36,134 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/enrollment/join": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["join"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/enrollment": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["enrollment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["me"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/me/settings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["settings"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/household": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["household"];
+        put?: never;
+        post: operations["householdCommand"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/devices": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["devices"];
+        put?: never;
+        post: operations["deviceCommand"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/dependents": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["dependents"];
+        put?: never;
+        post: operations["dependentCommand"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/aliases": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["aliases"];
+        put?: never;
+        post: operations["aliasCommand"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -101,6 +229,1738 @@ export interface operations {
                     "application/json": {
                         /** @enum {string} */
                         status: "unavailable";
+                    };
+                };
+            };
+        };
+    };
+    join: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** Format: uuid */
+                    requestId: string;
+                    token: string;
+                };
+            };
+        };
+        responses: {
+            /** @description Current authority or committed outcome */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        status: "committed" | "pending" | "verification-required" | "joined" | "resolved" | "unresolved" | "clarification";
+                        id?: string;
+                        /** @enum {string} */
+                        emailStatus?: "queued" | "transport-accepted" | "failed" | "outcome-unknown";
+                        candidates?: {
+                            id: string;
+                            name: string;
+                            /** @enum {string} */
+                            type: "adult" | "dependent" | "person";
+                        }[];
+                    };
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Sign-in required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Operation forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Session locked */
+            423: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Rate limited */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+        };
+    };
+    enrollment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** Format: uuid */
+                    requestId: string;
+                    token: string;
+                    /** Format: email */
+                    email: string;
+                    name: string;
+                    password: string;
+                };
+            };
+        };
+        responses: {
+            /** @description Current authority or committed outcome */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        status: "committed" | "pending" | "verification-required" | "joined" | "resolved" | "unresolved" | "clarification";
+                        id?: string;
+                        /** @enum {string} */
+                        emailStatus?: "queued" | "transport-accepted" | "failed" | "outcome-unknown";
+                        candidates?: {
+                            id: string;
+                            name: string;
+                            /** @enum {string} */
+                            type: "adult" | "dependent" | "person";
+                        }[];
+                    };
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Sign-in required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Operation forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Session locked */
+            423: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Rate limited */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+        };
+    };
+    me: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Current authority or committed outcome */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        id: string;
+                        name: string;
+                        /** Format: email */
+                        email: string;
+                        /** @enum {string} */
+                        role: "owner" | "adult";
+                        membershipId: string;
+                        settings: {
+                            revision: number;
+                            values: {
+                                /** @enum {string} */
+                                language?: "English" | "Tamil" | "Tamil and English";
+                                /** @enum {string} */
+                                tone?: "concise" | "detailed";
+                                /** @enum {string} */
+                                units?: "metric" | "imperial";
+                                /** @enum {string} */
+                                currency?: "INR" | "USD" | "EUR";
+                                /** @enum {string} */
+                                dateFormat?: "DD MMM YYYY" | "YYYY-MM-DD";
+                                /** @enum {string} */
+                                timeZone?: "Asia/Kolkata" | "UTC" | "Europe/London" | "America/New_York";
+                                /** @enum {string} */
+                                retention?: "temporary" | "30-days" | "180-days" | "until-deleted";
+                                notifications?: boolean;
+                                quietHours?: boolean;
+                                disclosureRevision?: string;
+                                completed?: boolean;
+                            };
+                        };
+                        device: {
+                            id: string;
+                            /** @enum {string} */
+                            mode: "shared" | "personal";
+                            label: string;
+                            current: boolean;
+                            lastActivity: string;
+                            locked: boolean;
+                        };
+                        disclosure: {
+                            revision: string;
+                            text: string;
+                        };
+                        /** @enum {string} */
+                        ai: "unavailable";
+                        /** @enum {string} */
+                        push: "off";
+                    };
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Sign-in required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Operation forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Session locked */
+            423: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Rate limited */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+        };
+    };
+    settings: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    expectedRevision: number;
+                    /** @enum {string} */
+                    step: "identity" | "presentation" | "disclosure" | "preferences";
+                    name?: string;
+                    preferences: {
+                        /** @enum {string} */
+                        language?: "English" | "Tamil" | "Tamil and English";
+                        /** @enum {string} */
+                        tone?: "concise" | "detailed";
+                        /** @enum {string} */
+                        units?: "metric" | "imperial";
+                        /** @enum {string} */
+                        currency?: "INR" | "USD" | "EUR";
+                        /** @enum {string} */
+                        dateFormat?: "DD MMM YYYY" | "YYYY-MM-DD";
+                        /** @enum {string} */
+                        timeZone?: "Asia/Kolkata" | "UTC" | "Europe/London" | "America/New_York";
+                        /** @enum {string} */
+                        retention?: "temporary" | "30-days" | "180-days" | "until-deleted";
+                        notifications?: boolean;
+                        quietHours?: boolean;
+                    };
+                    acceptDisclosure?: boolean;
+                };
+            };
+        };
+        responses: {
+            /** @description Current authority or committed outcome */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        status: "committed" | "pending" | "verification-required" | "joined" | "resolved" | "unresolved" | "clarification";
+                        id?: string;
+                        /** @enum {string} */
+                        emailStatus?: "queued" | "transport-accepted" | "failed" | "outcome-unknown";
+                        candidates?: {
+                            id: string;
+                            name: string;
+                            /** @enum {string} */
+                            type: "adult" | "dependent" | "person";
+                        }[];
+                    };
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Sign-in required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Operation forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Session locked */
+            423: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Rate limited */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+        };
+    };
+    household: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Current authority or committed outcome */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        revision: number;
+                        sharedUse: boolean;
+                        members: {
+                            id: string;
+                            name: string;
+                            /** @enum {string} */
+                            role: "owner" | "adult";
+                        }[];
+                        invitations: {
+                            id: string;
+                            /** Format: email */
+                            email: string;
+                            /** @enum {string} */
+                            state: "pending" | "verification" | "expired";
+                            expiresAt: string;
+                            emailStatus: string;
+                        }[];
+                        agreements: {
+                            id: string;
+                            revision: number;
+                            text: string;
+                            /** @enum {string} */
+                            state: "pending" | "accepted" | "declined" | "expired" | "canceled";
+                            expiresAt: string;
+                            canCancel: boolean;
+                            decisions: {
+                                userId: string;
+                                /** @enum {string} */
+                                decision: "accepted" | "declined";
+                            }[];
+                        }[];
+                    };
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Sign-in required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Operation forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Session locked */
+            423: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Rate limited */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+        };
+    };
+    householdCommand: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** @enum {string} */
+                    action: "invite";
+                    /** Format: uuid */
+                    requestId: string;
+                    /** Format: email */
+                    email: string;
+                } | {
+                    /** @enum {string} */
+                    action: "resend";
+                    /** Format: uuid */
+                    requestId: string;
+                    invitationId: string;
+                } | {
+                    /** @enum {string} */
+                    action: "cancel";
+                    /** Format: uuid */
+                    requestId: string;
+                    invitationId: string;
+                } | {
+                    /** @enum {string} */
+                    action: "join";
+                    /** Format: uuid */
+                    requestId: string;
+                    token: string;
+                } | {
+                    /** @enum {string} */
+                    action: "propose-rules";
+                    /** Format: uuid */
+                    requestId: string;
+                    expectedRevision: number;
+                    text: string;
+                } | {
+                    /** @enum {string} */
+                    action: "accept-rules" | "decline-rules" | "cancel-rules";
+                    /** Format: uuid */
+                    requestId: string;
+                    agreementId: string;
+                    revision: number;
+                };
+            };
+        };
+        responses: {
+            /** @description Current authority or committed outcome */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        status: "committed" | "pending" | "verification-required" | "joined" | "resolved" | "unresolved" | "clarification";
+                        id?: string;
+                        /** @enum {string} */
+                        emailStatus?: "queued" | "transport-accepted" | "failed" | "outcome-unknown";
+                        candidates?: {
+                            id: string;
+                            name: string;
+                            /** @enum {string} */
+                            type: "adult" | "dependent" | "person";
+                        }[];
+                    };
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Sign-in required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Operation forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Session locked */
+            423: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Rate limited */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+        };
+    };
+    devices: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Current authority or committed outcome */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        id: string;
+                        /** @enum {string} */
+                        mode: "shared" | "personal";
+                        label: string;
+                        current: boolean;
+                        lastActivity: string;
+                        locked: boolean;
+                    }[];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Sign-in required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Operation forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Session locked */
+            423: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Rate limited */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+        };
+    };
+    deviceCommand: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** @enum {string} */
+                    action: "background";
+                } | {
+                    /** @enum {string} */
+                    action: "update";
+                    deviceId: string;
+                    /** @enum {string} */
+                    mode: "shared" | "personal";
+                    label: string;
+                } | {
+                    /** @enum {string} */
+                    action: "revoke" | "revoke-others";
+                    /** Format: uuid */
+                    requestId: string;
+                    deviceId?: string;
+                } | {
+                    /** @enum {string} */
+                    action: "activity" | "lock";
+                };
+            };
+        };
+        responses: {
+            /** @description Current authority or committed outcome */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        status: "committed" | "pending" | "verification-required" | "joined" | "resolved" | "unresolved" | "clarification";
+                        id?: string;
+                        /** @enum {string} */
+                        emailStatus?: "queued" | "transport-accepted" | "failed" | "outcome-unknown";
+                        candidates?: {
+                            id: string;
+                            name: string;
+                            /** @enum {string} */
+                            type: "adult" | "dependent" | "person";
+                        }[];
+                        locked?: boolean;
+                    };
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Sign-in required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Operation forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Session locked */
+            423: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Rate limited */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+        };
+    };
+    dependents: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Current authority or committed outcome */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        id: string;
+                        ownerId: string;
+                        revision: number;
+                        displayName: string;
+                        birthDate: string | null;
+                        canEdit: boolean;
+                        guardians: {
+                            userId: string;
+                            accepted: boolean;
+                        }[];
+                        proposals: {
+                            id: string;
+                            targetId: string;
+                            /** @enum {string} */
+                            action: "add" | "remove";
+                            revision: number;
+                            /** @enum {string} */
+                            state: "pending" | "accepted" | "declined" | "expired";
+                            approvals: string[];
+                            expiresAt: string;
+                        }[];
+                        corrections: {
+                            id: string;
+                            authorId: string;
+                            text: string;
+                            /** @enum {string} */
+                            state: "pending" | "reviewed" | "declined";
+                        }[];
+                    }[];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Sign-in required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Operation forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Session locked */
+            423: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Rate limited */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+        };
+    };
+    dependentCommand: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** @enum {string} */
+                    action: "create";
+                    /** Format: uuid */
+                    requestId: string;
+                    displayName: string;
+                    birthDate: string | null;
+                } | {
+                    /** @enum {string} */
+                    action: "update";
+                    dependentId: string;
+                    expectedRevision: number;
+                    displayName: string;
+                    birthDate: string | null;
+                } | {
+                    /** @enum {string} */
+                    action: "propose-guardian";
+                    /** Format: uuid */
+                    requestId: string;
+                    dependentId: string;
+                    expectedRevision: number;
+                    targetId: string;
+                    /** @enum {string} */
+                    change: "add" | "remove";
+                } | {
+                    /** @enum {string} */
+                    action: "decide-guardian";
+                    /** Format: uuid */
+                    requestId: string;
+                    proposalId: string;
+                    revision: number;
+                    accept: boolean;
+                } | {
+                    /** @enum {string} */
+                    action: "relinquish";
+                    /** Format: uuid */
+                    requestId: string;
+                    dependentId: string;
+                } | {
+                    /** @enum {string} */
+                    action: "request-correction";
+                    /** Format: uuid */
+                    requestId: string;
+                    dependentId: string;
+                    text: string;
+                } | {
+                    /** @enum {string} */
+                    action: "review-correction";
+                    correctionId: string;
+                    /** @enum {string} */
+                    decision: "reviewed" | "declined";
+                };
+            };
+        };
+        responses: {
+            /** @description Current authority or committed outcome */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        status: "committed" | "pending" | "verification-required" | "joined" | "resolved" | "unresolved" | "clarification";
+                        id?: string;
+                        /** @enum {string} */
+                        emailStatus?: "queued" | "transport-accepted" | "failed" | "outcome-unknown";
+                        candidates?: {
+                            id: string;
+                            name: string;
+                            /** @enum {string} */
+                            type: "adult" | "dependent" | "person";
+                        }[];
+                    };
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Sign-in required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Operation forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Session locked */
+            423: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Rate limited */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+        };
+    };
+    aliases: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Current authority or committed outcome */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        id: string;
+                        phrase: string;
+                        /** @enum {string} */
+                        targetType: "adult" | "dependent" | "person";
+                        targetId: string | null;
+                        name: string;
+                    }[];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Sign-in required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Operation forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Session locked */
+            423: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Rate limited */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+        };
+    };
+    aliasCommand: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** @enum {string} */
+                    action: "save";
+                    /** Format: uuid */
+                    requestId: string;
+                    phrase: string;
+                    /** @enum {string} */
+                    targetType: "adult" | "dependent" | "person";
+                    targetId?: string;
+                    name: string;
+                } | {
+                    /** @enum {string} */
+                    action: "delete";
+                    aliasId: string;
+                } | {
+                    /** @enum {string} */
+                    action: "resolve";
+                    phrase: string;
+                };
+            };
+        };
+        responses: {
+            /** @description Current authority or committed outcome */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        status: "committed" | "pending" | "verification-required" | "joined" | "resolved" | "unresolved" | "clarification";
+                        id?: string;
+                        /** @enum {string} */
+                        emailStatus?: "queued" | "transport-accepted" | "failed" | "outcome-unknown";
+                        candidates?: {
+                            id: string;
+                            name: string;
+                            /** @enum {string} */
+                            type: "adult" | "dependent" | "person";
+                        }[];
+                    };
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Sign-in required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Operation forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Session locked */
+            423: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Rate limited */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
+                    };
+                };
+            };
+            /** @description Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        code: "unauthorized" | "locked" | "forbidden" | "conflict" | "invalid" | "rate_limited" | "unavailable";
+                        message: string;
                     };
                 };
             };

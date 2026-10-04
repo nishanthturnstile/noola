@@ -1,4 +1,4 @@
-name: Bootstrap checks
+name: Noola checks
 on:
   pull_request:
   push:
@@ -17,6 +17,9 @@ jobs:
       NOOLA_APP_PASSWORD: synthetic-ci-app
       DATABASE_URL: postgresql://noola_app:synthetic-ci-app@127.0.0.1:5432/noola
       MIGRATION_DATABASE_URL: postgresql://noola_owner:synthetic-ci-owner@127.0.0.1:5432/noola
+      APP_ORIGIN: http://127.0.0.1:5173
+      AUTH_SECRET: synthetic-ci-auth-secret-for-disposable-accounts-only-2026
+      MAILPIT_URL: http://127.0.0.1:8025
     services:
       postgres:
         image: postgres:18.6-bookworm@sha256:3725f4e2499eef5134592b3b4ab79a543ed7f8e533b05b5b637af926630f6650
@@ -27,6 +30,15 @@ jobs:
         ports: [5432:5432]
         options: >-
           --health-cmd "pg_isready -U local_admin -d postgres"
+          --health-interval 3s --health-timeout 3s --health-retries 20
+      mailpit:
+        image: axllent/mailpit:v1.31.4
+        env:
+          MP_SEND_API_AUTH_ACCEPT_ANY: 'true'
+          MP_SMTP_RELAY_ALL: 'false'
+        ports: [8025:8025]
+        options: >-
+          --health-cmd "/mailpit readyz"
           --health-interval 3s --health-timeout 3s --health-retries 20
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -40,10 +52,12 @@ jobs:
       - run: pnpm --filter @noola/api db:provision
       - run: pnpm --filter @noola/api db:migrate
       - run: pnpm --filter @noola/api test:integration
+      - run: pnpm --filter @noola/api test:identity
       - run: pnpm --filter @noola/api phase0:runtime
       - name: Upstream declaration diagnostic (approved backend exception)
         id: phase0-declarations
         continue-on-error: true
         run: pnpm phase0:declarations
-      - run: pnpm exec playwright install --with-deps chromium
-      - run: pnpm test:e2e
+      - run: pnpm exec playwright install --with-deps chromium webkit
+      - run: pnpm test:e2e tests/e2e/bootstrap.spec.ts
+      - run: pnpm test:identity:browser

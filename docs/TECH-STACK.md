@@ -1,12 +1,12 @@
 # Technology stack
 
-**Draft implementation selection; validation pending.** Consolidated 3 October 2026; backend separation and frontend choices revised on 4 October 2026. The complete architecture remains unapproved. Owner-selected directions are identified separately from recommendations. The authorized bootstrap now pins installed dependencies in workspace manifests; [bootstrap validation](reviews/BOOTSTRAP-VALIDATION.md) records its limited checks without implying product or production acceptance. [Documentation index](README.md).
+**Draft implementation selection; validation pending.** Consolidated 3 October 2026; backend separation and frontend choices revised on 4 October 2026. The complete architecture remains unapproved. Rows identify owner selections. The authorized bootstrap now pins installed dependencies in workspace manifests; [bootstrap validation](reviews/BOOTSTRAP-VALIDATION.md) records its limited checks without implying product or production acceptance. [Documentation index](README.md).
 
 Use independently built TypeScript/Node and React applications in a pnpm workspace, with shared contracts and API client. Backend operations, PostgreSQL, purpose-specific adapters and bounded durable jobs preserve domain ownership. A package earns inclusion by removing demonstrated correctness or maintenance work; future capability names do not justify installing their dependencies now.
 
 ## Selection inventory
 
-This is the single inventory of technology choices and introduction points. [Technology evidence](reference/TECHNOLOGY-EVIDENCE.md#version-snapshot) distinguishes inherited 3 October observations from 4 October research/experiments; neither is an installation prescription. “Recommended” denotes the draft approach awaiting architecture review; “conditional” requires named evidence. Code placement and coding conventions belong in the [Noola skill](../.agents/skills/noola-code-structure/SKILL.md). No row reports passing application validation.
+This is the single inventory of technology choices and introduction points. [Technology evidence](reference/TECHNOLOGY-EVIDENCE.md#version-snapshot) distinguishes inherited 3 October observations from 4 October research/experiments; neither is an installation prescription. “Recommended” denotes the draft approach awaiting architecture review; “conditional” requires named evidence. Code placement and coding conventions belong in the [Noola skill](../.agents/skills/noola-code-structure/SKILL.md). Local evidence appears in [Section One validation](reviews/PHASE-1-SECTION-1-VALIDATION.md); it does not approve the complete architecture or production use.
 
 | Area | Choice / package boundary | Status and introduction |
 |---|---|---|
@@ -16,14 +16,14 @@ This is the single inventory of technology choices and introduction points. [Tec
 | Build/development | `@tanstack/router-plugin`, Vite, compatible `typescript`, development-only `tsx`; matching Node/React/DOM/pg types | Recommended; generate route tree before checking, Phase 0/1 |
 | Client | Installable PWA, browser APIs, public-static-only service worker | Owner-selected evaluation direction; actual-device gate |
 | UI | shadcn/ui with Base UI (`@base-ui/react`), Tailwind CSS 4 / `@tailwindcss/vite`, `lucide-react`; CSS tokens/transitions | shadcn/Base UI owner-selected, Phase 1 |
-| Forms | `@tanstack/react-form`; shared typed fields and Zod/Standard Schema validation | Owner-selected, Phase 1 |
+| Forms | `@tanstack/react-form`; shared typed fields and Zod/Standard Schema validation | Owner-selected; installed for local Section One |
 | Server state | `@tanstack/react-query`; Router loaders coordinate the same query cache | Recommended, Phase 1 |
-| URL state | `nuqs` with its TanStack Router adapter; approved nonsensitive presentation parameters | Owner-selected; experimental adapter check under G13, Phase 0/1 |
+| URL state | `nuqs` with its TanStack Router adapter; approved nonsensitive presentation parameters | Owner-selected; local Section One navigation/history evidence; G13 retained |
 | Ephemeral state | React state/reducers and narrow context | Recommended; no direct global Store dependency initially |
 | Validation | Zod 4 for external boundaries, configuration and structured proposals | Recommended, Phase 1 |
 | API contracts/client | `@hono/zod-openapi`, generated OpenAPI; `openapi-typescript`, `openapi-fetch` and runtime response schemas | Recommended, Phase 0 contract proof / Phase 1; browser-safe contracts |
 | Primary data | PostgreSQL 18, `pg`, Drizzle stable `drizzle-orm` and `drizzle-kit` | Recommended, Phase 1 |
-| Identity | `better-auth` and matching `@better-auth/drizzle-adapter`; opaque DB sessions | Recommended, Phase 1; independent recovery gate |
+| Identity | `better-auth` and matching `@better-auth/drizzle-adapter`; opaque DB sessions | Installed for local Section One; deployed recovery gate remains |
 | Authorization | Application-owned current record policy, approval and processing checks | Required boundary; Phase 1 onward |
 | Text AI | `@openai/codex-sdk` for an isolated subscription spike; AI SDK Core `ai` for supported paid gateway/provider adapters | SDK/CLI 0.160.0 pinned for [spike](reviews/CODEX-SDK-SPIKE.md); single-account local recall/cleanup passed; second-account/hosted qualification pending |
 | Paid fallback | Configurable Vercel AI Gateway first; OpenCode Zen evaluated alternative; narrow purpose/direct adapters where required | Vercel direction retained; no gateway enabled; OpenCode Go not selected |
@@ -33,7 +33,7 @@ This is the single inventory of technology choices and introduction points. [Tec
 | Durable execution | `pg-boss` with application-owned occurrence/dispatch state | Recommended, Phase 1 maintenance; Phase 2 reminders |
 | Time | UTC instants plus intended local time/timezone; Temporal polyfill if needed | Phase 2 as required; recurrence extended in Phase 4 |
 | Notification transport | Standard Web Push/VAPID; provisional `web-push` adapter after maintenance review | Phase 0 feasibility; Phase 2 reliance |
-| Email | Private Mailpit without relay in nonproduction; Resend HTTPS in production; maintained SMTP client for testing | Selected direction, Phase 1; actual production delivery gate |
+| Email | Private Mailpit without relay in nonproduction; Resend HTTPS in production; maintained SMTP client for testing | Mailpit and owned encrypted send ledger exercised locally; actual production delivery gate remains |
 | File/capture | MediaRecorder negotiation; PDF.js, Sharp and verified libheif/libde265 decoder artifacts; isolated parser | Recommended, Phase 3; actual-artifact gate |
 | Retained storage | Private permitted-host storage; separate temporary processing; authenticated original/export access | Recovery from Phase 1; retained originals from Phase 3 |
 | Recovery | Encrypted OneDrive bundles, separate Vaultwarden/offline keys, independent restriction journal | Selected direction; durability/custody proof pending |

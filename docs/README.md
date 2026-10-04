@@ -9,6 +9,8 @@ Start here. The product baseline and roadmap sequence are established; the compl
 3. [Architecture](ARCHITECTURE.md): system boundaries, module ownership and invariants.
 4. [Technology stack](TECH-STACK.md): the single selection inventory and introduction triggers.
 
+The [Phase 1 accounts and household implementation plan](plans/PHASE-1-SECTION-1.md) details prerequisites, ordered milestones, interfaces and acceptance for separate accounts and household setup. Its local-first, English-first implementation is recorded in the [Section One validation and handoff](reviews/PHASE-1-SECTION-1-VALIDATION.md), with delivered portions distinguished from later deployed and feature gates.
+
 Before implementing a feature, find its ID in [requirements](reference/REQUIREMENTS.md#capability-catalog), then use [traceability](reference/TRACEABILITY.md#requirement-matrix) to locate its phase, responsible modules and validation family. Read its applicable rules, acceptance cases, technical contracts, ADRs and outstanding gates. A summary does not replace a referenced requirement or exception.
 
 [Code structure and architecture review](reviews/CODE-STRUCTURE-REVIEW.md) supplies research on backend separation, typed contracts and future reuse. The [TanStack and UI review](reviews/TANSTACK-AND-UI-REVIEW.md) covers library fit. Canonical architecture/stack references reflect the owner-selected directions from 4 October; remaining mechanisms and runtime evidence await review. The created [noola-code-structure skill](../.agents/skills/noola-code-structure/SKILL.md) owns file placement, reuse and coding standards, and [root agent instructions](../AGENTS.md) require it before source/setup changes.

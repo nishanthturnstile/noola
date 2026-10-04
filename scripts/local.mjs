@@ -27,6 +27,21 @@ function createEnv(path, content) {
     writeFileSync(path, content, { flag: "wx", mode: 0o600 });
   }
 }
+function ensureIdentityEnv() {
+  if (!existsSync(appFile)) return;
+  const current = parseEnv(readFileSync(appFile, "utf8"));
+  const additions = {
+    AUTH_SECRET: randomBytes(48).toString("hex"),
+    APP_ORIGIN: `http://localhost:${current.WEB_PORT ?? "5173"}`,
+  };
+  const missing = Object.entries(additions).filter(([key]) => !current[key]);
+  if (missing.length)
+    writeFileSync(
+      appFile,
+      `\n${missing.map(([key, value]) => `${key}=${value}`).join("\n")}\n`,
+      { flag: "a", mode: 0o600 },
+    );
+}
 function url(user, password, host = "local-postgres", database = "noola") {
   if (!password)
     throw new Error(`Missing password for ${user}; run pnpm env:init`);
@@ -45,12 +60,14 @@ try {
       appFile,
       `NOOLA_MIGRATION_PASSWORD=${randomBytes(32).toString("hex")}\nNOOLA_APP_PASSWORD=${randomBytes(32).toString("hex")}\nWEB_PORT=5173\nDB_POOL_SIZE=5\n`,
     );
+    ensureIdentityEnv();
     console.info(
       `Local configuration ready: ${sharedFile} and ${appFile}. Existing values preserved.`,
     );
   } else {
     if (!existsSync(sharedFile) || !existsSync(appFile))
       throw new Error("Run pnpm env:init first");
+    ensureIdentityEnv();
     const shared = parseEnv(readFileSync(sharedFile, "utf8"));
     const app = parseEnv(readFileSync(appFile, "utf8"));
     const appEnv = {
@@ -58,6 +75,7 @@ try {
       LOCAL_UID: String(process.getuid()),
       LOCAL_GID: String(process.getgid()),
       DATABASE_URL: url("noola_app", app.NOOLA_APP_PASSWORD),
+      MAILPIT_URL: "http://mailpit:8025",
     };
     const appCompose = ["compose", "-f", "compose.yaml"];
     const infraCompose = [
@@ -65,19 +83,26 @@ try {
       "-f",
       "infra/shared-postgres/compose.yaml",
     ];
-    const tool = (script, extra = {}) =>
+    const tool = (script, extra = {}, args = []) =>
       run(
         [
           ...appCompose,
           "run",
           "--rm",
           "--no-deps",
-          ...Object.keys(extra).flatMap((key) => ["-e", key]),
+          ...Object.keys({
+            ...extra,
+            APP_ORIGIN: "",
+            AUTH_SECRET: "",
+            DATABASE_URL: "",
+            MAILPIT_URL: "",
+          }).flatMap((key) => ["-e", key]),
           "tools",
           "pnpm",
           "--filter",
           "@noola/api",
           script,
+          ...args,
         ],
         { ...appEnv, ...extra },
       );
@@ -122,13 +147,70 @@ try {
         shared,
       );
       run(
-        [...appCompose, "up", "--build", "-d", "--wait", "web", "api"],
+        [
+          ...appCompose,
+          "up",
+          "--build",
+          "-d",
+          "--wait",
+          "web",
+          "api",
+          "mailpit",
+        ],
         appEnv,
       );
       console.info(`Noola: http://localhost:${app.WEB_PORT ?? "5173"}`);
+    } else if (command === "bootstrap") {
+      if (!process.argv[3])
+        throw new Error(
+          "Supply the synthetic owner email: pnpm household:bootstrap owner@example.test",
+        );
+      tool("household:bootstrap", {}, process.argv.slice(3));
+    } else if (command === "identity-browser") {
+      const extra = {
+        ...appEnv,
+        ADMIN_DATABASE_URL: url(
+          "local_admin",
+          shared.POSTGRES_ADMIN_PASSWORD,
+          "local-postgres",
+          "postgres",
+        ),
+        NOOLA_MIGRATION_PASSWORD: app.NOOLA_MIGRATION_PASSWORD,
+        NOOLA_APP_PASSWORD: app.NOOLA_APP_PASSWORD,
+        TEST_MAILPIT_URL: "http://mailpit:8025",
+        ...(process.env.PLAYWRIGHT_BASE_URL
+          ? { PLAYWRIGHT_BASE_URL: process.env.PLAYWRIGHT_BASE_URL }
+          : {}),
+      };
+      run(
+        [
+          ...appCompose,
+          "run",
+          "--rm",
+          "--no-deps",
+          ...Object.keys(extra).flatMap((key) => ["-e", key]),
+          "browser-tests",
+          ...process.argv.slice(3),
+        ],
+        extra,
+      );
+    } else if (command === "identity-integration") {
+      tool("test:identity", {
+        ADMIN_DATABASE_URL: url(
+          "local_admin",
+          shared.POSTGRES_ADMIN_PASSWORD,
+          "local-postgres",
+          "postgres",
+        ),
+        NOOLA_MIGRATION_PASSWORD: app.NOOLA_MIGRATION_PASSWORD,
+        NOOLA_APP_PASSWORD: app.NOOLA_APP_PASSWORD,
+      });
     } else if (command === "down") run([...appCompose, "down"], appEnv);
     else if (command === "logs")
-      run([...appCompose, "logs", "--tail", "100", "-f", "web", "api"], appEnv);
+      run(
+        [...appCompose, "logs", "--tail", "100", "-f", "web", "api", "mailpit"],
+        appEnv,
+      );
     else if (command === "migrate")
       tool("db:migrate", {
         MIGRATION_DATABASE_URL: url(
