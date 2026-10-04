@@ -1,0 +1,175 @@
+{
+  "recordedAt": "2026-10-04T08:14:32.322599+00:00",
+  "branch": "codex/phase0-codex-sdk-spike",
+  "implementationCommit": "984f2735f74dee8576650151616c4982c7ed84b3",
+  "decision": "retain-isolated-harness; block-login-and-inference; no-production-adoption",
+  "versions": {
+    "sdk": "0.160.0",
+    "cli": "0.160.0",
+    "node": "24.21.0",
+    "pnpm": "12.8.1",
+    "dockerServer": "29.8.1"
+  },
+  "sdkIntegrity": "sha512-PWmoVvX/YqofBnauvao7IEUSYWzbbbIBmwQfRu3ARb2ZbcwIUeuMaicchEpdBzpE8Bw3KOMyhlPlcSQWeg+EoA==",
+  "baseImage": "node:24.21.0-bookworm-slim@sha256:0e0ff40c39bc087845bfb27465a0df4ea419520094bc35842ff83dd8cbe6f9b6",
+  "runtimeImageId": "sha256:771fc5b01e2a0a3279c2d52d686c1b568da7035aa58a5a230b3f272b79604258",
+  "imageUncompressedBytes": 951235274,
+  "liveInvocations": 0,
+  "liveTokenUsage": null,
+  "liveLatencyMs": null,
+  "livePeakMemoryBytes": null,
+  "remainingRunningSpikeContainers": 0,
+  "failures": {
+    "effectiveControl": "unified_exec stable true despite features.unified_exec=false",
+    "sandbox": "bwrap cannot create a new namespace under current container/kernel restrictions"
+  },
+  "checks": [
+    {
+      "id": "frozen-install",
+      "category": "local-runtime-observation",
+      "status": "passed",
+      "command": "pnpm install --frozen-lockfile"
+    },
+    {
+      "id": "workspace-checks",
+      "category": "local-runtime-observation",
+      "status": "passed",
+      "command": "pnpm check"
+    },
+    {
+      "id": "offline-spike",
+      "category": "offline-simulation",
+      "status": "passed",
+      "tests": 38,
+      "command": "pnpm phase0:codex:test"
+    },
+    {
+      "id": "identity-persistence-regression",
+      "category": "local-runtime-observation",
+      "status": "passed",
+      "command": "pnpm phase0:runtime"
+    },
+    {
+      "id": "upstream-declarations",
+      "category": "local-runtime-observation",
+      "status": "failed",
+      "errors": 73,
+      "expectedExistingException": true,
+      "command": "pnpm phase0:declarations"
+    },
+    {
+      "id": "docker-volume-isolation-both-directions",
+      "category": "local-runtime-observation",
+      "status": "passed",
+      "syntheticOnly": true
+    },
+    {
+      "id": "docker-nonroot-readonly-no-repo-socket-or-credential-env",
+      "category": "local-runtime-observation",
+      "status": "passed"
+    },
+    {
+      "id": "both-state-volumes-empty-after-cleanup",
+      "category": "local-runtime-observation",
+      "status": "passed"
+    },
+    {
+      "id": "native-login",
+      "category": "live-account-observation",
+      "status": "not-run",
+      "reason": "containment gate failed"
+    },
+    {
+      "id": "native-recall-quality-and-usage",
+      "category": "live-account-observation",
+      "status": "not-run"
+    },
+    {
+      "id": "native-generated-history-cleanup-and-cancellation",
+      "category": "live-account-observation",
+      "status": "not-run"
+    },
+    {
+      "id": "independent-second-adult-account",
+      "category": "live-account-observation",
+      "status": "pending"
+    },
+    {
+      "id": "existing-application-health",
+      "category": "local-runtime-observation",
+      "status": "passed"
+    }
+  ],
+  "liveCommandGate": {
+    "recordedAt": "2026-10-04T08:10:22.193Z",
+    "command": "live",
+    "principal": "adult-a",
+    "baseCommit": "984f2735f74dee8576650151616c4982c7ed84b3",
+    "workingTreeDirty": false,
+    "imageId": "sha256:771fc5b01e2a0a3279c2d52d686c1b568da7035aa58a5a230b3f272b79604258",
+    "exitCode": 2,
+    "evidence": [
+      {
+        "kind": "preflight",
+        "checks": [
+          {
+            "id": "pinned-cli",
+            "passed": true
+          },
+          {
+            "id": "effective-disabled-features",
+            "passed": false
+          },
+          {
+            "id": "sandbox-positive-control",
+            "passed": false
+          },
+          {
+            "id": "credential-read-denied",
+            "passed": false,
+            "status": "not-run"
+          },
+          {
+            "id": "work-write-denied",
+            "passed": false,
+            "status": "not-run"
+          },
+          {
+            "id": "tool-network-denied",
+            "passed": false,
+            "status": "not-run"
+          },
+          {
+            "id": "preflight-cleanup",
+            "passed": true
+          }
+        ]
+      },
+      {
+        "kind": "cleanup",
+        "contentRemoved": true,
+        "credentialRetained": false
+      }
+    ]
+  },
+  "sourceSha256": {
+    "apps/api/experiments/phase0/codex-sdk/command.ts": "bb3548310f5ae265105104a0f07836dff58c913d7bd183edecab3bc7f9635c43",
+    "apps/api/experiments/phase0/codex-sdk/container.ts": "58d44b4e78e59393767657b05b129c73ff3ba5a98527c8f8ba8185b5b66af0fa",
+    "apps/api/experiments/phase0/codex-sdk/evidence.test.ts": "c451b159f3f9eb3da78853bd22724a68501f67b9dc2e332ee548c971e57ea096",
+    "apps/api/experiments/phase0/codex-sdk/evidence.ts": "640886e7d2e8cc5940b5bd3fe118ecbba379d4905187da2995bf7e4544399d69",
+    "apps/api/experiments/phase0/codex-sdk/harness.test.ts": "ed586ca9e7447e607ac6dbda1d3dbb0ef8bed8aa83895ad9c97702f0cb7490b5",
+    "apps/api/experiments/phase0/codex-sdk/harness.ts": "ca77f36bba5d30a51928f060c1ea192b3891b23bf9d75909c7f5c69928ac96e8",
+    "apps/api/experiments/phase0/codex-sdk/runtime.test.ts": "3f33a19fa9acccdbda1da107848da845b6dfc90de8ece09875d178b7334d03f0",
+    "apps/api/experiments/phase0/codex-sdk/runtime.ts": "2b1d9df2a5a2129de2c4bacb4fa87883a66cf8cd8b3699a51b04178d1d805c88",
+    "apps/api/experiments/phase0/codex-sdk/tsconfig.runtime.json": "7957acc52fa46827e7702af2dd9b76d22842babe273c0fd1ed16815d194f3116",
+    "infra/docker/codex-spike/Dockerfile": "d72bdaeb1e69bd3be2c23d80fcb9c86e41987c3c47f0493104bc12a557e049d2",
+    "infra/docker/codex-spike/compose.yaml": "2b94afc2647f8cbd69e2a8dc64636fcd3554ad4a2177b1b2cd63345cebd3b0f5"
+  },
+  "limits": [
+    "No real-account entitlement or second-account proof",
+    "No upstream retention/deletion evidence",
+    "No actual generated-history or native cancellation proof",
+    "No exact internal HTTP-attempt cap; unknown retries remain unknown",
+    "Production hosting, privacy and model quality remain pending"
+  ]
+}

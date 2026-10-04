@@ -13,6 +13,8 @@
 The owner selected eligible personal ChatGPT subscriptions first and explicit paid fallback. Model availability, hosting eligibility, processing permission and authority to change household records are separate concerns.
 
 <a id="decision"></a>
+**Execution evidence, 4 October:** the [isolated spike](../reviews/CODEX-SDK-SPIKE.md) passes offline checks but fails required effective-tool and sandbox preflight. Native login and inference remain blocked; production adoption remains pending. Retain the harness separately for reproduction and preserve results if it is later removed.
+
 ## Decision
 
 Keep purpose-specific application adapters: an isolated Codex SDK subscription experiment and AI SDK Core for supported paid gateway/provider routes, initially Vercel AI Gateway. Discover account models, enforce capabilities and keep credentials/routes separate. The application owns saved memory, rights, approvals, receipts and source lifecycle. Assemble only currently authorized context. Treat generated actions as proposals and buffer/check generated output before household delivery, even when the upstream protocol streams.
