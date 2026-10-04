@@ -408,7 +408,7 @@
   ],
   "protected_table_hashes": {
     "reference/REQUIREMENTS.md": "8ef8a07eaa8a3caed11053b048f0328fb2a69157f61a748607b8cb7dd1ca86cd",
-    "reference/ACCEPTANCE.md": "c0228f587519c49fb068551524d15b8046a6e145e5733af8af0bb81e194514ec"
+    "reference/ACCEPTANCE.md": "18b10d02ce05d03fa3647bd6ef68f9f38831a67405a24df6d6fb36a6df24af15"
   },
   "protected_block_hashes": {
     "reference/REQUIREMENTS.md": {
@@ -429,7 +429,7 @@
       "BR-004": "ab349fa1cba1146ccde47a23c5505a62c13a314cbce1ccc2dde036427902258f",
       "BR-005": "c14b0174c9e982cf85470b92995318b4738a780aea86cf124eebdc42e94645db",
       "BR-006": "bef13971b8ef29ab802c8bb4b7f8b04f86f8b58ec4872b2a2786db6b3eeb38e0",
-      "BR-007": "793be264e8483cde42ef3152df7b81c0ffcf48095a99bb8d420575f07d8b4ffa",
+      "BR-007": "67ba372a309eb40c8b47828d35f0ec3049e6935f7d31bb9c12a99f032204efe0",
       "BR-008": "bdafc9dfcf9af9837679960ee00830c60a1f5f8ecb7eddb7d8a1cf399e0e648b",
       "BR-009": "057bb0b4eba5d21eac1981708dce0ecf44390602056a26a0e3b59863a488270a",
       "BR-010": "e978b065b4f7439494e781d816d79b2cb5c9f94ef010b195dfd2d181f7c5863e",

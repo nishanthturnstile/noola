@@ -9,7 +9,7 @@ These records explain supported technical choices extracted on 3 October 2026. T
 
 | ID | Topic | Decision status | Validation |
 |---|---|---|---|
-| [ADR-001](001-application-structure.md) | Application structure and framework | Proposed | Pending |
+| [ADR-001](001-application-structure.md) | Independent backend, contracts and TanStack Router | Proposed — owner separation/router directions retained | Pending |
 | [ADR-002](002-client-delivery.md) | PWA packaging and device delivery | Accepted — evaluation direction only | Pending |
 | [ADR-003](003-persistence.md) | Transactional persistence and file separation | Proposed | Pending |
 | [ADR-004](004-identity-and-authority.md) | Identity, record authorization and approval | Proposed | Pending |
@@ -17,9 +17,9 @@ These records explain supported technical choices extracted on 3 October 2026. T
 | [ADR-006](006-durable-execution.md) | Durable execution and external handoff | Proposed | Pending |
 | [ADR-007](007-ai-boundaries.md) | AI access, context and checked delivery | Proposed — owner funding direction retained | Pending |
 | [ADR-008](008-retrieval.md) | Retrieval and evaluated evolution | Proposed | Pending |
-| [ADR-009](009-cost-admission.md) | Cost admission and reconciliation | Proposed — ISSUE-01 unresolved | Pending |
+| [ADR-009](009-cost-admission.md) | Cost admission and reconciliation | Proposed — owner budget-exhaustion policy decided | Pending |
 | [ADR-010](010-hosting-and-custody.md) | Hosting, storage and recovery custody | Proposed — owner shortlist retained | Pending |
-| [ADR-013](013-accessible-ui.md) | Accessible UI foundation and styling | Proposed | Pending |
+| [ADR-013](013-accessible-ui.md) | shadcn/Base UI, TanStack Form and nuqs | Accepted — owner-selected frontend libraries | Pending |
 
 ADR-011 (selected external connection authority) and ADR-012 (selected new access/device mode) retain their reserved identifiers. Their capabilities are deferred; no empty decision files are created.
 

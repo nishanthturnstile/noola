@@ -21,7 +21,7 @@ The earlier direct-API-only recommendation was revised by the owner. A general a
 
 ## Consequences
 
-Subscription eligibility and unsupported endpoints must be checked before use; a plan is not entitlement to every API or hosted deployment. Never send OAuth tokens through the gateway or charge another adult on failure. Shared routines name a consenting funding principal. Paid fallback needs an applicable choice/rule and approved funding. Provider changes require renewed capability, language, privacy, citation and action evaluations. ISSUE-01 and ISSUE-02 remain unresolved policy boundaries; this ADR does not settle them.
+Subscription eligibility and unsupported endpoints must be checked before use; a plan is not entitlement to every API or hosted deployment. Never send OAuth tokens through the gateway or charge another adult on failure. Shared routines name a consenting funding principal. Paid fallback needs an applicable choice/rule and approved funding, and cannot bypass the household AI pause at paid-budget exhaustion. Provider changes require renewed capability, language, citation and action evaluations, plus applicable environment processing checks. Nishanth resolved [ISSUE-01 and ISSUE-02](../reference/DECISIONS-AND-GATES.md#open-policy-questions) on 4 October 2026: all optional AI routes pause at paid exhaustion, and nonproduction may evaluate any available model/processor in any affordable available region without production residency, no-training qualification or thirty-day processor-retention eligibility gates. Actual access/terms, permissions, funding approval and informed consent for real data remain binding; production privacy qualification is separate.
 
 ## Reconsideration trigger
 

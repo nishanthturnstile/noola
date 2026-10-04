@@ -1,32 +1,36 @@
 # ADR-001: Application structure and framework
 
-**Status:** Proposed.
+**Status:** Proposed — independent backend and TanStack Router are owner-selected directions; remaining mechanisms await review.
 
-**Validation:** Pending; see the linked gates.
+**Validation:** Pending; limited contract experiments are research evidence, not application acceptance.
 
-**Provenance:** Extracted from the supplied product, architecture and stack baseline dated 3 October 2026. No original D-series record was available. External observations were not revalidated during consolidation.
+**Provenance:** Original baseline dated 3 October 2026; revised for Nishanth's independent backend, future client reuse and end-to-end type-safety requirements, and explicit TanStack Router selection on 4 October 2026. No original D-series record was available.
 
 ## Context
 
-One household needs coordinated record updates, server-owned authority, direct controls during AI failure, and a low maintenance burden. Logical domain boundaries do not require independently deployed services.
+One household needs coordinated record updates, server-owned authority and direct controls during AI failure. The backend must build, deploy and scale independently of the web, and supply reusable behavior to later clients with low operational complexity.
 
 <a id="decision"></a>
 ## Decision
 
-Use a modular monolith with explicit domain ownership, one application package and one transactional store. TypeScript/Node LTS, React Router Framework mode, React and a thin Express entry implement the selected draft direction. Route loaders/actions and provider adapters invoke framework-independent application operations. SSR and hydration stay within one application; no experimental React Server Components. The process owns bounded worker startup and graceful shutdown.
+Keep a modular backend and one transactional store. Recommend a four-unit pnpm workspace: API, web, browser-safe contracts and reusable API client. Use Node LTS with Hono as the proposed HTTP boundary. Application operations own policy, transactions and receipts; thin HTTP bindings, approved AI coordination and jobs call those same operations.
+
+Use React with TanStack Router and a Vite client-rendered SPA. Define Zod input/output/error schemas once, associate them with private HTTP routes, generate OpenAPI and TypeScript client declarations, and validate actual network responses explicitly. A future non-TypeScript client can consume the same specification. Generation does not validate actual values or establish authority.
+
+Initially expose both builds through one browser origin on a permitted host, with `/api/v1` product operations and separate `/api/auth` machinery. Backend builds cannot import web source. Worker startup/shutdown remains bounded in the backend until separate execution is justified. Frontend selections are detailed in [ADR-013](013-accessible-ui.md).
 
 ## Alternatives
 
-Next.js and SvelteKit are credible framework alternatives. The supplied research favored ordinary forms and explicit process lifetime; it recorded version-sensitive custom-server and auth-peer caveats, which must be rechecked. JavaScript or a TypeScript/Python split adds either fewer compile-time checks or an extra runtime without a present requirement. Bun/Deno offer no demonstrated product benefit. Microservices, Kubernetes and distributed domain stores add operational coordination before measured need. Workspaces, Turborepo and Nx wait for independently built units.
+React Router Framework mode and integrated Express were the prior proposal. TanStack Start adds SSR/server functions but introduces another server framework without a measured rendering requirement. oRPC is a credible alternative with unresolved strict declaration checks in the reviewed stable version. Reviewed stable ts-rest peers conflicted with React 19/Zod 4; tRPC is viable for TypeScript clients but less direct for a language-neutral contract. The [review](../reviews/CODE-STRUCTURE-REVIEW.md) records evidence and limits. Plain pnpm scripts suffice; Nx/Turborepo, microservices and additional domain stores have no measured need.
 
 ## Consequences
 
-Own a small bootstrap and enforce module imports through review/checks. CPU-heavy parsing must not block interactive work. Domain code cannot import router request objects or SDK response types. One deployment and database simplify local transactions but remain shared failure and contention boundaries. Maintain portable OCI builds and ordinary scripts rather than host-specific domain logic. Framework replacement changes adapters while preserving records and authority.
+Two independent builds require explicit contract generation, compatibility and cache-lifecycle checks. Reuse contracts, transport and backend operations across clients; keep database models and credentials server-only. Domain code cannot import router requests or SDK responses. CPU-heavy parsing must not block interaction. Preserve portable artifacts and compatible API evolution so an older installed PWA can survive a backend update. Separate frontend deployment alone does not prove horizontal backend scalability.
 
 ## Reconsideration trigger
 
-Reconsider client packaging if actual devices fail; split bounded execution when host limits or measured contention require it. Adopt workspaces only after separately built clients/workers create a real need. Change application style only when approved product or measured operating requirements justify it.
+Consider SSR after measured first-load/device need, worker extraction after runtime/isolation pressure, and backend replicas after durable concurrency/pool tests. Introduce another shared package when a second build needs it. Native platform selection follows the existing PWA/device decision process.
 
 ## Requirements and evidence
 
-[Module contracts](../reference/APPLICATION-DESIGN.md#module-contracts), [dependency rules](../reference/APPLICATION-DESIGN.md#dependency-rules), FR-009, BR-012, QLT-06/QLT-15; [G09/G13/G14](../reference/DECISIONS-AND-GATES.md#evidence-gates).
+[Module contracts](../reference/APPLICATION-DESIGN.md#module-contracts), [dependency rules](../reference/APPLICATION-DESIGN.md#dependency-rules), FR-009, BR-012, QLT-06/QLT-15; [G09/G13/G14](../reference/DECISIONS-AND-GATES.md#evidence-gates), [contract experiment evidence](../reviews/code-structure-evidence.json).

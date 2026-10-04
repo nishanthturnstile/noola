@@ -1,0 +1,116 @@
+{
+  "recorded": "2026-10-04",
+  "scope": "Temporary synthetic loopback architecture experiments; no application scaffold, UI, real authentication, database or deployment.",
+  "orpc": {
+    "environment": {
+      "node": "v24.21.0",
+      "pins": {
+        "@orpc/server": "1.15.4",
+        "@orpc/contract": "1.15.4",
+        "@orpc/client": "1.15.4",
+        "@orpc/openapi": "1.15.4",
+        "@orpc/openapi-client": "1.15.4",
+        "@orpc/zod": "1.15.4",
+        "@orpc/tanstack-query": "1.15.4",
+        "@tanstack/query-core": "5.104.1",
+        "zod": "4.6.5",
+        "express": "5.2.1",
+        "typescript": "7.0.2",
+        "@types/express": "5.0.6",
+        "@types/node": "24.19.1"
+      }
+    },
+    "fullDeclarationCheck": {
+      "passed": false,
+      "skipLibCheck": false,
+      "diagnostics": [
+        "Published @orpc/interop compression declarations reference /home/runner/work/orpc/orpc/node_modules/.pnpm/@types+compression@1.8.1/node_modules/@types/compression/index.d.ts",
+        "@orpc/shared declarations reference absent optional @opentelemetry/api types"
+      ]
+    },
+    "precedingTarballs": {
+      "versions": [
+        "1.15.3",
+        "1.15.2"
+      ],
+      "sameAbsoluteCompressionPath": true,
+      "completeDependencySetOrRuntimeTested": false
+    },
+    "applicationCheck": {
+      "passed": true,
+      "skipLibCheck": true,
+      "negativeClientCompileFixtures": 3
+    },
+    "runtime": {
+      "status": "passed",
+      "checks": [
+        "Typed client -> real HTTP -> independent backend operation -> typed response",
+        "Runtime output schema excludes an internal field",
+        "Synthetic replay uses one stored result; this is not production concurrency proof",
+        "Malformed input rejected before the application operation",
+        "Unexpected authority field rejected at input boundary",
+        "Application policy exercised independently of client presentation",
+        "Invalid backend output rejected at runtime",
+        "TanStack query options preserve inferred response types over HTTP",
+        "OpenAPI request and response document generated from the same contract"
+      ]
+    },
+    "sourceDirectory": "/tmp/noola-contract-review-9bfc6iiq"
+  },
+  "openapi": {
+    "environment": {
+      "node": "v24.21.0",
+      "pins": {
+        "hono": "4.13.12",
+        "@hono/zod-openapi": "1.6.3",
+        "@hono/node-server": "2.1.3",
+        "openapi-typescript": "7.13.0",
+        "openapi-fetch": "0.17.0",
+        "zod": "4.6.5",
+        "typescript": "5.9.3",
+        "@types/node": "24.19.1"
+      },
+      "additionalTypeDependencies": {
+        "json-schema-to-ts": "3.1.1",
+        "@types/js-yaml": "4.0.9"
+      }
+    },
+    "compatibilityAdjustments": [
+      "Strict peer resolution rejected TypeScript 7.0.2 because openapi-typescript 7.13.0 declares TypeScript ^5.x",
+      "Used stable TypeScript 5.9.3 for the experiment",
+      "Added json-schema-to-ts 3.1.1 and @types/js-yaml 4.0.9 for generator dependency declarations"
+    ],
+    "typeCheck": {
+      "passed": true,
+      "strict": true,
+      "noUncheckedIndexedAccess": true,
+      "exactOptionalPropertyTypes": true,
+      "skipLibCheck": false,
+      "negativeClientCompileFixtures": 4
+    },
+    "runtime": {
+      "status": "passed",
+      "checks": [
+        "Generated request and response types consumed over real HTTP",
+        "Internal field excluded from the runtime response",
+        "Two independent client instances share the same synthetic backend operation",
+        "Malformed requests rejected before application execution",
+        "Injected authority field rejected at input boundary",
+        "Declared error status and shape reach the client with inferred types",
+        "Explicit backend response validation rejects invalid domain output",
+        "Client response validation rejects a malformed successful wire response",
+        "Inferred response properties flow into typed presentation code",
+        "OpenAPI 3.1 and TypeScript declarations generated from one route contract"
+      ]
+    },
+    "sourceDirectory": "/tmp/noola-openapi-review-q_x4p_cd"
+  },
+  "limitations": [
+    "In-memory deduplication does not prove concurrent transaction correctness",
+    "Synthetic request headers are test principals, not an authentication mechanism",
+    "Typed presentation was not a rendered UI",
+    "No real phones, browser bundles, production compatibility, throughput or latency tests",
+    "No real LLM/provider requests",
+    "Temporary source directories are local experiment artifacts and may not persist; the result record is retained here"
+  ]
+}

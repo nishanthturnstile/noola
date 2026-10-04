@@ -325,15 +325,15 @@ Confirmed. Derived from existing acceptance scenarios; no new journey ID or scop
 
 Confirmed. Derived from existing acceptance scenarios; no new journey ID or scope is introduced.
 
-**Trigger:** A new variable operation would cross its allocation.
+**Trigger:** The paid variable AI allocation is exhausted, or a new paid operation would cross it.
 
 **User Goal:** Stay within the chosen operating limit while retaining essential controls.
 
-**Main Flow:** Show remaining budget and reject the variable work before commitment. Pause AI, speech, research, and generated routines. Keep manual records, ordinary reminders, privacy controls, and direct agenda briefs available.
+**Main Flow:** Show remaining budget and reject paid work that would cross the allocation before commitment. At paid-budget exhaustion, temporarily disable all optional AI features, including subscription routes, speech, AI research, embeddings, file analysis, and generated routines. Stop new interactive and background AI work without switching routes. Keep manual records, ordinary reminders, privacy controls, and direct agenda briefs available.
 
-**Expected Outcome:** Optional AI stops with an explanation while existing online coordination continues.
+**Expected Outcome:** Optional AI stops with an explanation while existing online coordination continues. Subscription quota cannot bypass the pause. New AI work may resume with an available next-month allocation or an owner-approved increase, after current consent and eligibility checks.
 
-**Important Exceptions:** Already-started costs and delayed vendor accounting remain visible; estimates do not guarantee the final invoice. See [Product Constraints](PRODUCT-RULES.md#operating-constraints) and X20.
+**Important Exceptions:** Already-started costs and delayed vendor accounting remain visible; estimates do not guarantee the final invoice. A future local model is separately selected and validated, not an automatic fallback. See [Product Constraints](PRODUCT-RULES.md#operating-constraints) and X20.
 
 <a id="quality-and-evaluation"></a>
 ## Success Metrics
@@ -464,7 +464,7 @@ The following retained scenario IDs define the acceptance baseline. Tests execut
 | <a id="x17"></a>X17 | A device is offline when revoked | Server denies future access; UI explains erasure limits; no persistent private offline archive is promised |
 | <a id="x18"></a>X18 | A member exits with private-origin shares and joint records | Revoke future access, stop owned routines, preserve the remaining adult's contributions, and resolve guardian obligations |
 | <a id="x19"></a>X19 | Recovery restores an older backup | Reapply deletion and revocation records first; restored routines stay paused; no blind replay of actions |
-| <a id="x20"></a>X20 | AI allowance is exhausted | New variable work stops before commitment; manual tasks, privacy controls, ordinary reminders, and direct agenda briefs work |
+| <a id="x20"></a>X20 | Paid variable AI allowance is exhausted | All optional AI features stop before new commitment across paid and subscription routes, including background work; no route switch bypasses the pause; manual tasks, privacy controls, ordinary reminders, and direct agenda briefs work; new AI work resumes only with an available next-month allocation or owner-approved increase and current consent/eligibility |
 | <a id="x21"></a>X21 | File format, page count, size, or household storage exceeds a limit | Explain the exact limit and manual options; no silent data loss, incomplete-analysis claim, or eviction |
 | <a id="x22"></a>X22 | A user deliberately repeats add another versus a request retry | Respect separate intent and preserve one intended result per retry; ask when ambiguous |
 | <a id="x23"></a>X23 | Shared-device sign-out, backgrounding, or profile switch | Clear previous private UI state and enforce the lock; no household data before authentication |
@@ -554,7 +554,7 @@ These are the accepted roadmap exit criteria. They supplement the canonical requ
 - The selected jobs and device inventory are recorded, or missing participation is explicitly blocked rather than inferred.
 - Synthetic evidence addresses authenticated isolation, source-backed recall, deletion-aware recovery, manual-only use, and phone push feasibility.
 - A later technical proposal demonstrates a feasible path for the [technical feasibility](../TECH-STACK.md#selection-inventory) obligations and the INR 3,000 ceiling; no vendor selection is made here.
-- Nishanth owns unresolved decisions. Development/UAT uses affordable providers and regions with actual account/capability eligibility; production disclosure and retention evidence is collected before production. Incompatible operations stay unavailable in the environment whose rules they cannot meet.
+- Nishanth owns policy decisions. Development/testing/staging/UAT may evaluate any available LLM model or processor in any affordable available region without production residency, no-training qualification or thirty-day processor-retention eligibility gates. Actual account/capability eligibility, funding approval and consent for real data still apply; production disclosure, no-training and retention evidence is collected separately before production. Incompatible operations stay unavailable in the environment whose rules they cannot meet.
 - A failing constraint results in a specific proposed product revision or corrective work, never a silently weaker promise.
 
 <a id="phase-1"></a>

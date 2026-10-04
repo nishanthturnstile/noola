@@ -1,6 +1,6 @@
 # Documentation guide
 
-Start here. The product baseline and roadmap sequence are established; the complete architecture is still Draft and implementation evidence is pending. This documentation-only workspace has no application manifest, committed Git history or deployed service. Consolidated 3 October 2026.
+Start here. The product baseline and roadmap sequence are established; the complete architecture is still Draft and implementation evidence is pending. This documentation-only workspace has committed Git history and a configured GitHub remote, but no application manifest or deployed service. Consolidated 3 October 2026; product policy amendments recorded on 4 October 2026.
 
 ## Reading order
 
@@ -10,6 +10,8 @@ Start here. The product baseline and roadmap sequence are established; the compl
 4. [Technology stack](TECH-STACK.md): the single selection inventory and introduction triggers.
 
 Before implementing a feature, find its ID in [requirements](reference/REQUIREMENTS.md#capability-catalog), then use [traceability](reference/TRACEABILITY.md#requirement-matrix) to locate its phase, responsible modules and validation family. Read its applicable rules, acceptance cases, technical contracts, ADRs and outstanding gates. A summary does not replace a referenced requirement or exception.
+
+[Code structure and architecture review](reviews/CODE-STRUCTURE-REVIEW.md) supplies research on backend separation, typed contracts and future reuse. The [TanStack and UI review](reviews/TANSTACK-AND-UI-REVIEW.md) covers library fit. Canonical architecture/stack references reflect the owner-selected directions from 4 October; remaining mechanisms and runtime evidence await review. The created [noola-code-structure skill](../.agents/skills/noola-code-structure/SKILL.md) owns file placement, reuse and coding standards, and [root agent instructions](../AGENTS.md) require it before source/setup changes.
 
 ## Document ownership
 
@@ -25,8 +27,9 @@ Before implementing a feature, find its ID in [requirements](reference/REQUIREME
 | What external research needs revalidation? | [Technology evidence](reference/TECHNOLOGY-EVIDENCE.md) |
 | Which decisions or proofs are outstanding? | [Decision and gate register](reference/DECISIONS-AND-GATES.md) |
 | Why was a significant technical choice made? | [ADR index](adr/README.md#decision-index) |
+| Where does code belong, and which coding conventions apply? | [Noola code-structure skill](../.agents/skills/noola-code-structure/SKILL.md) |
 
-Product requirements and rules own behavior. Roadmap owns order. Architecture owns technical structure; stack owns named selections. ADRs own rationale. Acceptance owns measurable criteria; the gate register owns evidence status. Technical documents cannot silently weaken a product contract or introduce scope. Phase summaries and cross-reference tables are navigation, not alternative definitions.
+Product requirements and rules own behavior. Roadmap owns order. Architecture owns system boundaries; stack owns named selections. The code-structure skill owns file placement and coding conventions. ADRs own rationale. Acceptance owns measurable criteria; the gate register owns evidence status. Technical documents and skills cannot silently weaken a product contract or introduce scope. Phase summaries and cross-reference tables are navigation, not alternative definitions.
 
 ## Status and authority
 
@@ -34,7 +37,7 @@ Product requirements and rules own behavior. Roadmap owns order. Architecture ow
 
 Validation is independent: **Pending**, **Passed**, **Failed** or **Not enabled**, with an evidence link for observed results. A technology selection, document review or checkmark cannot substitute for runtime/device/household proof. Nishanth approves architecture and spending within the product rules; each adult separately supplies their own consent and settings.
 
-[ISSUE-01 and ISSUE-02](reference/DECISIONS-AND-GATES.md#open-policy-questions) retain unresolved budget-exhaustion and nonproduction no-training interpretations. Dependent implementation must wait for an explicit resolution. The unavailable D01–D29 decision history is recorded as [missing provenance](reference/DECISIONS-AND-GATES.md#missing-history), not reconstructed.
+[ISSUE-01 and ISSUE-02](reference/DECISIONS-AND-GATES.md#open-policy-questions) were resolved by Nishanth on 4 October 2026. Paid-budget exhaustion temporarily pauses all optional AI features, including subscription and background routes; manual controls continue. Development/testing/staging/UAT may evaluate any available model/processor in any affordable available region without production residency, no-training qualification or thirty-day processor-retention eligibility gates. Access/terms, permissions, funding approval and informed consent for real data still apply. Production qualification and implementation evidence remain pending. The unavailable D01–D29 decision history is recorded as [missing provenance](reference/DECISIONS-AND-GATES.md#missing-history), not reconstructed.
 
 ## Maintaining the documents
 

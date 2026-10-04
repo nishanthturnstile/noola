@@ -1,0 +1,515 @@
+{
+  "observedAt": "2026-10-04",
+  "scope": "Official registry metadata only; no install, build, UI validation or compatibility proof",
+  "packages": [
+    {
+      "package": "@tanstack/react-router",
+      "source": "https://registry.npmjs.org/@tanstack/react-router/latest",
+      "httpStatus": 200,
+      "version": "1.170.41",
+      "license": "MIT",
+      "engines": {
+        "node": ">=20.19"
+      },
+      "peerDependencies": {
+        "react": ">=18.0.0 || >=19.0.0",
+        "react-dom": ">=18.0.0 || >=19.0.0"
+      },
+      "dependencies": {
+        "isbot": "^5.1.22",
+        "@tanstack/history": "1.162.4",
+        "@tanstack/react-store": "^0.11.2",
+        "@tanstack/router-core": "1.171.34"
+      },
+      "peerDependenciesMeta": {}
+    },
+    {
+      "package": "@tanstack/router-plugin",
+      "source": "https://registry.npmjs.org/@tanstack/router-plugin/latest",
+      "httpStatus": 200,
+      "version": "1.168.42",
+      "license": "MIT",
+      "engines": {
+        "node": ">=20.19"
+      },
+      "peerDependencies": {
+        "vite": ">=5.0.0 || >=6.0.0 || >=7.0.0 || >=8.0.0",
+        "webpack": ">=5.92.0",
+        "@rsbuild/core": ">=1.0.2 || ^2.0.0",
+        "vite-plugin-solid": "^2.11.10 || ^3.0.0-0",
+        "@tanstack/react-router": "^1.170.41"
+      },
+      "dependencies": {
+        "zod": "^4.5.4",
+        "chokidar": "^5.0.0",
+        "unplugin": "^3.3.0",
+        "@babel/core": "^7.29.7",
+        "@babel/types": "^7.29.8",
+        "@babel/template": "^7.29.7",
+        "@tanstack/router-core": "1.171.34",
+        "@tanstack/router-utils": "1.162.3",
+        "@tanstack/router-generator": "1.167.40"
+      },
+      "peerDependenciesMeta": {
+        "vite": {
+          "optional": true
+        },
+        "webpack": {
+          "optional": true
+        },
+        "@rsbuild/core": {
+          "optional": true
+        },
+        "vite-plugin-solid": {
+          "optional": true
+        },
+        "@tanstack/react-router": {
+          "optional": true
+        }
+      }
+    },
+    {
+      "package": "@tanstack/react-query",
+      "source": "https://registry.npmjs.org/@tanstack/react-query/latest",
+      "httpStatus": 200,
+      "version": "5.104.1",
+      "license": "MIT",
+      "peerDependencies": {
+        "react": "^18 || ^19"
+      },
+      "dependencies": {
+        "@tanstack/query-core": "5.104.1"
+      },
+      "peerDependenciesMeta": {}
+    },
+    {
+      "package": "@tanstack/react-form",
+      "source": "https://registry.npmjs.org/@tanstack/react-form/latest",
+      "httpStatus": 200,
+      "version": "1.33.5",
+      "license": "MIT",
+      "peerDependencies": {
+        "react": "^17.0.0 || ^18.0.0 || ^19.0.0"
+      },
+      "dependencies": {
+        "@tanstack/form-core": "1.33.5",
+        "@tanstack/react-store": "^0.11.0"
+      },
+      "peerDependenciesMeta": {
+        "@tanstack/react-start": {
+          "optional": true
+        }
+      }
+    },
+    {
+      "package": "shadcn",
+      "source": "https://registry.npmjs.org/shadcn/latest",
+      "httpStatus": 200,
+      "version": "4.21.1",
+      "license": "MIT",
+      "engines": {
+        "node": ">=20.18.1"
+      },
+      "dependencies": {
+        "cn": "^0.2.4",
+        "ora": "^8.2.0",
+        "zod": "^3.24.1",
+        "diff": "^8.0.2",
+        "open": "^11.0.0",
+        "execa": "^9.6.0",
+        "kleur": "^4.1.5",
+        "socks": "^2.8.8",
+        "dedent": "^1.6.0",
+        "recast": "^0.23.11",
+        "undici": "^7.29.0",
+        "postcss": "^8.5.23",
+        "prompts": "^2.4.2",
+        "fs-extra": "^11.3.1",
+        "ts-morph": "^26.0.0",
+        "commander": "^14.0.0",
+        "deepmerge": "^4.3.1",
+        "fast-glob": "^3.3.3",
+        "fuzzysort": "^3.1.0",
+        "@babel/core": "^7.28.0",
+        "cosmiconfig": "^9.0.0",
+        "browserslist": "^4.26.2",
+        "@babel/parser": "^7.28.0",
+        "tsconfig-paths": "^4.2.0",
+        "@dotenvx/dotenvx": "^1.48.4",
+        "@shadcn/registry": "0.1.0",
+        "stringify-object": "^5.0.0",
+        "zod-to-json-schema": "^3.24.6",
+        "postcss-selector-parser": "^7.1.3",
+        "@babel/preset-typescript": "^7.27.1",
+        "@modelcontextprotocol/sdk": "^1.26.0",
+        "validate-npm-package-name": "^7.0.1",
+        "@types/validate-npm-package-name": "^4.0.2",
+        "@babel/plugin-transform-typescript": "^7.28.0"
+      },
+      "peerDependenciesMeta": {}
+    },
+    {
+      "package": "@base-ui/react",
+      "source": "https://registry.npmjs.org/@base-ui/react/latest",
+      "httpStatus": 200,
+      "version": "1.8.0",
+      "license": "MIT",
+      "engines": {
+        "node": ">=14.0.0"
+      },
+      "peerDependencies": {
+        "react": "^17 || ^18 || ^19",
+        "date-fns": "^4.0.0",
+        "react-dom": "^17 || ^18 || ^19",
+        "@date-fns/tz": "^1.2.0",
+        "@types/react": "^17 || ^18 || ^19"
+      },
+      "dependencies": {
+        "@babel/runtime": "^7.29.7",
+        "@base-ui/utils": "0.4.0",
+        "@floating-ui/utils": "^0.2.12",
+        "@floating-ui/react-dom": "^2.1.9",
+        "use-sync-external-store": "^1.6.0"
+      },
+      "peerDependenciesMeta": {
+        "date-fns": {
+          "optional": true
+        },
+        "@date-fns/tz": {
+          "optional": true
+        },
+        "@types/react": {
+          "optional": true
+        }
+      }
+    },
+    {
+      "package": "nuqs",
+      "source": "https://registry.npmjs.org/nuqs/latest",
+      "httpStatus": 200,
+      "version": "2.10.1",
+      "license": "MIT",
+      "peerDependencies": {
+        "next": ">=14.2.0",
+        "react": ">=18.2.0 || ^19.0.0-0",
+        "react-router": "^5 || ^6 || ^7 || ^8",
+        "@remix-run/react": ">=2",
+        "react-router-dom": "^5 || ^6 || ^7",
+        "@tanstack/react-router": "^1"
+      },
+      "dependencies": {
+        "@standard-schema/spec": "1.1.0"
+      },
+      "peerDependenciesMeta": {
+        "next": {
+          "optional": true
+        },
+        "react-router": {
+          "optional": true
+        },
+        "@remix-run/react": {
+          "optional": true
+        },
+        "react-router-dom": {
+          "optional": true
+        },
+        "@tanstack/react-router": {
+          "optional": true
+        }
+      }
+    },
+    {
+      "package": "@tanstack/react-table",
+      "source": "https://registry.npmjs.org/@tanstack/react-table/latest",
+      "httpStatus": 200,
+      "version": "9.2.4",
+      "license": "MIT",
+      "engines": {
+        "node": ">=20"
+      },
+      "peerDependencies": {
+        "react": ">=18"
+      },
+      "dependencies": {
+        "@tanstack/table-core": "9.2.4",
+        "@tanstack/react-store": "^0.11.1"
+      }
+    },
+    {
+      "package": "@tanstack/react-store",
+      "source": "https://registry.npmjs.org/@tanstack/react-store/latest",
+      "httpStatus": 200,
+      "version": "0.11.2",
+      "license": "MIT",
+      "peerDependencies": {
+        "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
+        "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
+      },
+      "dependencies": {
+        "@tanstack/store": "0.11.2",
+        "use-sync-external-store": "^1.6.0"
+      }
+    },
+    {
+      "package": "@tanstack/react-db",
+      "source": "https://registry.npmjs.org/@tanstack/react-db/latest",
+      "httpStatus": 200,
+      "version": "0.5.3",
+      "license": "MIT",
+      "peerDependencies": {
+        "react": ">=18.0.0"
+      },
+      "dependencies": {
+        "@tanstack/db": "0.11.3"
+      }
+    },
+    {
+      "package": "@tanstack/react-pacer",
+      "source": "https://registry.npmjs.org/@tanstack/react-pacer/latest",
+      "httpStatus": 200,
+      "version": "0.24.0",
+      "license": "MIT",
+      "engines": {
+        "node": ">=20"
+      },
+      "peerDependencies": {
+        "react": ">=16.8",
+        "react-dom": ">=16.8"
+      },
+      "dependencies": {
+        "@tanstack/pacer": "0.23.0",
+        "@tanstack/react-store": "^0.11.1"
+      }
+    },
+    {
+      "package": "@tanstack/react-hotkeys",
+      "source": "https://registry.npmjs.org/@tanstack/react-hotkeys/latest",
+      "httpStatus": 200,
+      "version": "0.12.1",
+      "license": "MIT",
+      "engines": {
+        "node": ">=20"
+      },
+      "peerDependencies": {
+        "react": ">=16.8",
+        "react-dom": ">=16.8"
+      },
+      "dependencies": {
+        "@tanstack/hotkeys": "0.10.1",
+        "@tanstack/react-store": "^0.11.1"
+      }
+    },
+    {
+      "package": "@tanstack/react-virtual",
+      "source": "https://registry.npmjs.org/@tanstack/react-virtual/latest",
+      "httpStatus": 200,
+      "version": "3.14.13",
+      "license": "MIT",
+      "peerDependencies": {
+        "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
+        "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
+      },
+      "dependencies": {
+        "@tanstack/virtual-core": "3.17.11"
+      }
+    },
+    {
+      "package": "@tanstack/react-devtools",
+      "source": "https://registry.npmjs.org/@tanstack/react-devtools/latest",
+      "httpStatus": 200,
+      "version": "0.10.13",
+      "license": "MIT",
+      "engines": {
+        "node": ">=18"
+      },
+      "peerDependencies": {
+        "react": ">=16.8",
+        "react-dom": ">=16.8",
+        "@types/react": ">=16.8",
+        "@types/react-dom": ">=16.8"
+      },
+      "dependencies": {
+        "@tanstack/devtools": "0.15.0"
+      }
+    },
+    {
+      "package": "@tanstack/intent",
+      "source": "https://registry.npmjs.org/@tanstack/intent/latest",
+      "httpStatus": 200,
+      "version": "0.5.3",
+      "license": "MIT",
+      "engines": {
+        "node": ">=20.12.0"
+      }
+    },
+    {
+      "package": "@tanstack/cli",
+      "source": "https://registry.npmjs.org/@tanstack/cli/latest",
+      "httpStatus": 200,
+      "version": "0.71.1",
+      "license": "MIT",
+      "engines": {
+        "node": ">=20"
+      },
+      "dependencies": {
+        "zod": "^3.24.2",
+        "diff": "^7.0.0",
+        "chalk": "^5.4.1",
+        "tempy": "^3.1.0",
+        "semver": "^7.7.2",
+        "chokidar": "^3.6.0",
+        "commander": "^13.1.0",
+        "@clack/prompts": "^0.10.0",
+        "@tanstack/create": "0.70.1",
+        "validate-npm-package-name": "^7.0.0"
+      }
+    },
+    {
+      "package": "@tanstack/config",
+      "source": "https://registry.npmjs.org/@tanstack/config/latest",
+      "httpStatus": 200,
+      "version": "0.22.2",
+      "license": "MIT",
+      "engines": {
+        "node": ">=18"
+      },
+      "dependencies": {
+        "@tanstack/vite-config": "0.4.1",
+        "@tanstack/eslint-config": "0.3.3",
+        "@tanstack/publish-config": "0.2.2",
+        "@tanstack/typedoc-config": "0.3.2"
+      }
+    },
+    {
+      "package": "@tanstack/ai",
+      "source": "https://registry.npmjs.org/@tanstack/ai/latest",
+      "httpStatus": 200,
+      "version": "0.64.0",
+      "license": "MIT",
+      "engines": {
+        "node": ">=18"
+      },
+      "peerDependencies": {
+        "@opentelemetry/api": ">=1.9.0"
+      },
+      "dependencies": {
+        "@ag-ui/core": "1.0.0",
+        "partial-json": "^0.1.7",
+        "@tanstack/ai-utils": "^0.4.1",
+        "@standard-schema/spec": "^1.1.0",
+        "@tanstack/ai-event-client": "^0.13.0"
+      }
+    },
+    {
+      "package": "@tanstack/react-charts",
+      "source": "https://registry.npmjs.org/@tanstack/react-charts/latest",
+      "httpStatus": 200,
+      "version": "1.0.0",
+      "license": "MIT",
+      "peerDependencies": {
+        "react": "^18.0.0 || ^19.0.0",
+        "react-dom": "^18.0.0 || ^19.0.0"
+      },
+      "dependencies": {
+        "@tanstack/charts": "1.0.0"
+      }
+    },
+    {
+      "package": "@tanstack/markdown",
+      "source": "https://registry.npmjs.org/@tanstack/markdown/latest",
+      "httpStatus": 200,
+      "version": "1.0.0",
+      "license": "MIT",
+      "peerDependencies": {
+        "react": ">=18",
+        "octane": ">=0.1.12"
+      },
+      "peerDependenciesMeta": {
+        "react": {
+          "optional": true
+        },
+        "octane": {
+          "optional": true
+        }
+      }
+    },
+    {
+      "package": "@tanstack/highlight",
+      "source": "https://registry.npmjs.org/@tanstack/highlight/latest",
+      "httpStatus": 200,
+      "version": "1.0.0",
+      "license": "MIT",
+      "engines": {
+        "node": ">=18"
+      }
+    },
+    {
+      "package": "@tanstack/react-start",
+      "source": "https://registry.npmjs.org/@tanstack/react-start/latest",
+      "httpStatus": 200,
+      "version": "1.168.60",
+      "license": "MIT",
+      "engines": {
+        "node": ">=22.12.0"
+      },
+      "peerDependencies": {
+        "vite": ">=7.0.0",
+        "react": ">=18.0.0 || >=19.0.0",
+        "react-dom": ">=18.0.0 || >=19.0.0",
+        "@rsbuild/core": "^2.0.0"
+      },
+      "peerDependenciesMeta": {
+        "vite": {
+          "optional": true
+        },
+        "@rsbuild/core": {
+          "optional": true
+        },
+        "@vitejs/plugin-rsc": {
+          "optional": true
+        }
+      },
+      "dependencies": {
+        "pathe": "^2.0.3",
+        "@tanstack/react-router": "1.170.41",
+        "@tanstack/router-utils": "1.162.3",
+        "@tanstack/react-start-rsc": "0.1.59",
+        "@tanstack/start-client-core": "1.170.34",
+        "@tanstack/start-plugin-core": "1.171.49",
+        "@tanstack/start-server-core": "1.169.39",
+        "@tanstack/react-start-client": "1.168.39",
+        "@tanstack/react-start-server": "1.167.46"
+      }
+    }
+  ],
+  "selectedPackages": [
+    "@tanstack/react-router",
+    "@tanstack/router-plugin",
+    "@tanstack/react-query",
+    "@tanstack/react-form",
+    "shadcn",
+    "@base-ui/react",
+    "nuqs"
+  ],
+  "selectedPackagesNote": "Router, shadcn/Base UI, Form and nuqs are owner choices; Query, the routing plugin and generator are implementation recommendations. Other entries are optional catalog observations.",
+  "integrationFindings": [
+    {
+      "source": "https://nuqs.dev/docs/adapters#tanstack-router",
+      "finding": "TanStack Router adapter is experimental; no TanStack Start support; Standard Schema bridge is documented with serialization and urlKeys limitations."
+    },
+    {
+      "source": "https://ui.shadcn.com/docs/cli",
+      "finding": "Select Base UI explicitly; shadcn supports alternative primitive foundations."
+    },
+    {
+      "source": "https://tanstack.com/libraries",
+      "finding": "18 entries in current public catalog; Ranger has separate official documentation."
+    }
+  ],
+  "limitations": [
+    "No dependencies installed in the project or an isolated frontend scaffold.",
+    "No complete peer resolution, strict frontend compilation, build, UI, accessibility or device tests.",
+    "Registry versions are observations, not an approved lockfile.",
+    "Previously recorded backend HTTP/compilation experiments do not prove frontend integration."
+  ]
+}

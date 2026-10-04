@@ -391,7 +391,7 @@ Use purpose-specific interfaces for generation, structured interpretation, trans
 
 Subscription-first ChatGPT access and a configurable Vercel AI Gateway fallback are selected. Paid fallback requires a specific choice or a previously authorized narrow rule and funded owner-approved budget. Each operation records the principal, account, billing route, purpose and allowed provider set. Shared routines name the consenting adult whose connection funds them; never use a different adult's subscription on failure. No fallback may silently switch to an undisclosed processor or a weaker production retention setting. A provider-side conversation store must not become the sole record of household history or permission. Local AI is not a Release 1 promise.
 
-Environment eligibility follows [BR-007](PRODUCT-RULES.md#br-007); ISSUE-02 remains unresolved.
+Environment eligibility follows [BR-007](PRODUCT-RULES.md#br-007). Development/testing/staging/UAT may evaluate any available model or processor in any affordable available region without production residency, no-training qualification or thirty-day processor-retention eligibility gates. Provider access/terms, permissions, manual-only controls, funding approval and informed consent for real data still apply; production qualification is separate.
 
 The subscription adapter uses official eligible Responses calls, discovers models per account, consumes provider SSE with storage disabled, and buffers/validates household output before UI delivery. Its capability map differs from paid API routes. Audio/transcription and other unsupported endpoints require an explicitly authorized purpose adapter. Do not copy unsupported paid-API parameters into subscription requests or send OAuth credentials to the gateway. Deployment eligibility and production privacy remain open evidence gates. See [AI Stack](APPLICATION-DESIGN.md#provider-contracts).
 
@@ -450,7 +450,7 @@ Bound retries by remaining time, cancellation, eligibility, and reserved cost. R
 
 For production paid/API work, atomically reserve a conservative maximum against the remaining monthly allocation, including bounded response size, processing duration, and permitted retries. Context selection must fit this allowance. Admission for concurrent interactive and background work uses the same ledger. Reconcile actual usage without treating missing or delayed provider accounting as zero.
 
-The source technical recommendation pauses the paid route at its variable limit and treats subscription allowance separately. This interpretation is disputed by broader product wording; [ISSUE-01](DECISIONS-AND-GATES.md#issue-01) gates implementation of exhaustion behavior. Do not silently switch billing routes. Development/UAT monitors cost before production caps are calibrated. Preserve baseline manual functions and direct briefs. Coordinator reports show aggregate daily costs without private prompt/action metadata. No provider quotation or workload feasibility is claimed here; AD-013 gates that evidence.
+When the paid variable AI allocation is exhausted, enforce a shared household pause on all optional AI features across paid and subscription routes. Both interactive and background admission check this state before new AI work, including speech, AI research, embeddings, file analysis and generated routines. Subscription quotas remain separately accounted but cannot bypass the pause; never switch routes to evade it. Resume new work only with an available next-month allocation or an owner-approved increase and current consent/eligibility checks. A future local model requires separate selection and validation, not an automatic fallback. Development/UAT monitors cost before production caps are calibrated. Preserve baseline manual functions and direct briefs. Coordinator reports show aggregate daily costs without private prompt/action metadata. No provider quotation or workload feasibility is claimed here; AD-013 gates that evidence. [ISSUE-01](DECISIONS-AND-GATES.md#issue-01) records the owner-approved policy.
 
 ### AI Observability
 
@@ -683,11 +683,11 @@ Each entry is a **Derived Architecture Requirement**. It records a necessary tec
 <a id="dar-007"></a>
 ### DAR-007
 
-**Derived requirement:** Serialize cost admission across concurrent foreground and background variable work.
+**Derived requirement:** Serialize paid cost admission across concurrent foreground and background work, and enforce the household budget-exhaustion pause across all optional AI routes.
 
 **Derived from:** [Product Constraints](PRODUCT-RULES.md#operating-constraints), QLT-11, X20.
 
-**Reasoning:** Two operations reading the same remaining allowance could jointly exceed it. Conservative reservation requires an atomic shared ledger and bounded execution, with delayed provider accounting tracked separately.
+**Reasoning:** Two operations reading the same remaining allowance could jointly exceed it. Conservative reservation requires an atomic shared ledger and bounded execution, with delayed provider accounting tracked separately. The same admission boundary must prevent interactive, background and subscription work from bypassing the household pause after paid-budget exhaustion.
 
 <a id="dar-008"></a>
 ### DAR-008
@@ -737,9 +737,9 @@ Each entry is a **Derived Architecture Requirement**. It records a necessary tec
 <a id="transport-and-validation"></a>
 ## Backend Stack
 
-Use one Node application. Express handles HTTP hosting, auth mounting, transport limits and process lifecycle. React Router handles application screens and resource routes. Neither becomes a separate backend service.
+Use an independently built Node backend and React web client. Hono with its Node adapter is the proposed backend HTTP, auth-mounting, transport-limit and process-lifecycle integration. TanStack Router owns web navigation. [ADR-001](../adr/001-application-structure.md) owns the system decision; the [code-structure skill](../../.agents/skills/noola-code-structure/SKILL.md) owns workspace placement and coding conventions.
 
-Use loaders for authorized reads, actions for ordinary mutations, and explicit HTTP resource routes for operation status, progress, uploads, downloads, auth and required callbacks. Keep these private product interfaces. No public API versioning program, GraphQL, tRPC, or OpenAPI code generation initially. Shared TypeScript types help internal callers; Zod validates actual incoming data.
+Expose private `/api/v1` queries/commands and explicit HTTP endpoints for status, progress, uploads, downloads and callbacks; mount maintained auth separately at `/api/auth`. Define browser-safe Zod input/output/error schemas and route metadata once in contracts. Generate OpenAPI and TypeScript client declarations; use openapi-fetch with explicit response validation. Backend output projections exclude internal rows. Enforce additive compatibility and test older installed clients before independently deploying changes. This is a private client contract, not a public API platform; GraphQL/tRPC are not selected.
 
 Application operations enforce principal, current membership, record audience, permitted processing, expected revision, approval and request identity. AI-originated proposals and direct controls reach those same operations. Linked record changes and receipts share a PostgreSQL transaction. Domain code does not import router request objects or provider SDK response types.
 
@@ -774,9 +774,9 @@ Configure `only` provider filters and explicit fallback models rather than the g
 
 Store each adult's validated identity, issued client ID, scopes and encrypted token set separately in protected runtime storage. Serialize refresh for the same registration. Browser storage, logs, source control and shared plaintext OneDrive files never hold tokens. Linking, disconnecting and changing provider settings require the authenticated adult. Keep account recovery independent of ChatGPT availability.
 
-A shared AI routine has an explicitly consenting funding principal, permitted sources and route. Its source audience does not authorize charging another member. Recheck grant, quota and processor permission at execution; if the subscription is unavailable or background use is not authorized/supported, use an already permitted paid fallback or the deterministic manual brief. Saved reminders never need LLM access. Scheduled use and hosted eligibility remain Phase 0 integration evidence to collect.
+A shared AI routine has an explicitly consenting funding principal, permitted sources and route. Its source audience does not authorize charging another member. Recheck grant, quota, processor permission and the household AI-pause state at execution. If the subscription is unavailable or background use is not authorized/supported, use an already permitted paid fallback only while household AI is enabled, or the deterministic manual brief. Paid-budget exhaustion disables both subscription and paid generation; retain the direct brief and saved reminders without LLM access. Scheduled use and hosted eligibility remain Phase 0 integration evidence to collect.
 
-Development/testing/staging/UAT may use inexpensive processors and any affordable available region with synthetic fixtures by default. The inherited stack wording postponed no-training/retention qualification to production, whereas BR-007 explicitly names residency and retention exemptions. [ISSUE-02](DECISIONS-AND-GATES.md#issue-02) records this unresolved scope; it is not an additional exception. Do not label successful cheap-route UAT as production privacy approval. Production still requires the BR-007 processor disclosure and retention contract, including the subscription route's actual terms, not assumptions imported from ordinary API-key terms.
+Development/testing/staging/UAT may evaluate any available LLM model or processor in any affordable available region without production residency, no-training qualification or thirty-day processor-retention eligibility gates, with synthetic fixtures by default. Provider access/terms, authentication, record permissions, manual-only controls, funding approval and informed consent for any real household data remain binding. [ISSUE-02](DECISIONS-AND-GATES.md#issue-02) records Nishanth's 4 October 2026 resolution. Successful cheap-route UAT is not production privacy approval. Production still requires the separate BR-007 location, no-training, processor disclosure and retention contract, including the subscription route's actual terms rather than assumptions imported from ordinary API-key terms.
 
 ### Models, context, actions and evaluation
 
@@ -829,23 +829,30 @@ Allowed email is verification, invitations, account recovery and content-free se
 
 | Area | Selection | Reason and boundary |
 |---|---|---|
-| UI foundation | React Aria Components | Keyboard, focus, interaction and accessible widget behavior; product owns composition and styling |
+| UI foundation | shadcn/ui Base UI variant with `@base-ui/react` | Owned generated components; current Base UI behavior APIs; no second primitive foundation |
 | Styling | Tailwind CSS 4 with its Vite integration; CSS custom-property tokens | Responsive layouts, theme variables and explicit state styling; no runtime CSS engine |
 | Icons | Lucide React, named imports only | Consistent small icon set for record actions; meaningful controls retain text or accessible names |
 | Animation | CSS transitions and reduced-motion handling | No animation dependency initially |
-| Local state | React state/reducers and narrowly scoped context | Unsaved drafts and presentation state stay in memory |
-| Server state | Router loaders, actions, fetchers and revalidation | No TanStack Query, SWR, Redux or Zustand initially |
-| URL state | Non-sensitive navigation/filter choices | Private search text and sensitive identifiers must not leak through logs, referrers or persistent history |
-| Forms | Router forms/fetchers, native controls, accessible widgets | Server-side Zod validation; no React Hook Form until dynamic-form complexity justifies it |
-| Client data | Framework transport and native Fetch | No Axios or generic RPC client |
+| Routing | TanStack Router; Vite SPA; generated route tree | Typed paths/search and route boundaries; no TanStack Start server framework initially |
+| Local state | React state/reducers and narrowly scoped context | Ephemeral interactions/capture; forms own editable values; Store requires a separate need |
+| Server state | TanStack Query, coordinated by Router loaders | One private in-memory query cache; explicit retries/invalidation and identity clearing |
+| URL state | nuqs for approved nonsensitive navigation/filter choices | Private search text and sensitive identifiers must not leak through logs, referrers or persistent history |
+| Forms | TanStack Form with shared typed field composition | Structural Zod validation on client and server; backend owns permission/revision decisions |
+| Client data | Reusable typed API client and query definitions | Generated wire types plus runtime parsing; native Fetch, no backend source imports |
 | Text display/editing | React-escaped text and ordinary editable fields | No rich-text editor or raw HTML rendering initially; Markdown export does not require HTML rendering |
 | PWA | Web manifest, narrow service worker, standard Push API | Cache only explicitly public static assets; no offline household-data cache |
 
-React Aria is a behavior foundation, not a complete design system. Source attribution cards, audience controls, consent flows, errors and confirmations still require design and actual accessibility testing. Radix/shadcn and Base UI are viable alternatives, compared in [Technology Decision Details](../adr/README.md#decision-index). Use native elements for simple content instead of wrapping every element. [React Aria overview](https://react-aria.adobe.com/), [styling](https://react-aria.adobe.com/styling)
+Select Base UI explicitly in shadcn's current CLI/preset, commit `components.json`, and review generated files/dependencies before adding them. Placement/reuse conventions live in the code-structure skill. Native elements remain suitable for simple content. Source cards, audience controls and approval flows still need product design and accessibility tests. [shadcn CLI](https://ui.shadcn.com/docs/cli), [Base UI quick start](https://base-ui.com/react/overview/quick-start), [ADR-013](../adr/013-accessible-ui.md).
+
+Use TanStack Form's typed composition facilities for reusable labeled fields, hints, errors and submit controls; keep feature schemas/defaults/submission explicit. Infer command shapes from contracts and map editable values to them deliberately. Server errors map to typed field/form outcomes. Current authorization, approval and committed receipts remain backend decisions. Avoid duplicating form values in Query or global state. [Form composition](https://tanstack.com/form/latest/docs/framework/react/guides/form-composition).
+
+Use a single approved nuqs parser map for hooks and Router `validateSearch` through `createStandardSchemaV1`. Adopt the documented supported scalar parameter types without `urlKeys` aliases. nuqs owns in-place query-state updates; typed Router links use the same definition for navigation. Private search text, draft content and tokens remain in memory. Deep-link references never confer permission. The experimental adapter needs real Router/back-forward tests under G13. [nuqs adapter](https://nuqs.dev/docs/adapters#tanstack-router).
 
 Tailwind 4 requires Safari 16.4, Chrome 111 and Firefox 128 for its core features. Those are compatibility floors, not a statement about the household's devices. Avoid utilities requiring newer APIs unless device tests cover them. Use one token layer for colors, spacing, focus, dark mode and readable text. Define the needed components during the phase that implements them. [Tailwind compatibility](https://tailwindcss.com/docs/compatibility)
 
-Router-managed data already covers normal mutation/revalidation flows. Clear in-memory private data on sign-out, identity change and the required lock transitions. Disable private response caching and verify back/forward navigation does not reveal a prior identity. [React Router state management](https://reactrouter.com/explanation/state-management)
+Router loaders prepare shared query options via the current external-cache integration; components consume those same queries. Return no private record payload from loaders to avoid a parallel route data cache. Set `defaultPreloadStaleTime: 0` so Query controls freshness, and set private query freshness/retry/refocus rules deliberately. Use abort signals and typed error categories; no automatic mutation replay without an idempotency/reconciliation contract. [Router/Query integration](https://github.com/TanStack/router/blob/main/packages/react-router/skills/compositions/router-query/SKILL.md).
+
+On sign-out, identity change and required lock transitions, cancel requests, dispose the old identity's QueryClient and private route subtree, reset forms/local state and reject late results using an identity generation. Disable persistent private caches and verify navigation/resume cannot reveal an earlier identity. Only structurally compatible shared UI and safe client code can move into future client packages. Conditional TanStack additions and the integration checklist are in the [frontend review](../reviews/TANSTACK-AND-UI-REVIEW.md).
 
 <a id="persistence-integration"></a>
 ## Persistence integration

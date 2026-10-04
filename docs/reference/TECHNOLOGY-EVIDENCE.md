@@ -1,8 +1,8 @@
 # Technology evidence
 
-Inherited research attributed by the original stack to 3 October 2026. This consolidation did not recheck external sources, registries, prices, provider access or compatibility. None of these observations proves installed or deployed compatibility.
+Most observations are inherited research attributed to 3 October 2026. Backend contract experiments and frontend/TanStack official documentation and registry inspection were added on 4 October 2026, with their scope identified below. Prices, provider access, hosting and device behavior were not revalidated by the frontend review. No metadata observation proves installed/deployed compatibility.
 
-[Documentation index](../README.md). Consolidated 3 October 2026; implementation and validation remain pending.
+[Documentation index](../README.md). Consolidated 3 October 2026; frontend/contract evidence updated 4 October 2026. Application implementation and validation remain pending.
 
 Revalidate relevant claims before installing dependencies or enabling a provider. Record the exact configuration, source URL, observation date, scope and result under the applicable [evidence gate](DECISIONS-AND-GATES.md#evidence-gates). Core technology choices remain in the [stack](../TECH-STACK.md#selection-inventory); rationale belongs in [ADRs](../adr/README.md).
 
@@ -19,13 +19,15 @@ Revalidate relevant claims before installing dependencies or enabling a provider
 | Managed queue/job platform | Additional provider and cost | Existing database execution cannot meet an enabled requirement |
 | WebSockets/managed realtime | Foreground revalidation/polling suffice | Measured update requirements exceed current approach |
 | Native/hybrid phone client | Outside current PWA-first work | Reconsider with Nishanth only if a required actual-phone capability cannot be supported |
-| Global state/form library | Framework/local state covers initial UI | Concrete cross-route client-only state or complex dynamic forms |
+| Direct TanStack Store or another global state library | Form, Query, nuqs and local React state already have owners | Concrete shared client-only state spanning independent features |
 | Sentry/OpenTelemetry backend | Initial redacted diagnostics available | Failure diagnosis or multiple runtimes justify cost and disclosure |
 | Dedicated AI observability/eval service | Small fixture-based evaluation is sufficient initially | Team/eval scale creates measured administration cost |
 | Rich-text editor | Plain editable text and export satisfy current needs | Approved editing requirement beyond text fields |
-| Workspaces/build orchestrator | One application package | Separately built units, then measured build coordination need |
+| Build orchestrator/remote cache | Four-unit pnpm workspace can use ordinary scripts | Measured build coordination/caching need |
 | External-account SDKs and channels | Selected Phase 9 scope only | Approved connection contract, permission and disconnect gates |
 | Continuous voice/live-media SDK | Explicit recording is sufficient | Selected Phase 10 capability with device and consent evidence |
+
+The [complete TanStack review](../reviews/TANSTACK-AND-UI-REVIEW.md#complete-tanstack-catalog-assessment) evaluates all 18 current catalog entries and additional Ranger documentation. Router and Form are owner-selected, Query is recommended; Table/Virtual/Pacer/Hotkeys/Store have narrow triggers, while DB/Start/AI and optional rendering/tooling choices need separate justification. nuqs and shadcn/Base UI are selected outside that catalog. No blanket TanStack installation is proposed.
 
 <a id="compatibility-snapshot"></a>
 ## Compatibility Matrix
@@ -35,14 +37,16 @@ Revalidate relevant claims before installing dependencies or enabling a provider
 | Technology | Works With | Important Constraint |
 |---|---|---|
 | Node 24 LTS | Selected router, Vite, auth, DB, AI, test tools | Keep security patches current; Node 20 is not acceptable merely because some packages permit it |
-| React Router 8.4 | React 19.3; Node 24; TypeScript 7 | Requires Node ≥22.22 and React/DOM ≥19.2.7; align all router adapters |
-| Express adapter 8.4 | Express 5.2 | Use ESM and correct Express 5 path syntax; explicit startup/shutdown |
-| Vite 8 | Router dev adapter, Tailwind Vite integration, Vitest 5 | Build bootstrap explicitly; no unneeded RSC/Cloudflare optional integrations |
-| React Aria 1.21 | React 19 | Test actual focus, touch and screen-reader behavior; do not assume accessibility from installation |
+| TanStack Router 1.170.41 / plugin 1.168.42 | Observed React 19 and Vite 8 peer ranges | Generate route tree before checking; plugin peer accepts Router ^1.170.41; different patch numbers are intentional |
+| TanStack Query 5.104.1 / Form 1.33.5 | Observed React 19 peers | Query owns remote cache; Form owns editable values; full integration not tested |
+| Vite 8 | TanStack router-plugin, Tailwind Vite integration, Vitest 5 | Independent static web build; no Start/RSC server integration initially |
+| shadcn CLI 4.21.1 / Base UI 1.8.0 | Vite setup and observed React 19 peers | Explicit Base UI selection; inspect generated imports; accessibility/device proof pending |
+| nuqs 2.10.1 | React 19; optional TanStack Router ^1 peer | Router adapter experimental; shared parser validation and browser history checks required |
+| Hono / Zod OpenAPI / generated client | Node 24, Zod 4 and TypeScript 5.9.3 in limited contract experiment | Generator 7.13.0 peer requires TypeScript ^5.x; explicit runtime response checks; auth/database integration untested |
 | Tailwind 4 | Vite 8; modern phone browsers | Safari 16.4+, Chrome 111+, Firefox 128+ core baseline |
 | PostgreSQL 18 | `pg` 8, Drizzle stable | Use supported backup tools; verify `pg_trgm` and any triggered `pgvector` image |
 | Drizzle 0.45 / Kit 0.31 | Better Auth 1.7 and separate adapter | Stable Relations v1, not RC-only Relations v2 examples |
-| Better Auth | Express 5, Drizzle, PostgreSQL | DB sessions; cookie cache off; explicit reset revocation and application locks |
+| Better Auth | Documented Hono integration; Drizzle/PostgreSQL | DB sessions; cookie cache off; reset revocation and application locks; product-route CSRF handled explicitly |
 | AI SDK 7 / OpenAI adapter 4 | Node ≥22, Zod 4.6 | Configure provider directly; explicit Responses storage off; endpoint-specific options |
 | Recovery storage | Authenticated encrypted OneDrive upload and private host storage | Verify checksums, history/trash expiry, key custody and independent journal durability |
 | Railway app/DB | Always-on Node and PostgreSQL | Sleeping disabled; duration/body limits, DB maintenance and memory/volume budget remain gates |
@@ -51,23 +55,26 @@ Revalidate relevant claims before installing dependencies or enabling a provider
 | Temporal polyfill | Node and supported browser bundle | Use only required APIs; no automatic DST/recurrence policy |
 | Vitest 5 / Playwright 1 | Node 24 and Vite 8 | Browser binaries pinned with test package; emulation does not replace actual phones |
 
-The original stack reported inspecting peer ranges in official npm metadata, including [router dev](https://registry.npmjs.org/@react-router/dev), [Express adapter](https://registry.npmjs.org/@react-router/express), [auth adapter](https://registry.npmjs.org/@better-auth/drizzle-adapter), [AI SDK](https://registry.npmjs.org/ai), and [Vitest](https://registry.npmjs.org/vitest). A future scaffold must run install/build/integration checks rather than suppress peer warnings.
+The 4 October [frontend metadata capture](../reviews/frontend-research-evidence.json) records official versions, peers and licenses; the [backend experiment](../reviews/code-structure-evidence.json) records actual strict compilation/HTTP checks and limits. Other rows retain inherited observations, including [auth adapter](https://registry.npmjs.org/@better-auth/drizzle-adapter), [AI SDK](https://registry.npmjs.org/ai) and [Vitest](https://registry.npmjs.org/vitest). A scaffold must run full install/build/integration checks rather than suppress peer warnings.
 
 <a id="version-snapshot"></a>
 ## Version Strategy
 
-The original stack attributed the following observations to official registries and release/support pages inspected on 3 October 2026. These inherited numbers are not independently reverified evidence, not permission to leave an old vulnerable patch installed. Recheck when implementation starts and capture the compatible exact set in manifests/lockfiles and image references. Exclude prerelease identifiers even when a registry labels one `latest`.
+Rows explicitly marked 4 October are new registry observations or recorded experiment results. Other numbers retain the original 3 October attribution and are not independently reverified. Recheck at implementation and capture a compatible exact set in manifests/lockfiles/images. Check both prerelease identifiers and project maturity labels: a plain version number or `latest` tag is insufficient. Experimental integration needs explicit validation.
 
 | Technology | Recommended Version Strategy |
 |---|---|
 | [Node.js](https://nodejs.org/en/about/previous-releases) | 24 LTS, latest security patch; 26 remains Current at research time |
-| [TypeScript](https://registry.npmjs.org/typescript) | Stable 7.x, observed 7.0.2, released 8 July; compiler/tool compatibility checked before updates |
+| [TypeScript](https://registry.npmjs.org/typescript) | Latest inherited observation 7.0.2; 4 October contract experiment used compatible 5.9.3 because generator peers exclude 7.x; full workspace selection pending |
 | [React](https://registry.npmjs.org/react) / [React DOM](https://registry.npmjs.org/react-dom) | Matching 19.3.0 observed, released 9 September; pin together |
-| [React Router](https://registry.npmjs.org/react-router) and official adapters | Matching 8.4.0 observed, released 15 September; stable framework mode only |
-| [Express](https://registry.npmjs.org/express) | Stable 5.x; observed 5.2.1 |
+| [TanStack Router](https://registry.npmjs.org/@tanstack/react-router/1.170.41) / [plugin](https://registry.npmjs.org/@tanstack/router-plugin/1.168.42) | 4 October observed 1.170.41 / 1.168.42; select compatible peers, generate route tree and pin independently |
+| [TanStack Query](https://registry.npmjs.org/@tanstack/react-query/5.104.1) / [Form](https://registry.npmjs.org/@tanstack/react-form/1.33.5) | 4 October observed 5.104.1 / 1.33.5; use documentation matching each adopted major |
+| [nuqs](https://registry.npmjs.org/nuqs/2.10.1) | 4 October observed 2.10.1; package stable identifier, Router integration experimental |
+| [Hono](https://registry.npmjs.org/hono/4.13.12) / [Node adapter](https://registry.npmjs.org/@hono/node-server/2.1.3) / [Zod OpenAPI](https://registry.npmjs.org/@hono/zod-openapi/1.6.3) | 4 October experiment 4.13.12 / 2.1.3 / 1.6.3; recheck complete backend peers at scaffold |
+| [openapi-typescript](https://registry.npmjs.org/openapi-typescript/7.13.0) / [openapi-fetch](https://registry.npmjs.org/openapi-fetch/0.17.0) | 4 October experiment 7.13.0 / 0.17.0; explicit runtime validation and required generator declaration dependencies |
 | [Vite](https://registry.npmjs.org/vite) | Supported stable 8.x; observed 8.3.2, released 1 October |
 | [Tailwind](https://registry.npmjs.org/tailwindcss) / [Vite plugin](https://registry.npmjs.org/@tailwindcss/vite) | Matching stable 4.x; observed 4.3.3, released 16 July |
-| [React Aria Components](https://registry.npmjs.org/react-aria-components) | Stable 1.x; observed 1.21.1, released 4 September |
+| [shadcn CLI](https://registry.npmjs.org/shadcn/4.21.1) / [Base UI](https://registry.npmjs.org/@base-ui/react/1.8.0) | 4 October observed 4.21.1 / 1.8.0; explicit base choice, reviewed generation and owned component source |
 | [Lucide React](https://registry.npmjs.org/lucide-react) | Stable 1.x; observed 1.51.0, released 3 October; do not assume old 0.x examples are current |
 | [Zod](https://registry.npmjs.org/zod) | Stable 4.x; observed 4.6.5, released 13 September |
 | [PostgreSQL](https://www.postgresql.org/support/versioning/) | 18, current minor observed 18.6; supported to November 2030; review major upgrades |
@@ -89,22 +96,22 @@ The original stack attributed the following observations to official registries 
 | [Sharp](https://registry.npmjs.org/sharp) / [PDF.js](https://registry.npmjs.org/pdfjs-dist) | Phase 3 stable observed 0.35.5 / 6.3.289; pin production native artifacts and parser versions |
 | [libheif](https://github.com/strukturag/libheif/releases) | Phase 3 candidate 1.23.5 observed, released 21 September; codec/build decision remains gated |
 
-The original maintenance observations cite releases from [React Router](https://github.com/remix-run/react-router/releases), [Drizzle](https://github.com/drizzle-team/drizzle-orm/releases), [Better Auth](https://github.com/better-auth/better-auth/releases), [AI SDK](https://github.com/vercel/ai/releases), and the September registry publications above. Slow protocol-library release cadence alone is not abandonment: the [web-push main branch](https://github.com/web-push-libs/web-push/commits/master/) had September 2026 maintenance commits, and the [Temporal polyfill](https://github.com/js-temporal/temporal-polyfill/commits/main/) had September conformance work. Neither fact proves a particular published package is vulnerability-free; both carry explicit adoption checks.
+Inherited maintenance observations cite [Drizzle](https://github.com/drizzle-team/drizzle-orm/releases), [Better Auth](https://github.com/better-auth/better-auth/releases), [AI SDK](https://github.com/vercel/ai/releases) and September registry publications. Slow protocol-library release cadence alone is not abandonment: the [web-push main branch](https://github.com/web-push-libs/web-push/commits/master/) had September 2026 maintenance commits, and the [Temporal polyfill](https://github.com/js-temporal/temporal-polyfill/commits/main/) had September conformance work. Neither proves a published artifact is vulnerability-free; adoption checks remain required.
 
 Queue candidates were also checked: [pg-boss](https://registry.npmjs.org/pg-boss) 12.36.0 and [Graphile Worker](https://registry.npmjs.org/graphile-worker) 0.18.0 are current maintained options. pg-boss is now the selected queue recommendation; recheck its compatible stable version at implementation. Graphile remains an alternative, not a second initial dependency.
 
 <a id="licensing-snapshot"></a>
 ## Licensing Review
 
-Licenses were checked against official package metadata and linked repository notices. Hosted services also have commercial terms and data-processing conditions; an SDK license does not grant service rights or establish privacy eligibility. Preserve notices and review the actual resolved transitive/native artifacts at implementation.
+Frontend licenses were inspected in official metadata on 4 October; other license observations retain inherited provenance. Hosted services also have commercial terms and data-processing conditions; an SDK license does not grant service rights or establish privacy eligibility. Preserve notices and review actual resolved transitive/native artifacts at implementation.
 
 | Technology | License | Concern |
 |---|---|---|
 | Node.js | MIT plus bundled third-party notices | Preserve runtime notices in distributed images |
 | TypeScript | Apache-2.0 | Notice/license obligations |
-| React, React Router, Express, Vite | MIT | Permissive; preserve notices |
+| React, Vite; TanStack Router/Query/Form | MIT | Frontend TanStack metadata rechecked 4 October; preserve resolved notices |
 | Tailwind CSS | MIT | Paid Tailwind products are separate; none selected |
-| React Aria Components | Apache-2.0 | Preserve license/NOTICE where applicable |
+| shadcn CLI; Base UI; nuqs | MIT | Package licenses observed 4 October; separately preserve actual registry/transitive notices |
 | Lucide | ISC; inherited Feather material has MIT notices | Preserve applicable icon notices; [Lucide license](https://lucide.dev/license) |
 | Zod, `pg`, Drizzle Kit | MIT | Permissive |
 | Drizzle ORM | Apache-2.0 | ORM and Kit have different licenses |
@@ -140,6 +147,7 @@ The Phase 3 HEIC build is the material non-permissive native dependency question
 | Parser or HEIC codec creates native-build/security burden | Sharp/PDF.js/libheif | Failed uploads, resource exhaustion or licensing issue | Phase 3 actual-image/container tests, restricted parsing and patch policy |
 | Old published protocol package lags fixes | `web-push` | Push compatibility/security uncertainty | Current repository activity noted; inspect advisories and compare maintained alternatives before Phase 2 |
 | UI caching retains prior identity | Router/browser/service worker | Private disclosure on shared device | No-store, explicit lock/logout clearing, history/resume regression tests |
+| Two URL-state owners disagree | TanStack Router / nuqs | Wrong filter/history/query behavior | One parser definition, supported scalar types, actual browser integration under G13 |
 | Telemetry leaks prompt or existence metadata | Logs/SDK/platform | Violates privacy boundary | Allowlisted fields, redaction tests, no prompt-tracing SaaS |
 | Native/SDK upgrades change behavior | Toolchain/provider adapters | Regression despite accepted version range | Lockfiles, Linux artifact tests and targeted model/provider contract checks |
 <a id="browser-and-installation-matrix"></a>
@@ -159,13 +167,13 @@ Do not promise Firefox desktop installation on macOS/Linux or universal backgrou
 
 ## Decision research provenance
 
-The following are inherited supporting sources and comparison observations, not newly checked claims. The ADR owns the choice; these links support adoption-time revalidation.
+Frontend/framework rows contain 4 October supporting sources; other comparisons retain inherited provenance. ADRs own choices; these links support adoption-time revalidation.
 
 | Decision | Retained observation / source |
 |---|---|
-| Application framework | The supplied comparison favored explicit process lifetime. Recheck [Router upgrade requirements](https://reactrouter.com/upgrading/v7), [Next.js custom-server/standalone constraints](https://nextjs.org/docs/app/guides/custom-server), and [SvelteKit migration requirements](https://svelte.dev/docs/kit/migrating-to-sveltekit-3). It reported Kit 3 requiring TypeScript 6 and an auth peer still targeting Kit 2; these were research snapshots. |
+| Application framework | [TanStack Router](https://tanstack.com/router/latest) is owner-selected; [Hono/contract review](../reviews/CODE-STRUCTURE-REVIEW.md) proposes the independent backend. [Start](https://tanstack.com/start/latest) adds a server framework and is deferred pending measured rendering need. |
 | Runtime | [Node support policy](https://nodejs.org/en/about/previous-releases), [Bun compatibility](https://bun.com/docs/runtime/nodejs-compat), [Deno compatibility](https://docs.deno.com/runtime/fundamentals/node/), and [pnpm compatibility](https://pnpm.io/installation) underpin the selected Node/pnpm direction. |
-| UI | [React Aria quality](https://react-aria.adobe.com/quality), [Base UI](https://base-ui.com/react/overview/quick-start), and the inherited [shadcn July 2026 default-change reference](https://github.com/shadcn-ui/ui/blob/main/apps/v4/content/docs/changelog/2026-07-base-ui-default.mdx) require rechecking when comparing foundations. |
+| UI | [shadcn CLI](https://ui.shadcn.com/docs/cli) supports explicit base selection; use [Base UI](https://base-ui.com/react/overview/quick-start), [TanStack Form composition](https://tanstack.com/form/latest/docs/framework/react/guides/form-composition) and the [nuqs adapter](https://nuqs.dev/docs/adapters#tanstack-router) with the reviewed caveats. |
 | Persistence | [SQLite appropriate uses](https://www.sqlite.org/whentouse.html), [PostgreSQL](https://www.postgresql.org/docs/18/index.html), and [MySQL](https://dev.mysql.com/doc/refman/8.4/en/) informed the concurrent-work and retrieval comparison, not an assertion that household size exceeds SQLite capacity. |
 | Query layer | The source reported Prisma registry latest as 8.0 RC while 7.10.0 was stable. Recheck [Prisma metadata](https://registry.npmjs.org/prisma), [requirements](https://www.prisma.io/docs/orm/v7/reference/system-requirements), [Drizzle releases](https://github.com/drizzle-team/drizzle-orm/releases), and [Kysely](https://kysely.dev/docs/getting-started). |
 | Identity | [Auth.js maintainer direction](https://better-auth.com/blog/authjs-joins-better-auth) and [Clerk session tokens](https://clerk.com/docs/guides/sessions/session-tokens) supported the identity comparison; neither source proves this application’s immediate revocation or recovery. |
@@ -175,4 +183,4 @@ The following are inherited supporting sources and comparison observations, not 
 
 Vitest fits the Vite/TypeScript test environment and mocking needs; the native Node runner is lighter but needs more assembly, and Jest introduces another toolchain. Playwright covers multiple browser engines and API tests; Cypress was considered. Existing real-browser component tests avoid another simulated-DOM runner initially, at the cost of slower feedback. Biome plus the compiler reduces duplicate configuration; specialized missing rules may justify targeted ESLint use, but duplicate formatters remain excluded. Reconsider tools only for demonstrated coverage or feedback problems. See [Vitest releases](https://github.com/vitest-dev/vitest/releases), [Playwright releases](https://github.com/microsoft/playwright/releases) and [Biome releases](https://github.com/biomejs/biome/releases).
 
-GitHub Actions/Dependabot retain portable package/test commands as their exit path. Exact runtime type packages must match Node, React, React DOM, Express and pg. A pinned matching Better Auth CLI may generate auth schema when needed; it is not a runtime dependency. PostgreSQL client tools, Node, pnpm, the container engine and Gitleaks are tools rather than application npm dependencies. No initial production dependency on optional push, Temporal, parsers, embeddings, alternate queues, telemetry, rich editors or Phase 9/10 SDKs is implied before their introduction gate.
+GitHub Actions/Dependabot retain portable package/test commands as their exit path. Runtime type packages must match Node, React, React DOM and pg. A pinned matching Better Auth CLI may generate auth schema when needed; it is not a runtime dependency. PostgreSQL client tools, Node, pnpm, the container engine and Gitleaks are tools rather than application npm dependencies. No initial production dependency on optional push, Temporal, parsers, embeddings, alternate queues, telemetry, rich editors or Phase 9/10 SDKs is implied before their introduction gate.

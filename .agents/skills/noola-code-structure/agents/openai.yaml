@@ -1,0 +1,5 @@
+interface:
+  display_name: "Noola Code Structure"
+  short_description: "Noola file placement, reuse and coding standards"
+policy:
+  allow_implicit_invocation: true
