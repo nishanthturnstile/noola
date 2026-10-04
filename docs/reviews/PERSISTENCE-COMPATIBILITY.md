@@ -49,7 +49,7 @@ The main tradeoff is losing Drizzle's automatic schema-diff generation. Schema/t
 
 ### Candidate evidence
 
-In `/tmp/noola-kysely-compat`, the candidate uses exact-pinned dependencies, a frozen lockfile and a tsconfig derived from the repository's strict base. The experiment copies the established assertions; query implementation, migration runner and identity adapter are the changes. No assertion was weakened or removed.
+The temporary `/tmp/noola-kysely-compat` experiment used exact-pinned dependencies, a frozen lockfile and a tsconfig derived from the repository's strict base. It copied the established assertions; query implementation, migration runner and identity adapter were the changes. No assertion was weakened or removed. The temporary tree was removed during the [pre-slice cleanup](PHASE-0-READINESS.md#pre-slice-cleanup-review); the historical candidate patch and results remain as decision evidence.
 
 - Fresh and repeated Kysely migration; restricted runtime role; transactional rollback.
 - Better Auth password sign-in, verified-only access, closed signup, HTTP-only sessions with cookie caching disabled.
