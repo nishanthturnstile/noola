@@ -6,14 +6,14 @@
 
 **Provenance:** Extracted from the supplied product, architecture and stack baseline dated 3 October 2026. No original D-series record was available. External observations were not revalidated during consolidation.
 
-**4 October owner decision:** Test Codex SDK using native per-adult ChatGPT login first, retain Vercel AI Gateway as the paid fallback candidate and OpenCode Zen as an alternative direct gateway. Keep Noola private. The [research and spike plan](../reviews/PHASE-0-FEASIBILITY.md#codex-sdk-spike) replaces the earlier private-client registration prerequisite; the newer Sign in with ChatGPT flow is deferred. No live account proof, paid activation or production approval is claimed.
+**4 October owner decision:** Test Codex SDK using native per-adult ChatGPT login first, retain Vercel AI Gateway as the paid fallback candidate and OpenCode Zen as an alternative direct gateway. Keep Noola private. The [research and spike plan](../reviews/PHASE-0-FEASIBILITY.md#codex-sdk-spike) replaces the earlier private-client registration prerequisite; the newer Sign in with ChatGPT flow is deferred. That decision itself claimed no live account proof, paid activation or production approval; subsequent local evidence is recorded below.
 
 ## Context
 
 The owner selected eligible personal ChatGPT subscriptions first and explicit paid fallback. Model availability, hosting eligibility, processing permission and authority to change household records are separate concerns.
 
 <a id="decision"></a>
-**Execution evidence, 4 October:** the [isolated spike](../reviews/CODEX-SDK-SPIKE.md) passes 41 offline tests and the corrected tool/sandbox preflight. Fresh native login and bounded live inference are the next validation step; production adoption remains pending. Retain the harness separately for reproduction and preserve results if it is later removed.
+**Execution evidence, 4 October:** the [isolated spike](../reviews/CODEX-SDK-SPIKE.md) passes 44 offline tests, local containment and single-account native text recall/cleanup. The ten-invocation run exposed and fixed TLS trust and clock-deadline issues; production adoption, second-account and hosted qualification remain pending. Retain the harness separately for reproduction and preserve results if it is later removed.
 
 ## Decision
 

@@ -1,6 +1,53 @@
 # Codex SDK feasibility spike
 
-## Containment follow-up — 4 October 2026
+## Native account validation — 4 October 2026
+
+**Single-account local feasibility passed after two runtime fixes.** Fresh native ChatGPT login succeeded, `codex login status` confirmed the ChatGPT route, and `gpt-6.1-sol` returned validated synthetic results. The exact Pro/Plus plan tier, quota capacity and monetary cost were not independently inspected. No development-assistant credentials, API keys or paid gateway fallback were used. Implementation commit `c774c2e` and the [sanitized live results](codex-sdk-live-results.json) identify the tested code and images.
+
+### Live results and budget
+
+Exactly **ten SDK invocations** were used: four in the initial run and six in a manually selected continuation. English, Tamil and transliterated recall passed first. The initial unanswerable attempt returned usage but was discarded by a wall-clock deadline check; it remains recorded as a failed attempt. After fixing the deadline, the six outstanding cases passed. The earlier successful English result supplies the identical revision-1 pre-correction baseline; the duplicate `before-correction` invocation was not repeated. Nine accepted scenario results cover all intended logical cases, with the initial failed attempt preserved rather than relabelled.
+
+| Case | Observed result |
+|---|---|
+| English / Tamil / mixed recall | Exact authorized quotations accepted |
+| Unanswerable question | `not_found` after deadline fix |
+| Source instruction injection | Only factual evidence accepted; no tool activity |
+| Correction | Revision-2 desk-drawer evidence accepted; English case provides revision-1 baseline |
+| Forgetting | Empty authorized snapshot returns `not_found` |
+| Early cancellation | Cancelled at 100 ms; native child gone before cleanup |
+| Fresh request after cancellation | Valid evidence accepted |
+| Routine cleanup | Removed 5–15 top-level state entries per invocation; only native auth remained |
+| Disconnect | Removed actual experiment auth; both principal volumes empty |
+| Request after disconnect | Blocked with `fresh_login_required`; zero SDK invocations |
+
+Cancellation establishes early local child termination, not that inference had reached the provider or that an in-progress provider stream stopped. Its usage remains unknown. Local cleanup and disconnect do not establish provider-side deletion or global account-session revocation. All inputs were synthetic; product persistence, identity screens and mutation paths remain unimplemented.
+
+### Runtime fixes found by live validation
+
+**TLS trust:** the pinned slim image lacked a system CA bundle. The native login initially failed before issuing a device code, while Node HTTPS worked using its bundled roots. The image now exports the pinned Node runtime’s Mozilla roots to a root-owned PEM file and supplies `CODEX_CA_CERTIFICATE` through the explicit environment allowlist. Native login then issued a code and completed successfully; certificate validation remains enabled. [Official authentication and custom-CA guidance](https://learn.chatgpt.com/docs/auth).
+
+**Deadline clock:** the host wall clock jumped by approximately +599 seconds, then −599 seconds, during short continuation requests. The old `Date.now()` rechecks could discard a completed result as expired. Admission now converts the absolute deadline once into a monotonic elapsed-time budget, capped at ninety seconds. Forward/backward clock-change tests and the live continuation prove the fix. This does not repair the host clock; target-host time synchronization still needs review before relying on persisted timestamps or deployed authentication.
+
+The bounded continuation used:
+
+```bash
+NOOLA_SPIKE_MAX_INVOCATIONS=6 \
+NOOLA_SPIKE_CASES=unanswerable,injection,after-correction,after-forget,cancel,after-cancel \
+pnpm phase0:codex:live -- --principal adult-a
+```
+
+These options select known fixtures and lower the per-run cap. They are explicit operator controls, not automatic retries. The initial run plus continuation used the original ten-call allowance; do not treat another default run as part of that same allowance.
+
+### Measurements, review and disposition
+
+Eight accepted non-cancellation samples took **7.08–11.24 seconds**, median **8.85 seconds**; the first English sample took 8.92 seconds. These are monotonic harness timings including startup, validation and cleanup delay, not isolated model latency or a production p95. Peak cgroup memory was **81.03 MiB** under the 1 GiB cap. Reported usage across nine completed provider turns, including the discarded timeout result, was **59,216 input tokens** (4,992 cached) and **313 output tokens**. Cancellation usage and hidden native retries are unknown. The roughly 6.6k input tokens per tiny fixture include substantial Codex instruction overhead; account capacity and normal-workload efficiency need separate measurement.
+
+The 44 offline tests, full `pnpm check`, documentation checker, final diff review and existing application liveness/readiness pass. No spike container remains running. The experiment is deliberately **disconnected** after validating real credential removal; future live runs require another fresh login. Empty labelled volumes and the reproducible image remain. The original identity/persistence proof is unchanged and was not rerun for these experiment-only changes.
+
+**Recommendation:** retain the isolated harness and proceed to scoping the first private-text slice: verified invitation → sign-in → manual capture → authorized recall → correction → forget. Keep manual behavior available independently of AI. This account’s local subscription route is a promising optional adapter candidate; second-adult authorization, hosted operation, production privacy, recovery/budget gates, product-level cancellation and broader household acceptance remain pending. No production AI adapter or full Phase 0 pass is claimed.
+
+## Earlier containment follow-up — 4 October 2026
 
 **Local containment resolved; fresh native login and account validation remain pending.** The corrected preflight passes all twelve checks; implementation commit `6e06f1a` remains on `codex/phase0-codex-sdk-spike`. The current offline suite passes 41 tests. The original failure record below and its JSON snapshot remain historical evidence; the [follow-up result](codex-sdk-containment-results.json) records the new image and source hashes. No production adapter has been enabled.
 

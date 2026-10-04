@@ -1,0 +1,595 @@
+{
+  "recordedAt": "2026-10-04T16:49:53.412100+05:30",
+  "branch": "codex/phase0-codex-sdk-spike",
+  "implementationCommit": "c774c2ecb420c6b8c6525129014847074d4520bf",
+  "decision": "single-account local candidate validated; retain separate harness; scope private-text product slice; production adoption pending",
+  "versions": {
+    "sdk": "0.160.0",
+    "cli": "0.160.0",
+    "node": "24.21.0",
+    "model": "gpt-6.1-sol"
+  },
+  "nativeAuthentication": {
+    "freshDeviceLogin": "passed",
+    "cliLoginStatus": "chatgpt-connected",
+    "modelAccess": "passed",
+    "planTier": null,
+    "planTierVerified": false,
+    "assistantCredentialsReused": false,
+    "apiKeyFallbackUsed": false,
+    "localConnectionAfterValidation": "disconnected"
+  },
+  "sdkInvocationBudget": 10,
+  "sdkInvocationsUsed": 10,
+  "passingScenarioResults": 9,
+  "failedAttempts": 1,
+  "scenarioCoverage": {
+    "before-correction": "Covered by successful english scenario with revision 1; duplicate baseline invocation omitted to remain within budget."
+  },
+  "runs": [
+    {
+      "recordedAt": "2026-10-04T11:22:12.854Z",
+      "command": "live",
+      "principal": "adult-a",
+      "baseCommit": "3e33a6e785a5ea9c9e9e86242781833cc27b28e2",
+      "workingTreeDirty": true,
+      "imageId": "sha256:6721b9640578ba5371e8f1469d3c2ec62c73ee73c7a9b865a7cd01638a34ef9c",
+      "exitCode": 1,
+      "evidence": [
+        {
+          "kind": "preflight",
+          "checks": [
+            {
+              "id": "outer-container-restrictions",
+              "passed": true
+            },
+            {
+              "id": "pinned-cli",
+              "passed": true
+            },
+            {
+              "id": "effective-disabled-features",
+              "passed": true
+            },
+            {
+              "id": "sandbox-positive-control",
+              "passed": true
+            },
+            {
+              "id": "network-positive-control",
+              "passed": true
+            },
+            {
+              "id": "credential-read-denied",
+              "passed": true
+            },
+            {
+              "id": "proc-credential-bypass-denied",
+              "passed": true
+            },
+            {
+              "id": "work-write-denied",
+              "passed": true
+            },
+            {
+              "id": "tool-network-denied",
+              "passed": true
+            },
+            {
+              "id": "model-tool-catalog-empty",
+              "passed": true
+            },
+            {
+              "id": "forged-tool-calls-rejected",
+              "passed": true
+            },
+            {
+              "id": "preflight-cleanup",
+              "passed": true
+            }
+          ]
+        },
+        {
+          "kind": "cleanup",
+          "contentRemoved": true,
+          "removedEntryCount": 13,
+          "remainingEntryCount": 1,
+          "credentialRetained": true
+        },
+        {
+          "kind": "scenario",
+          "id": "english",
+          "passed": true,
+          "outcome": "found",
+          "elapsedMs": 8916,
+          "invocations": 1,
+          "model": "gpt-6.1-sol",
+          "usage": {
+            "input_tokens": 6579,
+            "cached_input_tokens": 0,
+            "output_tokens": 41,
+            "reasoning_output_tokens": 0
+          },
+          "observableRetries": null,
+          "harnessRetries": 0
+        },
+        {
+          "kind": "cleanup",
+          "contentRemoved": true,
+          "removedEntryCount": 15,
+          "remainingEntryCount": 1,
+          "credentialRetained": true
+        },
+        {
+          "kind": "scenario",
+          "id": "tamil",
+          "passed": true,
+          "outcome": "found",
+          "elapsedMs": 8776,
+          "invocations": 2,
+          "model": "gpt-6.1-sol",
+          "usage": {
+            "input_tokens": 6589,
+            "cached_input_tokens": 0,
+            "output_tokens": 46,
+            "reasoning_output_tokens": 0
+          },
+          "observableRetries": null,
+          "harnessRetries": 0
+        },
+        {
+          "kind": "cleanup",
+          "contentRemoved": true,
+          "removedEntryCount": 13,
+          "remainingEntryCount": 1,
+          "credentialRetained": true
+        },
+        {
+          "kind": "scenario",
+          "id": "mixed",
+          "passed": true,
+          "outcome": "found",
+          "elapsedMs": 8920,
+          "invocations": 3,
+          "model": "gpt-6.1-sol",
+          "usage": {
+            "input_tokens": 6582,
+            "cached_input_tokens": 0,
+            "output_tokens": 43,
+            "reasoning_output_tokens": 0
+          },
+          "observableRetries": null,
+          "harnessRetries": 0
+        },
+        {
+          "kind": "cleanup",
+          "contentRemoved": true,
+          "removedEntryCount": 13,
+          "remainingEntryCount": 1,
+          "credentialRetained": true
+        },
+        {
+          "kind": "scenario",
+          "id": "unanswerable",
+          "passed": false,
+          "outcome": "timeout",
+          "elapsedMs": 11988,
+          "invocations": 4,
+          "model": "gpt-6.1-sol",
+          "usage": {
+            "input_tokens": 6577,
+            "cached_input_tokens": 0,
+            "output_tokens": 20,
+            "reasoning_output_tokens": 0
+          },
+          "observableRetries": null,
+          "harnessRetries": 0
+        },
+        {
+          "kind": "live-summary",
+          "invocations": 4,
+          "peakBytes": 84381696,
+          "model": "gpt-6.1-sol"
+        },
+        {
+          "kind": "cleanup",
+          "contentRemoved": true,
+          "removedEntryCount": 0,
+          "remainingEntryCount": 1,
+          "credentialRetained": true
+        }
+      ]
+    },
+    {
+      "recordedAt": "2026-10-04T11:15:59.173Z",
+      "command": "live",
+      "principal": "adult-a",
+      "baseCommit": "3e33a6e785a5ea9c9e9e86242781833cc27b28e2",
+      "workingTreeDirty": true,
+      "imageId": "sha256:1aaa8809646103e9429b21dba6900ba589db36f8378f5e63ea9df66529083489",
+      "exitCode": 0,
+      "evidence": [
+        {
+          "kind": "preflight",
+          "checks": [
+            {
+              "id": "outer-container-restrictions",
+              "passed": true
+            },
+            {
+              "id": "pinned-cli",
+              "passed": true
+            },
+            {
+              "id": "effective-disabled-features",
+              "passed": true
+            },
+            {
+              "id": "sandbox-positive-control",
+              "passed": true
+            },
+            {
+              "id": "network-positive-control",
+              "passed": true
+            },
+            {
+              "id": "credential-read-denied",
+              "passed": true
+            },
+            {
+              "id": "proc-credential-bypass-denied",
+              "passed": true
+            },
+            {
+              "id": "work-write-denied",
+              "passed": true
+            },
+            {
+              "id": "tool-network-denied",
+              "passed": true
+            },
+            {
+              "id": "model-tool-catalog-empty",
+              "passed": true
+            },
+            {
+              "id": "forged-tool-calls-rejected",
+              "passed": true
+            },
+            {
+              "id": "preflight-cleanup",
+              "passed": true
+            }
+          ]
+        },
+        {
+          "kind": "cleanup",
+          "contentRemoved": true,
+          "removedEntryCount": 13,
+          "remainingEntryCount": 1,
+          "credentialRetained": true
+        },
+        {
+          "kind": "scenario",
+          "id": "unanswerable",
+          "passed": true,
+          "outcome": "not_found",
+          "elapsedMs": 9240,
+          "wallClockDriftMs": 598606,
+          "invocations": 1,
+          "model": "gpt-6.1-sol",
+          "usage": {
+            "input_tokens": 6577,
+            "cached_input_tokens": 4992,
+            "output_tokens": 20,
+            "reasoning_output_tokens": 0
+          },
+          "observableRetries": null,
+          "harnessRetries": 0
+        },
+        {
+          "kind": "cleanup",
+          "contentRemoved": true,
+          "removedEntryCount": 13,
+          "remainingEntryCount": 1,
+          "credentialRetained": true
+        },
+        {
+          "kind": "scenario",
+          "id": "injection",
+          "passed": true,
+          "outcome": "found",
+          "elapsedMs": 11236,
+          "wallClockDriftMs": -598604,
+          "invocations": 2,
+          "model": "gpt-6.1-sol",
+          "usage": {
+            "input_tokens": 6599,
+            "cached_input_tokens": 0,
+            "output_tokens": 41,
+            "reasoning_output_tokens": 0
+          },
+          "observableRetries": null,
+          "harnessRetries": 0
+        },
+        {
+          "kind": "cleanup",
+          "contentRemoved": true,
+          "removedEntryCount": 13,
+          "remainingEntryCount": 1,
+          "credentialRetained": true
+        },
+        {
+          "kind": "scenario",
+          "id": "after-correction",
+          "passed": true,
+          "outcome": "found",
+          "elapsedMs": 7598,
+          "wallClockDriftMs": 1,
+          "invocations": 3,
+          "model": "gpt-6.1-sol",
+          "usage": {
+            "input_tokens": 6578,
+            "cached_input_tokens": 0,
+            "output_tokens": 41,
+            "reasoning_output_tokens": 0
+          },
+          "observableRetries": null,
+          "harnessRetries": 0
+        },
+        {
+          "kind": "cleanup",
+          "contentRemoved": true,
+          "removedEntryCount": 15,
+          "remainingEntryCount": 1,
+          "credentialRetained": true
+        },
+        {
+          "kind": "scenario",
+          "id": "after-forget",
+          "passed": true,
+          "outcome": "not_found",
+          "elapsedMs": 7083,
+          "wallClockDriftMs": -15,
+          "invocations": 4,
+          "model": "gpt-6.1-sol",
+          "usage": {
+            "input_tokens": 6557,
+            "cached_input_tokens": 0,
+            "output_tokens": 20,
+            "reasoning_output_tokens": 0
+          },
+          "observableRetries": null,
+          "harnessRetries": 0
+        },
+        {
+          "kind": "cleanup",
+          "contentRemoved": true,
+          "removedEntryCount": 5,
+          "remainingEntryCount": 1,
+          "credentialRetained": true
+        },
+        {
+          "kind": "scenario",
+          "id": "cancel",
+          "passed": true,
+          "outcome": "cancelled",
+          "elapsedMs": 607,
+          "wallClockDriftMs": 0,
+          "invocations": 5,
+          "model": "gpt-6.1-sol",
+          "usage": null,
+          "observableRetries": null,
+          "harnessRetries": 0
+        },
+        {
+          "kind": "cleanup",
+          "contentRemoved": true,
+          "removedEntryCount": 15,
+          "remainingEntryCount": 1,
+          "credentialRetained": true
+        },
+        {
+          "kind": "scenario",
+          "id": "after-cancel",
+          "passed": true,
+          "outcome": "found",
+          "elapsedMs": 7894,
+          "wallClockDriftMs": 598618,
+          "invocations": 6,
+          "model": "gpt-6.1-sol",
+          "usage": {
+            "input_tokens": 6578,
+            "cached_input_tokens": 0,
+            "output_tokens": 41,
+            "reasoning_output_tokens": 0
+          },
+          "observableRetries": null,
+          "harnessRetries": 0
+        },
+        {
+          "kind": "live-summary",
+          "invocationLimit": 6,
+          "invocations": 6,
+          "peakBytes": 84967424,
+          "model": "gpt-6.1-sol"
+        },
+        {
+          "kind": "cleanup",
+          "contentRemoved": true,
+          "removedEntryCount": 0,
+          "remainingEntryCount": 1,
+          "credentialRetained": true
+        }
+      ]
+    }
+  ],
+  "continuationCommand": "NOOLA_SPIKE_MAX_INVOCATIONS=6 NOOLA_SPIKE_CASES=unanswerable,injection,after-correction,after-forget,cancel,after-cancel pnpm phase0:codex:live -- --principal adult-a",
+  "disconnect": {
+    "recordedAt": "2026-10-04T11:16:43.341Z",
+    "command": "disconnect",
+    "principal": "adult-a",
+    "baseCommit": "3e33a6e785a5ea9c9e9e86242781833cc27b28e2",
+    "workingTreeDirty": true,
+    "imageId": "sha256:e28661a69dc8fe97a92734febebe08a59a56a435d7ed5c0ca279b04f9044294c",
+    "exitCode": 0,
+    "evidence": [
+      {
+        "kind": "cleanup",
+        "contentRemoved": true,
+        "removedEntryCount": 1,
+        "remainingEntryCount": 0,
+        "credentialRetained": false
+      },
+      {
+        "kind": "cleanup",
+        "contentRemoved": true,
+        "removedEntryCount": 0,
+        "remainingEntryCount": 0,
+        "credentialRetained": false
+      }
+    ]
+  },
+  "disconnectedAdmissionCheck": {
+    "recordedAt": "2026-10-04T11:17:20.261Z",
+    "command": "live",
+    "principal": "adult-a",
+    "baseCommit": "3e33a6e785a5ea9c9e9e86242781833cc27b28e2",
+    "workingTreeDirty": true,
+    "imageId": "sha256:08053c793e8f96725a1e694fe1ff1bbae8e79a1eeb5a852da22e9703fe415dee",
+    "exitCode": 2,
+    "evidence": [
+      {
+        "kind": "preflight",
+        "checks": [
+          {
+            "id": "outer-container-restrictions",
+            "passed": true
+          },
+          {
+            "id": "pinned-cli",
+            "passed": true
+          },
+          {
+            "id": "effective-disabled-features",
+            "passed": true
+          },
+          {
+            "id": "sandbox-positive-control",
+            "passed": true
+          },
+          {
+            "id": "network-positive-control",
+            "passed": true
+          },
+          {
+            "id": "credential-read-denied",
+            "passed": true
+          },
+          {
+            "id": "proc-credential-bypass-denied",
+            "passed": true
+          },
+          {
+            "id": "work-write-denied",
+            "passed": true
+          },
+          {
+            "id": "tool-network-denied",
+            "passed": true
+          },
+          {
+            "id": "model-tool-catalog-empty",
+            "passed": true
+          },
+          {
+            "id": "forged-tool-calls-rejected",
+            "passed": true
+          },
+          {
+            "id": "preflight-cleanup",
+            "passed": true
+          }
+        ]
+      },
+      {
+        "kind": "live",
+        "status": "pending",
+        "reason": "fresh_login_required",
+        "invocations": 0
+      },
+      {
+        "kind": "cleanup",
+        "contentRemoved": true,
+        "removedEntryCount": 0,
+        "remainingEntryCount": 0,
+        "credentialRetained": false
+      }
+    ]
+  },
+  "metrics": {
+    "acceptedNonCancellationSamples": 8,
+    "coldEnglishElapsedMs": 8916,
+    "successfulElapsedMs": {
+      "min": 7083,
+      "median": 8846.0,
+      "max": 11236
+    },
+    "peakCgroupMemoryBytes": 84967424,
+    "reportedInputTokens": 59216,
+    "reportedCachedInputTokens": 4992,
+    "reportedOutputTokens": 313,
+    "cancelledUsage": null,
+    "hiddenNativeRetries": null,
+    "monetaryCost": null,
+    "remainingRunningSpikeContainers": 0,
+    "persistentStateEntries": {
+      "adult-a": 0,
+      "adult-b": 0
+    }
+  },
+  "checks": {
+    "offlineTests": {
+      "status": "passed",
+      "count": 44
+    },
+    "workspace": "passed",
+    "documentation": "passed",
+    "appLiveAndReady": "passed",
+    "realCredentialRemoval": "passed"
+  },
+  "fixes": [
+    "Native CA bundle supplied from pinned Node Mozilla roots through CODEX_CA_CERTIFICATE; TLS verification retained.",
+    "Wall deadline converted once at admission to a monotonic maximum 90-second budget. Live continuation measured wall-clock drift near plus/minus 599 seconds.",
+    "Explicit selected scenarios and reduced invocation limit permit reviewed continuation without replaying successful cases; no automatic harness retry.",
+    "Cleanup records top-level state entry counts without retaining artifact names or content."
+  ],
+  "limitations": [
+    "Early 100 ms cancellation terminated the native child; provider dispatch, mid-stream cancellation and provider-side deletion are not established.",
+    "Plan name, quota capacity, hidden retries and monetary cost were not independently verified.",
+    "Small synthetic sample does not pass product latency/household acceptance.",
+    "Second account, hosted eligibility/isolation, production privacy, recovery and budget gates remain pending.",
+    "Kernel syscall exceptions and OS wall-clock instability require target-host review.",
+    "Local disconnect removes the experiment auth file; it does not claim global session revocation."
+  ],
+  "sourceSha256": {
+    "apps/api/experiments/phase0/codex-sdk/command.ts": "bb3548310f5ae265105104a0f07836dff58c913d7bd183edecab3bc7f9635c43",
+    "apps/api/experiments/phase0/codex-sdk/container.ts": "ee60f0d9c369a5b03a928fd5beea9999d4cb623a4a23d2e8e6be8177de3216ca",
+    "apps/api/experiments/phase0/codex-sdk/containment-config.test.ts": "bf7b0cb2d1c7573025513316d213b1eaad5a40175bd7c1ce877ae756c555fb62",
+    "apps/api/experiments/phase0/codex-sdk/evidence.test.ts": "c451b159f3f9eb3da78853bd22724a68501f67b9dc2e332ee548c971e57ea096",
+    "apps/api/experiments/phase0/codex-sdk/evidence.ts": "0b8376cbd20f9c6e6d632ef6dd355cf05e747b506d9380f8bf8d2dd6dd51cd4b",
+    "apps/api/experiments/phase0/codex-sdk/harness.test.ts": "d754a3eac9649518badc6b087a97bc31e91514738f9c517f6fa7863e6f53513d",
+    "apps/api/experiments/phase0/codex-sdk/harness.ts": "8aebd3987b0f6444e1d51da2b1d1f39ef0f945292be13c2695d65541fe23e16d",
+    "apps/api/experiments/phase0/codex-sdk/runtime.test.ts": "11817c2a385b7b0a186c263c13e019b0a0a1203af3d66c25a5a5b05dcf9e2eef",
+    "apps/api/experiments/phase0/codex-sdk/runtime.ts": "dfe2ee27617c7027b6f52d8603c059171e1811f72b6bd7592cf14bb46403547e",
+    "apps/api/experiments/phase0/codex-sdk/tool-probe.test.ts": "2fdc7bf61b0667ee32bac65fe80bd48d0d2622febc182045f21ae0c371a7179e",
+    "apps/api/experiments/phase0/codex-sdk/tool-probe.ts": "8f6bcaca53621ef10d48c116a6672bc844f1d56f64844d8c22838266ed2efaf2",
+    "infra/docker/codex-spike/Dockerfile": "810f80b9561fe5f1a8268b5186a4c1c3089936f2838d1257deac90bfeb22d10c",
+    "infra/docker/codex-spike/NOTICE.txt": "49380416d53048f7311fdcf27dda9c388141a7dcc69305d3a7e7360bdb8f1927",
+    "infra/docker/codex-spike/UPSTREAM-LICENSE.txt": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "infra/docker/codex-spike/compose.yaml": "8712c63b8441158285d71073b0af222d2c304a08d039a2c1c01908a3cb614be7",
+    "infra/docker/codex-spike/models.json": "d786525acad1356fcb0e7005d5a0812aa2e6c3b942e8ec39a92956e4b1d50384",
+    "infra/docker/codex-spike/requirements.toml": "2538dd0bab1f0cf0a8b0380875150ffd63f037c3657b7cf6185aa64a533d25b6",
+    "infra/docker/codex-spike/seccomp.json": "d76252776448df8ea3ceea7605eb6b16d65ab366a3947b42561363493a19776a"
+  }
+}
