@@ -57,6 +57,8 @@ To stop the shared server deliberately, use `docker stop local-infra-postgres-1`
 
 Install the browser once with `pnpm exec playwright install chromium`. On minimal Linux installations, `pnpm exec playwright install-deps chromium` installs the required system libraries. CI uses disposable PostgreSQL and synthetic credentials; it never connects to the workstation database. Local integration tests create a uniquely named table in Noola and a disposable second database, then clean them up.
 
+This WSL host currently uses an existing user-cache library bundle for Playwright because system dependencies are missing. The [pre-slice review](docs/reviews/PHASE-0-READINESS.md#pre-slice-cleanup-review) records its explicit test command and limitations; fresh machines should use the standard installation above.
+
 Turborepo caches deterministic builds locally. Generation, development, tests, migrations and database operations are uncached. Remote caching is disabled. Runtime secrets are not build inputs or browser configuration. The API build is plain JavaScript; development uses `tsx`. The Vite development proxy sends `/api` to the internal API without CORS or another local proxy container.
 
 Health interfaces are `GET /api/health/live` → `200 {"status":"ok"}` and `GET /api/health/ready` → `200 {"status":"ready"}` or `503 {"status":"unavailable"}`. Responses are uncached and omit connection details. OpenAPI and client declarations are generated from browser-safe contracts, not database types.

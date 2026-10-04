@@ -25,7 +25,7 @@ This is the single inventory of technology choices and introduction points. [Tec
 | Primary data | PostgreSQL 18, `pg`, Drizzle stable `drizzle-orm` and `drizzle-kit` | Recommended, Phase 1 |
 | Identity | `better-auth` and matching `@better-auth/drizzle-adapter`; opaque DB sessions | Recommended, Phase 1; independent recovery gate |
 | Authorization | Application-owned current record policy, approval and processing checks | Required boundary; Phase 1 onward |
-| Text AI | `@openai/codex-sdk` for an isolated subscription spike; AI SDK Core `ai` for supported paid gateway/provider adapters | Owner-approved SDK spike; exact pin at implementation; access/containment/quality gates remain pending |
+| Text AI | `@openai/codex-sdk` for an isolated subscription spike; AI SDK Core `ai` for supported paid gateway/provider adapters | SDK/CLI 0.160.0 pinned for [spike](reviews/CODEX-SDK-SPIKE.md); single-account local recall/cleanup passed; second-account/hosted qualification pending |
 | Paid fallback | Configurable Vercel AI Gateway first; OpenCode Zen evaluated alternative; narrow purpose/direct adapters where required | Vercel direction retained; no gateway enabled; OpenCode Go not selected |
 | Models | Configurable candidates; discover actual connected-account availability | Evaluation choices, never assumed entitlement |
 | Retrieval | Authorized SQL, PostgreSQL full-text search and `pg_trgm` | Recommended, Phase 1 |

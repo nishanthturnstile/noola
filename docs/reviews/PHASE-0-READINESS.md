@@ -37,7 +37,7 @@ The owner supplied Nishan's hybrid IT-work and Manjula's home/child-care context
 
 ## Provider and cost research completed
 
-The [feasibility proposal](PHASE-0-FEASIBILITY.md) records official-source findings, explicit workload/currency assumptions, cost sensitivities and the remaining recovery responsibilities. The owner reconfirmed ₹3,000/month, chose to keep the source private, and asked us to assume Pro for Nishant and Plus or Go for Manjula. No Noola client registration/configuration exists. Plus/Pro eligibility must be verified; Go is not an assumed subscription-inference route. The next item is the [owner-approved Codex SDK spike](PHASE-0-FEASIBILITY.md#codex-sdk-spike) with native per-adult login. The newer private-client registration route is deferred.
+The [feasibility proposal](PHASE-0-FEASIBILITY.md) records official-source findings, explicit workload/currency assumptions, cost sensitivities and the remaining recovery responsibilities. The owner reconfirmed ₹3,000/month, chose to keep the source private, and asked us to assume Pro for Nishant and Plus or Go for Manjula. No Noola client registration/configuration exists. Each adult’s eligibility still needs independent proof; Go is not an assumed subscription-inference route. The [Codex SDK spike](CODEX-SDK-SPIKE.md) has 44 passing offline tests plus single-account native text recall, containment and cleanup evidence. The experiment was disconnected after proving real credential removal; exact plan tier, second-account and hosted qualification remain pending. The newer private-client registration route is deferred.
 
 Vercel remains the first paid gateway candidate; Zen is an evaluated alternative, while OpenCode Go is not selected for household traffic. INR checkout and the exact owner-purchased OpenCode product are unconfirmed. Modest paid text use fits the AI allocation under stated assumptions; actual host, independent journal, storage and recovery costs remain unmeasured. No account, purchase, provider call or product route was enabled by this research.
 
@@ -45,7 +45,7 @@ Vercel remains the first paid gateway candidate; Zen is an evaluated alternative
 
 - Each adult independently ranks or replaces the proposed jobs; exact phone/browser versions are collected at deployed acceptance. Missing participation must be explicitly recorded; one adult cannot consent for the other.
 - G01/G07 physical-device installation/session/accessibility and push checks are deferred to deployed acceptance by the owner. The browser-feasibility planning item is complete through the compatibility review. The seven-day notification timing observation remains required before delivery reliance, using actual devices and explicit permission.
-- G02 requires native Codex account/deployment eligibility, isolated credentials/history, tool containment and actual model/modality/quota evidence. The public documentation review is complete; no account entitlement follows from it or this coding session. The owner approved the synthetic SDK spike; live access uses an explicitly connected account, never this coding session's credentials. No paid purchase is authorized.
+- G02 requires native Codex account/deployment eligibility, isolated credentials/history, tool containment and actual model/modality/quota evidence. The public documentation review is complete; no account entitlement follows from it or this coding session. The owner completed a fresh native login for the successful synthetic SDK spike; this coding session’s credentials were not reused. Single-account local access is observed, while second-account, hosted and production evidence remain pending. No paid purchase is authorized.
 - G09 needs a priced workload and host/storage/recovery arrangement within the INR 3,000 monthly ceiling, separate subscription/variable accounting, and all-route pause evidence once routes exist. Local idle RAM is only one input.
 - G04 independent recovery/email delivery, invitation lifecycle, device locks and private browser-state clearing remain Phase 1 work before real use.
 - G06 independent journal custody, keys, alternate operator, encrypted off-host backups, lost-primary/crash ordering and all derivative cleanup remain required before retained real data.
@@ -100,14 +100,42 @@ This resolves the application adoption blocker, not the upstream declarations th
 
 1. **Persistence decision completed:** retain Drizzle with the approved backend exception; keep query regression checks and upstream diagnostics. Revisit on dependency upgrades.
 2. **Browser feasibility completed for local development:** use Chromium/Safari compatibility assumptions and laptop tests. Collect exact versions and run focused physical-device checks at deployed acceptance; do not create a separate device-test surface now. Each adult's jobs remain independently supplied.
-3. **Public feasibility research completed:** review the [scenario/provider/cost proposal](PHASE-0-FEASIBILITY.md). Implement the [Codex SDK spike](PHASE-0-FEASIBILITY.md#codex-sdk-spike), starting with an offline harness, then native login and bounded synthetic live requests. Qualify a paid route only when needed and funded. Replace existing-host and recovery assumptions with actual costs and an alternate operator. Keep tests synthetic until real-data consent and applicable controls exist.
+3. **Public feasibility research completed:** review the [scenario/provider/cost proposal](PHASE-0-FEASIBILITY.md). The [Codex SDK live spike](CODEX-SDK-SPIKE.md) now passes single-account local recall/cleanup with ten SDK invocations including one discarded attempt. Keep the harness for second-account/hosted qualification; the real experiment login was removed after testing disconnect. Qualify a paid route only when needed and funded. Replace existing-host and recovery assumptions with actual costs and an alternate operator. Keep tests synthetic until real-data consent and applicable controls exist.
 4. **Phase 0 review:** reconcile collected results and remaining phase-timed evidence against the Phase 0 criteria and gate register. Then scope the Phase 1 private-text vertical slice: verified invitation → sign-in → manual save → authorized evidence → correction → forget, including recovery and private browser-state clearing before real data. Shared shopping lists follow within Phase 1.
 
 
 ## Validation and review record
+
+The following original validation record predates the later Codex spike. The current pre-slice checks are recorded below.
 
 Executed for this change: frozen installation; full `pnpm check` (generation/drift, Biome, strict application types, import/cycle boundaries, five unit tests, independent builds and documentation); Phase 0 runtime on the host and through Docker; repeated fixture generation (no schema change); normal PostgreSQL integration; four Playwright/axe cases against Docker. Application checking now passes under the approved exception; the separate full-declaration diagnostic still fails. GitHub Actions is configured but has not been observed remotely.
 
 Review checked that production cannot import experiments (a temporary negative import was rejected), auth routes remain absent from the running API (`/api/auth/get-session` returns 404), readiness returns 200, administrator credentials remain confined to tooling, record predicates bind the authenticated user on each operation, and recovery validates the journal before changing restored rows. A malformed JSON request was corrected to return 400 and is covered. Test fixtures were inspected after cleanup: zero Phase 0 databases, zero Phase 0 roles, zero public tables in `noola`.
 
 After Docker/browser/integration validation, an idle-CPU `docker stats --no-stream` snapshot measured PostgreSQL **44.75 MiB / 1 GiB**, API **103.1 MiB**, and Vite web **696.6 MiB** (about **844.5 MiB combined**, excluding Docker/WSL overhead). This warm development snapshot is higher than the earlier bootstrap observation and is not a production sizing or monthly-cost estimate. No persistent extra database/server or worker was introduced.
+
+## Pre-slice cleanup review
+
+Observed 4 October 2026 on `codex/phase0-codex-sdk-spike`, reviewing implementation commit `9845eb9`. Cleanup removed eleven redundant ignored spike result files under the command lock, abandoned temporary Kysely/Drizzle RC/contract prototypes, extracted upstream source and obsolete probe scripts/logs. Durable committed spike snapshots, historical comparison patches and both executable experiments remain useful regression and qualification evidence. No application source, dependency, shared PostgreSQL data or unrelated Docker resource was removed. The reusable spike image, empty principal volumes and network remain; no spike container is running or stopped. The prior native disconnect evidence remains unchanged, and no new provider call was made.
+
+| Check | Current observation |
+|---|---|
+| `pnpm check` | Passed generation/drift, Biome, strict application types, dependency/cycle boundaries, unit tests, independent builds and documentation checks |
+| Spike runtime TypeScript configuration | Passed separate `tsc --noEmit` check |
+| Dependency graph | 60 modules; zero unresolved imports, errors or warnings |
+| `pnpm phase0:declarations` | Still fails with the same 73 upstream declaration errors under the documented compiler-policy exception; no new application TypeScript error |
+| Playwright/axe against Docker | Four tests passed: desktop Chromium and Chromium mobile emulation, accessible themes, proxy connectivity and unavailable/retry UI |
+| Running application | Proxy liveness returns `{"status":"ok"}` and readiness returns `{"status":"ready"}` |
+| Documentation and diff | Documentation checker and `git diff --check` passed after the record update |
+
+The first browser attempt failed before launch because this WSL host lacks `libnspr4.so`. Passwordless system installation is unavailable. The existing fallback library bundle was moved from `/tmp/noola-browser-libs` into `/home/dev/.cache/noola/playwright-libs-ubuntu24.04-amd64` to avoid depending on temporary files. The successful command on this host was:
+
+```sh
+PLAYWRIGHT_BASE_URL=http://localhost:5173 \
+LD_LIBRARY_PATH="$HOME/.cache/noola/playwright-libs-ubuntu24.04-amd64/usr/lib/x86_64-linux-gnu${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}" \
+pnpm test:e2e
+```
+
+This is a local fallback using an already-present bundle, not fresh-checkout provisioning. Other machines should use the standard Playwright browser/system dependency installation in the README. Plain `pnpm test:e2e` on this host still needs those system libraries or the explicit environment above. These checks do not establish Safari or physical-device acceptance; their owner-approved deployment timing remains unchanged.
+
+**Ready to scope and begin the private-text slice with synthetic data.** Start with a bounded implementation plan for verified invitation/sign-in, manual private capture, authorized retrieval, correction and forget, including negative isolation tests. Keep AI optional and promote only reviewed behavior from the experiments. Production invitation/recovery delivery, private browser-state clearing and independently durable deletion/recovery must be implemented and verified before retained real household data. Second-account/hosted AI qualification, production privacy, actual operating costs and each adult's independent acceptance retain their existing gate timing. The spike's observed host clock instability also remains an environment issue: monotonic request budgets are fixed, but clock synchronization and timestamp-dependent authentication/retention need verification before real use. This review does not close every Phase 0 gate or enable production AI.

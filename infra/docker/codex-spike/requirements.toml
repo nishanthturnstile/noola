@@ -1,0 +1,7 @@
+# Immutable container policy; user configuration cannot opt these tools back in.
+model_catalog_json = "/etc/codex/models.json"
+allowed_approval_policies = ["never"]
+allowed_web_search_modes = ["disabled"]
+[features]
+unified_exec = false
+shell_tool = false

@@ -22,7 +22,7 @@
     "typecheck": "turbo run typecheck && tsc -p tsconfig.tools.json && pnpm phase0:typecheck",
     "lint": "biome check .",
     "format": "biome check --write .",
-    "check:boundaries": "depcruise apps/api/src apps/web/src packages/contracts/src packages/api-client/src --config .dependency-cruiser.cjs",
+    "check:boundaries": "depcruise apps/api/src apps/api/experiments apps/web/src packages/contracts/src packages/api-client/src --config .dependency-cruiser.cjs",
     "test": "turbo run test",
     "test:integration": "node scripts/local.mjs integration",
     "test:e2e": "playwright test",
@@ -30,7 +30,13 @@
     "phase0:runtime": "node scripts/local.mjs phase0",
     "phase0:typecheck": "pnpm --filter @noola/api phase0:typecheck",
     "phase0:check": "pnpm phase0:typecheck && pnpm phase0:runtime",
-    "phase0:declarations": "pnpm --filter @noola/api phase0:declarations"
+    "phase0:declarations": "pnpm --filter @noola/api phase0:declarations",
+    "phase0:codex:test": "pnpm --filter @noola/api exec vitest run experiments/phase0/codex-sdk",
+    "phase0:codex:preflight": "tsx apps/api/experiments/phase0/codex-sdk/command.ts preflight",
+    "phase0:codex:login": "tsx apps/api/experiments/phase0/codex-sdk/command.ts login",
+    "phase0:codex:live": "tsx apps/api/experiments/phase0/codex-sdk/command.ts live",
+    "phase0:codex:cleanup": "tsx apps/api/experiments/phase0/codex-sdk/command.ts cleanup",
+    "phase0:codex:disconnect": "tsx apps/api/experiments/phase0/codex-sdk/command.ts disconnect"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.15",

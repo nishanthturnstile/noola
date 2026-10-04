@@ -7,3 +7,5 @@
 !**/.env.example
 playwright-report
 test-results
+
+.codex-spike
