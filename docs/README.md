@@ -1,0 +1,47 @@
+# Documentation guide
+
+Start here. The product baseline and roadmap sequence are established; the complete architecture is still Draft and implementation evidence is pending. This documentation-only workspace has no application manifest, committed Git history or deployed service. Consolidated 3 October 2026.
+
+## Reading order
+
+1. [Product plan](PRODUCT-PLAN.md): users, problem, release scope and success.
+2. [Roadmap](ROADMAP.md): accepted delivery order and milestone gates.
+3. [Architecture](ARCHITECTURE.md): system boundaries, module ownership and invariants.
+4. [Technology stack](TECH-STACK.md): the single selection inventory and introduction triggers.
+
+Before implementing a feature, find its ID in [requirements](reference/REQUIREMENTS.md#capability-catalog), then use [traceability](reference/TRACEABILITY.md#requirement-matrix) to locate its phase, responsible modules and validation family. Read its applicable rules, acceptance cases, technical contracts, ADRs and outstanding gates. A summary does not replace a referenced requirement or exception.
+
+## Document ownership
+
+| Question | Canonical reference |
+|---|---|
+| What must the product do? | [Requirements and FR contracts](reference/REQUIREMENTS.md) |
+| What rights, lifecycle, limits and failures apply? | [Product rules and glossary](reference/PRODUCT-RULES.md) |
+| How do we prove behavior and household value? | [Journeys, quality targets and acceptance](reference/ACCEPTANCE.md) |
+| Where does each requirement belong? | [Traceability and migration map](reference/TRACEABILITY.md) |
+| How do modules, actions, AI, jobs and integrations work? | [Application design](reference/APPLICATION-DESIGN.md) |
+| How are authority, privacy, data and recovery enforced? | [Data and security](reference/DATA-AND-SECURITY.md) |
+| How will deployment and operation work? | [Planned operations](reference/OPERATIONS.md) |
+| What external research needs revalidation? | [Technology evidence](reference/TECHNOLOGY-EVIDENCE.md) |
+| Which decisions or proofs are outstanding? | [Decision and gate register](reference/DECISIONS-AND-GATES.md) |
+| Why was a significant technical choice made? | [ADR index](adr/README.md#decision-index) |
+
+Product requirements and rules own behavior. Roadmap owns order. Architecture owns technical structure; stack owns named selections. ADRs own rationale. Acceptance owns measurable criteria; the gate register owns evidence status. Technical documents cannot silently weaken a product contract or introduce scope. Phase summaries and cross-reference tables are navigation, not alternative definitions.
+
+## Status and authority
+
+**Confirmed** means a requirement or product decision is established, not implemented. **Proposed** means a recommendation awaiting acceptance. **Accepted** in an ADR refers only to explicitly supported approval of its stated scope. **Needs Decision** marks a genuinely unresolved choice. **Deferred/Future** means outside enabled scope, with Expansion or Conditional classification preserved. **Superseded** decisions link their replacement.
+
+Validation is independent: **Pending**, **Passed**, **Failed** or **Not enabled**, with an evidence link for observed results. A technology selection, document review or checkmark cannot substitute for runtime/device/household proof. Nishanth approves architecture and spending within the product rules; each adult separately supplies their own consent and settings.
+
+[ISSUE-01 and ISSUE-02](reference/DECISIONS-AND-GATES.md#open-policy-questions) retain unresolved budget-exhaustion and nonproduction no-training interpretations. Dependent implementation must wait for an explicit resolution. The unavailable D01–D29 decision history is recorded as [missing provenance](reference/DECISIONS-AND-GATES.md#missing-history), not reconstructed.
+
+## Maintaining the documents
+
+Edit the authoritative definition first, then update affected links, mappings, ADR status and acceptance/gates. Keep the four cores near 1,000–2,000 words each. Extract unique detailed contracts into the existing topic references; remove copied policy tables, parallel decision registers and repeated inventories. Prefer a short linked summary over another definition.
+
+Keep catalog, FR, BR, QLT, F, T, X, V and DAR identifiers stable. Use named anchors, not section numbers that change during edits. Preserve every numerical constraint, exception and current/future classification unless an explicitly approved product amendment changes it. A new ADR is appropriate for an architectural choice with meaningful consequences; product-policy decisions remain with product rules. Do not create placeholder documents for every future capability.
+
+Implementation specifications and executable operating runbooks are prepared when their phase needs them. Existing operating text is a planned contract until exercised. External research snapshots require adoption-time revalidation, and recovered historical decisions require reconciliation with the current authority before import.
+
+Run `python3 scripts/check_docs.py` from the repository root after documentation edits. It checks local links/anchors, table structure, inventories, classification, traceability, core size, decision records, policy/scenario fingerprints and stale references. An intentionally approved requirement change must update the affected definitions, mappings, acceptance criteria and baseline fingerprints together; do not update a hash merely to hide an unexplained failure. The migration baseline is preserved outside this tree in `../noola-docs-baseline-2026-10-03/` with checksums; [the disposition map](reference/TRACEABILITY.md#migration-map) accounts for every original numbered section. Runtime lint, type-check, tests and production builds become applicable when an application exists.
