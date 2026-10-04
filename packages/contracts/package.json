@@ -13,6 +13,11 @@
       "types": "./dist/routes.d.ts",
       "development": "./src/routes.ts",
       "default": "./dist/routes.js"
+    },
+    "./identity": {
+      "types": "./dist/identity.d.ts",
+      "development": "./src/identity.ts",
+      "default": "./dist/identity.js"
     }
   },
   "scripts": {

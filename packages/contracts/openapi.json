@@ -88,6 +88,4546 @@
           }
         }
       }
+    },
+    "/api/v1/enrollment/join": {
+      "post": {
+        "operationId": "join",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "requestId": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "token": {
+                    "type": "string",
+                    "minLength": 32,
+                    "maxLength": 200
+                  }
+                },
+                "required": [
+                  "requestId",
+                  "token"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Current authority or committed outcome",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "committed",
+                        "pending",
+                        "verification-required",
+                        "joined",
+                        "resolved",
+                        "unresolved",
+                        "clarification"
+                      ]
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "emailStatus": {
+                      "type": "string",
+                      "enum": [
+                        "queued",
+                        "transport-accepted",
+                        "failed",
+                        "outcome-unknown"
+                      ]
+                    },
+                    "candidates": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string",
+                            "enum": [
+                              "adult",
+                              "dependent",
+                              "person"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "type"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "status"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Sign-in required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Operation forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "423": {
+            "description": "Session locked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/enrollment": {
+      "post": {
+        "operationId": "enrollment",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "requestId": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "token": {
+                    "type": "string",
+                    "minLength": 32,
+                    "maxLength": 200
+                  },
+                  "email": {
+                    "type": "string",
+                    "maxLength": 254,
+                    "format": "email"
+                  },
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80
+                  },
+                  "password": {
+                    "type": "string",
+                    "minLength": 12,
+                    "maxLength": 128
+                  }
+                },
+                "required": [
+                  "requestId",
+                  "token",
+                  "email",
+                  "name",
+                  "password"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Current authority or committed outcome",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "committed",
+                        "pending",
+                        "verification-required",
+                        "joined",
+                        "resolved",
+                        "unresolved",
+                        "clarification"
+                      ]
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "emailStatus": {
+                      "type": "string",
+                      "enum": [
+                        "queued",
+                        "transport-accepted",
+                        "failed",
+                        "outcome-unknown"
+                      ]
+                    },
+                    "candidates": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string",
+                            "enum": [
+                              "adult",
+                              "dependent",
+                              "person"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "type"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "status"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Sign-in required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Operation forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "423": {
+            "description": "Session locked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/me": {
+      "get": {
+        "operationId": "me",
+        "responses": {
+          "200": {
+            "description": "Current authority or committed outcome",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 100
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "role": {
+                      "type": "string",
+                      "enum": [
+                        "owner",
+                        "adult"
+                      ]
+                    },
+                    "membershipId": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 100
+                    },
+                    "settings": {
+                      "type": "object",
+                      "properties": {
+                        "revision": {
+                          "type": "number"
+                        },
+                        "values": {
+                          "type": "object",
+                          "properties": {
+                            "language": {
+                              "type": "string",
+                              "enum": [
+                                "English",
+                                "Tamil",
+                                "Tamil and English"
+                              ]
+                            },
+                            "tone": {
+                              "type": "string",
+                              "enum": [
+                                "concise",
+                                "detailed"
+                              ]
+                            },
+                            "units": {
+                              "type": "string",
+                              "enum": [
+                                "metric",
+                                "imperial"
+                              ]
+                            },
+                            "currency": {
+                              "type": "string",
+                              "enum": [
+                                "INR",
+                                "USD",
+                                "EUR"
+                              ]
+                            },
+                            "dateFormat": {
+                              "type": "string",
+                              "enum": [
+                                "DD MMM YYYY",
+                                "YYYY-MM-DD"
+                              ]
+                            },
+                            "timeZone": {
+                              "type": "string",
+                              "enum": [
+                                "Asia/Kolkata",
+                                "UTC",
+                                "Europe/London",
+                                "America/New_York"
+                              ]
+                            },
+                            "retention": {
+                              "type": "string",
+                              "enum": [
+                                "temporary",
+                                "30-days",
+                                "180-days",
+                                "until-deleted"
+                              ]
+                            },
+                            "notifications": {
+                              "type": "boolean"
+                            },
+                            "quietHours": {
+                              "type": "boolean"
+                            },
+                            "disclosureRevision": {
+                              "type": "string"
+                            },
+                            "completed": {
+                              "type": "boolean"
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "revision",
+                        "values"
+                      ]
+                    },
+                    "device": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 100
+                        },
+                        "mode": {
+                          "type": "string",
+                          "enum": [
+                            "shared",
+                            "personal"
+                          ]
+                        },
+                        "label": {
+                          "type": "string"
+                        },
+                        "current": {
+                          "type": "boolean"
+                        },
+                        "lastActivity": {
+                          "type": "string"
+                        },
+                        "locked": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "mode",
+                        "label",
+                        "current",
+                        "lastActivity",
+                        "locked"
+                      ]
+                    },
+                    "disclosure": {
+                      "type": "object",
+                      "properties": {
+                        "revision": {
+                          "type": "string"
+                        },
+                        "text": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "revision",
+                        "text"
+                      ]
+                    },
+                    "ai": {
+                      "type": "string",
+                      "enum": [
+                        "unavailable"
+                      ]
+                    },
+                    "push": {
+                      "type": "string",
+                      "enum": [
+                        "off"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "name",
+                    "email",
+                    "role",
+                    "membershipId",
+                    "settings",
+                    "device",
+                    "disclosure",
+                    "ai",
+                    "push"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Sign-in required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Operation forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "423": {
+            "description": "Session locked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/me/settings": {
+      "post": {
+        "operationId": "settings",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "expectedRevision": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "exclusiveMinimum": true
+                  },
+                  "step": {
+                    "type": "string",
+                    "enum": [
+                      "identity",
+                      "presentation",
+                      "disclosure",
+                      "preferences"
+                    ]
+                  },
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80
+                  },
+                  "preferences": {
+                    "type": "object",
+                    "properties": {
+                      "language": {
+                        "type": "string",
+                        "enum": [
+                          "English",
+                          "Tamil",
+                          "Tamil and English"
+                        ]
+                      },
+                      "tone": {
+                        "type": "string",
+                        "enum": [
+                          "concise",
+                          "detailed"
+                        ]
+                      },
+                      "units": {
+                        "type": "string",
+                        "enum": [
+                          "metric",
+                          "imperial"
+                        ]
+                      },
+                      "currency": {
+                        "type": "string",
+                        "enum": [
+                          "INR",
+                          "USD",
+                          "EUR"
+                        ]
+                      },
+                      "dateFormat": {
+                        "type": "string",
+                        "enum": [
+                          "DD MMM YYYY",
+                          "YYYY-MM-DD"
+                        ]
+                      },
+                      "timeZone": {
+                        "type": "string",
+                        "enum": [
+                          "Asia/Kolkata",
+                          "UTC",
+                          "Europe/London",
+                          "America/New_York"
+                        ]
+                      },
+                      "retention": {
+                        "type": "string",
+                        "enum": [
+                          "temporary",
+                          "30-days",
+                          "180-days",
+                          "until-deleted"
+                        ]
+                      },
+                      "notifications": {
+                        "type": "boolean"
+                      },
+                      "quietHours": {
+                        "type": "boolean"
+                      }
+                    }
+                  },
+                  "acceptDisclosure": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "expectedRevision",
+                  "step",
+                  "preferences"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Current authority or committed outcome",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "committed",
+                        "pending",
+                        "verification-required",
+                        "joined",
+                        "resolved",
+                        "unresolved",
+                        "clarification"
+                      ]
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "emailStatus": {
+                      "type": "string",
+                      "enum": [
+                        "queued",
+                        "transport-accepted",
+                        "failed",
+                        "outcome-unknown"
+                      ]
+                    },
+                    "candidates": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string",
+                            "enum": [
+                              "adult",
+                              "dependent",
+                              "person"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "type"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "status"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Sign-in required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Operation forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "423": {
+            "description": "Session locked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/household": {
+      "get": {
+        "operationId": "household",
+        "responses": {
+          "200": {
+            "description": "Current authority or committed outcome",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "revision": {
+                      "type": "number"
+                    },
+                    "sharedUse": {
+                      "type": "boolean"
+                    },
+                    "members": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 100
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "role": {
+                            "type": "string",
+                            "enum": [
+                              "owner",
+                              "adult"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "role"
+                        ]
+                      }
+                    },
+                    "invitations": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 100
+                          },
+                          "email": {
+                            "type": "string",
+                            "format": "email"
+                          },
+                          "state": {
+                            "type": "string",
+                            "enum": [
+                              "pending",
+                              "verification",
+                              "expired"
+                            ]
+                          },
+                          "expiresAt": {
+                            "type": "string"
+                          },
+                          "emailStatus": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "email",
+                          "state",
+                          "expiresAt",
+                          "emailStatus"
+                        ]
+                      }
+                    },
+                    "agreements": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 100
+                          },
+                          "revision": {
+                            "type": "number"
+                          },
+                          "text": {
+                            "type": "string"
+                          },
+                          "state": {
+                            "type": "string",
+                            "enum": [
+                              "pending",
+                              "accepted",
+                              "declined",
+                              "expired",
+                              "canceled"
+                            ]
+                          },
+                          "expiresAt": {
+                            "type": "string"
+                          },
+                          "canCancel": {
+                            "type": "boolean"
+                          },
+                          "decisions": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "userId": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 100
+                                },
+                                "decision": {
+                                  "type": "string",
+                                  "enum": [
+                                    "accepted",
+                                    "declined"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "userId",
+                                "decision"
+                              ]
+                            }
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "revision",
+                          "text",
+                          "state",
+                          "expiresAt",
+                          "canCancel",
+                          "decisions"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "revision",
+                    "sharedUse",
+                    "members",
+                    "invitations",
+                    "agreements"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Sign-in required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Operation forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "423": {
+            "description": "Session locked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "householdCommand",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "type": "string",
+                        "enum": [
+                          "invite"
+                        ]
+                      },
+                      "requestId": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "email": {
+                        "type": "string",
+                        "maxLength": 254,
+                        "format": "email"
+                      }
+                    },
+                    "required": [
+                      "action",
+                      "requestId",
+                      "email"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "type": "string",
+                        "enum": [
+                          "resend"
+                        ]
+                      },
+                      "requestId": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "invitationId": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      }
+                    },
+                    "required": [
+                      "action",
+                      "requestId",
+                      "invitationId"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "type": "string",
+                        "enum": [
+                          "cancel"
+                        ]
+                      },
+                      "requestId": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "invitationId": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      }
+                    },
+                    "required": [
+                      "action",
+                      "requestId",
+                      "invitationId"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "type": "string",
+                        "enum": [
+                          "join"
+                        ]
+                      },
+                      "requestId": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "token": {
+                        "type": "string",
+                        "minLength": 32,
+                        "maxLength": 200
+                      }
+                    },
+                    "required": [
+                      "action",
+                      "requestId",
+                      "token"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "type": "string",
+                        "enum": [
+                          "propose-rules"
+                        ]
+                      },
+                      "requestId": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "expectedRevision": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "exclusiveMinimum": true
+                      },
+                      "text": {
+                        "type": "string",
+                        "minLength": 10,
+                        "maxLength": 4000
+                      }
+                    },
+                    "required": [
+                      "action",
+                      "requestId",
+                      "expectedRevision",
+                      "text"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "type": "string",
+                        "enum": [
+                          "accept-rules",
+                          "decline-rules",
+                          "cancel-rules"
+                        ]
+                      },
+                      "requestId": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "agreementId": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      },
+                      "revision": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "exclusiveMinimum": true
+                      }
+                    },
+                    "required": [
+                      "action",
+                      "requestId",
+                      "agreementId",
+                      "revision"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Current authority or committed outcome",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "committed",
+                        "pending",
+                        "verification-required",
+                        "joined",
+                        "resolved",
+                        "unresolved",
+                        "clarification"
+                      ]
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "emailStatus": {
+                      "type": "string",
+                      "enum": [
+                        "queued",
+                        "transport-accepted",
+                        "failed",
+                        "outcome-unknown"
+                      ]
+                    },
+                    "candidates": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string",
+                            "enum": [
+                              "adult",
+                              "dependent",
+                              "person"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "type"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "status"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Sign-in required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Operation forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "423": {
+            "description": "Session locked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/devices": {
+      "get": {
+        "operationId": "devices",
+        "responses": {
+          "200": {
+            "description": "Current authority or committed outcome",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      },
+                      "mode": {
+                        "type": "string",
+                        "enum": [
+                          "shared",
+                          "personal"
+                        ]
+                      },
+                      "label": {
+                        "type": "string"
+                      },
+                      "current": {
+                        "type": "boolean"
+                      },
+                      "lastActivity": {
+                        "type": "string"
+                      },
+                      "locked": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "mode",
+                      "label",
+                      "current",
+                      "lastActivity",
+                      "locked"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Sign-in required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Operation forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "423": {
+            "description": "Session locked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "deviceCommand",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "type": "string",
+                        "enum": [
+                          "background"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "action"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "type": "string",
+                        "enum": [
+                          "update"
+                        ]
+                      },
+                      "deviceId": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      },
+                      "mode": {
+                        "type": "string",
+                        "enum": [
+                          "shared",
+                          "personal"
+                        ]
+                      },
+                      "label": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 80
+                      }
+                    },
+                    "required": [
+                      "action",
+                      "deviceId",
+                      "mode",
+                      "label"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "type": "string",
+                        "enum": [
+                          "revoke",
+                          "revoke-others"
+                        ]
+                      },
+                      "requestId": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "deviceId": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      }
+                    },
+                    "required": [
+                      "action",
+                      "requestId"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "type": "string",
+                        "enum": [
+                          "activity",
+                          "lock"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "action"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Current authority or committed outcome",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "committed",
+                        "pending",
+                        "verification-required",
+                        "joined",
+                        "resolved",
+                        "unresolved",
+                        "clarification"
+                      ]
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "emailStatus": {
+                      "type": "string",
+                      "enum": [
+                        "queued",
+                        "transport-accepted",
+                        "failed",
+                        "outcome-unknown"
+                      ]
+                    },
+                    "candidates": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string",
+                            "enum": [
+                              "adult",
+                              "dependent",
+                              "person"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "type"
+                        ]
+                      }
+                    },
+                    "locked": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "status"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Sign-in required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Operation forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "423": {
+            "description": "Session locked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/dependents": {
+      "get": {
+        "operationId": "dependents",
+        "responses": {
+          "200": {
+            "description": "Current authority or committed outcome",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      },
+                      "ownerId": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      },
+                      "revision": {
+                        "type": "number"
+                      },
+                      "displayName": {
+                        "type": "string"
+                      },
+                      "birthDate": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "canEdit": {
+                        "type": "boolean"
+                      },
+                      "guardians": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "userId": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 100
+                            },
+                            "accepted": {
+                              "type": "boolean"
+                            }
+                          },
+                          "required": [
+                            "userId",
+                            "accepted"
+                          ]
+                        }
+                      },
+                      "proposals": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 100
+                            },
+                            "targetId": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 100
+                            },
+                            "action": {
+                              "type": "string",
+                              "enum": [
+                                "add",
+                                "remove"
+                              ]
+                            },
+                            "revision": {
+                              "type": "number"
+                            },
+                            "state": {
+                              "type": "string",
+                              "enum": [
+                                "pending",
+                                "accepted",
+                                "declined",
+                                "expired"
+                              ]
+                            },
+                            "approvals": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 100
+                              }
+                            },
+                            "expiresAt": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "targetId",
+                            "action",
+                            "revision",
+                            "state",
+                            "approvals",
+                            "expiresAt"
+                          ]
+                        }
+                      },
+                      "corrections": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 100
+                            },
+                            "authorId": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 100
+                            },
+                            "text": {
+                              "type": "string"
+                            },
+                            "state": {
+                              "type": "string",
+                              "enum": [
+                                "pending",
+                                "reviewed",
+                                "declined"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "authorId",
+                            "text",
+                            "state"
+                          ]
+                        }
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "ownerId",
+                      "revision",
+                      "displayName",
+                      "birthDate",
+                      "canEdit",
+                      "guardians",
+                      "proposals",
+                      "corrections"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Sign-in required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Operation forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "423": {
+            "description": "Session locked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "dependentCommand",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "type": "string",
+                        "enum": [
+                          "create"
+                        ]
+                      },
+                      "requestId": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "displayName": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 80
+                      },
+                      "birthDate": {
+                        "type": "string",
+                        "nullable": true,
+                        "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                      }
+                    },
+                    "required": [
+                      "action",
+                      "requestId",
+                      "displayName",
+                      "birthDate"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "type": "string",
+                        "enum": [
+                          "update"
+                        ]
+                      },
+                      "dependentId": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      },
+                      "expectedRevision": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "exclusiveMinimum": true
+                      },
+                      "displayName": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 80
+                      },
+                      "birthDate": {
+                        "type": "string",
+                        "nullable": true,
+                        "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                      }
+                    },
+                    "required": [
+                      "action",
+                      "dependentId",
+                      "expectedRevision",
+                      "displayName",
+                      "birthDate"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "type": "string",
+                        "enum": [
+                          "propose-guardian"
+                        ]
+                      },
+                      "requestId": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "dependentId": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      },
+                      "expectedRevision": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "exclusiveMinimum": true
+                      },
+                      "targetId": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      },
+                      "change": {
+                        "type": "string",
+                        "enum": [
+                          "add",
+                          "remove"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "action",
+                      "requestId",
+                      "dependentId",
+                      "expectedRevision",
+                      "targetId",
+                      "change"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "type": "string",
+                        "enum": [
+                          "decide-guardian"
+                        ]
+                      },
+                      "requestId": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "proposalId": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      },
+                      "revision": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "exclusiveMinimum": true
+                      },
+                      "accept": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "action",
+                      "requestId",
+                      "proposalId",
+                      "revision",
+                      "accept"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "type": "string",
+                        "enum": [
+                          "relinquish"
+                        ]
+                      },
+                      "requestId": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "dependentId": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      }
+                    },
+                    "required": [
+                      "action",
+                      "requestId",
+                      "dependentId"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "type": "string",
+                        "enum": [
+                          "request-correction"
+                        ]
+                      },
+                      "requestId": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "dependentId": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      },
+                      "text": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 2000
+                      }
+                    },
+                    "required": [
+                      "action",
+                      "requestId",
+                      "dependentId",
+                      "text"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "type": "string",
+                        "enum": [
+                          "review-correction"
+                        ]
+                      },
+                      "correctionId": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      },
+                      "decision": {
+                        "type": "string",
+                        "enum": [
+                          "reviewed",
+                          "declined"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "action",
+                      "correctionId",
+                      "decision"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Current authority or committed outcome",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "committed",
+                        "pending",
+                        "verification-required",
+                        "joined",
+                        "resolved",
+                        "unresolved",
+                        "clarification"
+                      ]
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "emailStatus": {
+                      "type": "string",
+                      "enum": [
+                        "queued",
+                        "transport-accepted",
+                        "failed",
+                        "outcome-unknown"
+                      ]
+                    },
+                    "candidates": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string",
+                            "enum": [
+                              "adult",
+                              "dependent",
+                              "person"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "type"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "status"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Sign-in required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Operation forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "423": {
+            "description": "Session locked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/aliases": {
+      "get": {
+        "operationId": "aliases",
+        "responses": {
+          "200": {
+            "description": "Current authority or committed outcome",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      },
+                      "phrase": {
+                        "type": "string"
+                      },
+                      "targetType": {
+                        "type": "string",
+                        "enum": [
+                          "adult",
+                          "dependent",
+                          "person"
+                        ]
+                      },
+                      "targetId": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "name": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "phrase",
+                      "targetType",
+                      "targetId",
+                      "name"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Sign-in required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Operation forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "423": {
+            "description": "Session locked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "aliasCommand",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "type": "string",
+                        "enum": [
+                          "save"
+                        ]
+                      },
+                      "requestId": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "phrase": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 80
+                      },
+                      "targetType": {
+                        "type": "string",
+                        "enum": [
+                          "adult",
+                          "dependent",
+                          "person"
+                        ]
+                      },
+                      "targetId": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      },
+                      "name": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 80
+                      }
+                    },
+                    "required": [
+                      "action",
+                      "requestId",
+                      "phrase",
+                      "targetType",
+                      "name"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "type": "string",
+                        "enum": [
+                          "delete"
+                        ]
+                      },
+                      "aliasId": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      }
+                    },
+                    "required": [
+                      "action",
+                      "aliasId"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "type": "string",
+                        "enum": [
+                          "resolve"
+                        ]
+                      },
+                      "phrase": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 80
+                      }
+                    },
+                    "required": [
+                      "action",
+                      "phrase"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Current authority or committed outcome",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "committed",
+                        "pending",
+                        "verification-required",
+                        "joined",
+                        "resolved",
+                        "unresolved",
+                        "clarification"
+                      ]
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "emailStatus": {
+                      "type": "string",
+                      "enum": [
+                        "queued",
+                        "transport-accepted",
+                        "failed",
+                        "outcome-unknown"
+                      ]
+                    },
+                    "candidates": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string",
+                            "enum": [
+                              "adult",
+                              "dependent",
+                              "person"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "type"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "status"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Sign-in required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Operation forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "423": {
+            "description": "Session locked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized",
+                        "locked",
+                        "forbidden",
+                        "conflict",
+                        "invalid",
+                        "rate_limited",
+                        "unavailable"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

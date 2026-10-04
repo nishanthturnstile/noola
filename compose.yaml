@@ -28,6 +28,22 @@ services:
       LOCAL_UID: ${LOCAL_UID:-1000}
       LOCAL_GID: ${LOCAL_GID:-1000}
     command: [sh, infra/docker/install.sh]
+  mailpit:
+    image: axllent/mailpit:v1.31.4
+    restart: unless-stopped
+    environment:
+      MP_DATABASE: /data/mailpit.db
+      MP_MAX_MESSAGES: 500
+      MP_SEND_API_AUTH_ACCEPT_ANY: "true"
+      MP_SMTP_RELAY_ALL: "false"
+    volumes: [mailpit-data:/data]
+    ports: ["127.0.0.1:8025:8025"]
+    networks: [default, mail]
+    healthcheck:
+      test: [CMD, /mailpit, readyz]
+      interval: 3s
+      timeout: 3s
+      retries: 20
   api:
     <<: *dev
     depends_on:
@@ -38,7 +54,10 @@ services:
       DATABASE_URL: ${DATABASE_URL:?Run pnpm env:init}
       DB_POOL_SIZE: ${DB_POOL_SIZE:-5}
       PORT: 3001
-    networks: [default, databases]
+      APP_ORIGIN: ${APP_ORIGIN:?Run pnpm env:init}
+      AUTH_SECRET: ${AUTH_SECRET:?Run pnpm env:init}
+      MAILPIT_URL: http://mailpit:8025
+    networks: [default, databases, mail]
     healthcheck:
       test: [CMD, node, -e, "fetch('http://127.0.0.1:3001/api/health/ready').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
       interval: 5s
@@ -59,12 +78,20 @@ services:
       interval: 3s
       timeout: 3s
       retries: 20
+  browser-tests:
+    <<: *dev
+    image: mcr.microsoft.com/playwright:v1.63.0-noble
+    profiles: [tools]
+    networks: [default, databases, mail]
+    entrypoint: [sh, infra/docker/browser-tests.sh]
+    command: []
   tools:
     <<: *dev
     profiles: [tools]
-    networks: [default, databases]
+    networks: [default, databases, mail]
     command: [pnpm, check]
 volumes:
+  mailpit-data:
   root-modules:
   api-modules:
   web-modules:
@@ -72,6 +99,8 @@ volumes:
   client-modules:
   pnpm-store:
 networks:
+  mail:
+    internal: true
   databases:
     external: true
     name: local-databases

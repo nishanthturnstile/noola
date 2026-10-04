@@ -36,17 +36,22 @@
     "phase0:codex:login": "tsx apps/api/experiments/phase0/codex-sdk/command.ts login",
     "phase0:codex:live": "tsx apps/api/experiments/phase0/codex-sdk/command.ts live",
     "phase0:codex:cleanup": "tsx apps/api/experiments/phase0/codex-sdk/command.ts cleanup",
-    "phase0:codex:disconnect": "tsx apps/api/experiments/phase0/codex-sdk/command.ts disconnect"
+    "phase0:codex:disconnect": "tsx apps/api/experiments/phase0/codex-sdk/command.ts disconnect",
+    "household:bootstrap": "node scripts/local.mjs bootstrap",
+    "test:identity": "node scripts/local.mjs identity-integration",
+    "test:identity:browser": "playwright test --config playwright.identity.config.ts",
+    "test:identity:browser:docker": "node scripts/local.mjs identity-browser"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.15",
-    "@types/node": "24.10.1",
-    "@playwright/test": "1.63.0",
     "@axe-core/playwright": "4.13.0",
+    "@biomejs/biome": "2.5.15",
+    "@playwright/test": "1.63.0",
+    "@types/node": "24.10.1",
     "dependency-cruiser": "18.5.0",
+    "tsx": "4.23.15",
     "turbo": "2.11.7",
     "typescript": "5.9.3",
-    "tsx": "4.23.15",
-    "vitest": "5.0.3"
+    "vitest": "5.0.3",
+    "zod": "4.6.5"
   }
 }

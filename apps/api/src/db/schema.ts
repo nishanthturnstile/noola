@@ -1,2 +1,1 @@
-// Add schema exports from owning modules when the first domain is implemented.
-export {};
+export * from "../modules/identity/schema.js";

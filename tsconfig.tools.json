@@ -8,6 +8,7 @@
     "playwright.config.ts",
     "tests/**/*.ts",
     "packages/contracts/scripts/**/*.ts",
-    "packages/api-client/src/**/*.test.ts"
+    "packages/api-client/src/**/*.test.ts",
+    "playwright.identity.config.ts"
   ]
 }

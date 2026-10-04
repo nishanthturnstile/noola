@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRight, Moon, RefreshCw, Sprout, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -76,7 +76,7 @@ function Home() {
         >
           <div className="mb-12 flex items-start justify-between">
             <span className="rounded-full border border-border px-3 py-1 text-xs font-medium text-muted-foreground">
-              Foundation preview
+              Account foundation
             </span>
             <ArrowUpRight
               aria-hidden="true"
@@ -93,12 +93,18 @@ function Home() {
             A fresh beginning.
           </h2>
           <p className="mt-3 leading-relaxed text-muted-foreground">
-            The foundation is here. Your personal space will grow from here.
+            Your own space starts with your own account.
           </p>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-            This is an early preview. Accounts and household features are not
-            available yet.
+            Separate accounts, personal setup, and household agreements are
+            ready to explore with a private invitation.
           </p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Button render={<Link to="/sign-in" />}>Sign in</Button>
+            <Button variant="outline" render={<Link to="/recovery" />}>
+              Recovery help
+            </Button>
+          </div>
           <div className="mt-10 border-t border-border pt-6">
             <p
               role="status"
@@ -128,7 +134,7 @@ function Home() {
       </main>
       <footer className="mx-auto flex max-w-6xl flex-wrap justify-between gap-3 px-6 py-8 text-xs text-muted-foreground sm:px-10">
         <p>Made for the everyday.</p>
-        <p>Noola · Foundation preview</p>
+        <p>Noola · Account foundation</p>
       </footer>
     </div>
   );
