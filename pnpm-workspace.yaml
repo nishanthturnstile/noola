@@ -3,9 +3,17 @@ packages:
   - packages/*
 
 strictPeerDependencies: true
+# Axe's stable-only range excludes the preview containing the Linux WebKit fix.
+# Keep this compatibility exception exact; browser checks still exercise Axe.
+peerDependencyRules:
+  allowedVersions:
+    '@axe-core/playwright@4.13.0>playwright-core': 1.64.0-alpha-2026-10-04
 saveExact: true
 allowBuilds:
   esbuild: true
   '@tailwindcss/oxide': true
 minimumReleaseAgeExclude:
   - lucide-react@1.51.0
+  - '@playwright/test@1.64.0-alpha-2026-10-04'
+  - playwright-core@1.64.0-alpha-2026-10-04
+  - playwright@1.64.0-alpha-2026-10-04

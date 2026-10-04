@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRight, Moon, RefreshCw, Sprout, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { readinessOptions } from "@/lib/api";
 export const Route = createFileRoute("/")({ component: Home });
 function Home() {
@@ -100,10 +100,15 @@ function Home() {
             ready to explore with a private invitation.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <Button render={<Link to="/sign-in" />}>Sign in</Button>
-            <Button variant="outline" render={<Link to="/recovery" />}>
+            <Link to="/sign-in" className={buttonVariants()}>
+              Sign in
+            </Link>
+            <Link
+              to="/recovery"
+              className={buttonVariants({ variant: "outline" })}
+            >
               Recovery help
-            </Button>
+            </Link>
           </div>
           <div className="mt-10 border-t border-border pt-6">
             <p

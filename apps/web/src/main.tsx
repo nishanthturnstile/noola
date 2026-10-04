@@ -12,10 +12,9 @@ function makeRouter() {
     defaultPreloadStaleTime: 0,
   });
 }
-const router = makeRouter();
-function RouterScope() {
-  const [scopedRouter] = React.useState(makeRouter);
-  return <RouterProvider router={scopedRouter} />;
+let router = makeRouter();
+function resetRouteScope() {
+  router = makeRouter();
 }
 declare module "@tanstack/react-router" {
   interface Register {
@@ -26,6 +25,8 @@ const root = document.getElementById("root");
 if (!root) throw new Error("Missing root element");
 ReactDOM.createRoot(root).render(
   <React.StrictMode>
-    <SessionScope>{(epoch) => <RouterScope key={epoch} />}</SessionScope>
+    <SessionScope resetRouteScope={resetRouteScope}>
+      {(epoch) => <RouterProvider key={epoch} router={router} />}
+    </SessionScope>
   </React.StrictMode>,
 );
