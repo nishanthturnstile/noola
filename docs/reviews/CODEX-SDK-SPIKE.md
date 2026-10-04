@@ -1,5 +1,42 @@
 # Codex SDK feasibility spike
 
+## Containment follow-up — 4 October 2026
+
+**Local containment resolved; fresh native login and account validation remain pending.** The corrected preflight passes all twelve checks; implementation commit `6e06f1a` remains on `codex/phase0-codex-sdk-spike`. The current offline suite passes 41 tests. The original failure record below and its JSON snapshot remain historical evidence; the [follow-up result](codex-sdk-containment-results.json) records the new image and source hashes. No production adapter has been enabled.
+
+### Causes and corrections
+
+1. **Wrong configuration authority for `unified_exec`.** In CLI 0.160.0, ordinary user opt-outs are deliberately normalized back to enabled. Only managed requirements can disable this engine. The separate `shell_tool` gate controls command registration. We now bake root-owned `/etc/codex/requirements.toml` into the read-only image, pinning both flags false. This fixes the original failed assertion without deleting it. [Pinned implementation](https://github.com/openai/codex/blob/a956835d020762cb2b570053af06f643a11c0ecc/codex-rs/core/src/config/managed_features.rs), [shell registration](https://github.com/openai/codex/blob/a956835d020762cb2b570053af06f643a11c0ecc/codex-rs/core/src/tools/spec_plan.rs).
+2. **Docker seccomp blocked nested bubblewrap setup.** On this host, a capability-free UID-1000 container could not run `unshare -Ur true` with Docker's default profile. Allowing only that user-namespace operation made it succeed, establishing a seccomp cause rather than assuming the host disabled user namespaces. Bubblewrap additionally needs user-namespace `clone`, `mount`, `umount2` and `pivot_root`; omitting each operation independently reproduced a specific failure. The spike now uses a pinned Moby default profile with three explicit additional rules: `clone` must include `CLONE_NEWUSER`, `unshare` must equal `CLONE_NEWUSER`, and the three filesystem setup calls are allowed. [Docker seccomp documentation](https://docs.docker.com/engine/security/seccomp/).
+3. **Feature flags alone were insufficient tool evidence.** The pinned model metadata can independently advertise patch, code-mode and other tools. An immutable catalog retains the original `gpt-6.1-sol` instructions and model identity while disabling these client tool capabilities. A fresh, credential-free SDK process sends requests to a local synthetic HTTP provider using that same catalog and policy. We observe no advertised tools and deliberately return forged shell and freeform patch calls. Codex's dispatcher returns `unsupported call: exec_command` and `unsupported custom tool call: apply_patch`; no target file appears. This is actual CLI behavior with simulated provider responses, not a model refusing instructions. Only explicitly catalogued models pass; changing `NOOLA_SPIKE_MODEL` also requires reviewing its catalog entry and rerunning preflight.
+
+The new [seccomp profile](../../infra/docker/codex-spike/seccomp.json) derives from Moby `seccomp/v0.2.1`, commit `5ad5f40ecde90d78e4a7c861c003fe92747d5518`. A regression test verifies that the upstream baseline is otherwise unchanged. The [attribution](../../infra/docker/codex-spike/NOTICE.txt) records the model-catalog source, modifications and license. The Docker probe remains non-root, read-only, capability-free, under active seccomp and `no-new-privileges`; an outer mount attempt and mount-namespace creation still fail. No host sysctl, privileged mode, `CAP_SYS_ADMIN` or unconfined profile is used.
+
+**Tradeoff:** allowing these calls increases reachable kernel surface to support the nested sandbox. Kernel namespace/capability checks still apply, and the outer container keeps its existing isolation. This is a reviewed local configuration, not proof against all kernel/runtime vulnerabilities or a portable deployment guarantee. Revalidate it for another host, SDK or Docker version. Provider connectivity remains available to Codex; tool-network denial is not a complete container egress firewall.
+
+### Observed validation and next step
+
+| Check | Follow-up result |
+|---|---|
+| Managed feature values and pinned CLI | Passed |
+| Outer UID/capabilities/seccomp/no-new-privileges; mount/namespace denial | Passed |
+| Allowed sandbox read and exit-code propagation | Passed, including a deliberate exit 42 |
+| Credential read, `/proc/self/root` bypass and work write | Denied as required |
+| Network positive and negative controls | Outer child reaches a real listener; sandbox child gets an explicit permission error |
+| Actual SDK tool catalog; forged tool dispatch | Empty; both calls rejected as unsupported |
+| Preflight cleanup | Passed; synthetic state removed |
+| Offline harness and configuration regression tests | 41 passed |
+| Frozen install; workspace checks; application readiness | Passed |
+| Native account, model access, recall quality, cancellation, real history cleanup | Pending fresh login and live suite |
+
+The local fake provider makes exactly two HTTP requests per successful containment probe. These are synthetic exchanges, not subscription invocations, and do not consume the ten-invocation live budget. Raw requests, native thread IDs and provider errors are not retained. The original database/identity proof remains intact; this change does not alter its source or database ownership.
+
+**Proceed with the next validation step:** run `pnpm phase0:codex:login -- --principal adult-a`, complete the native device login personally, then run `pnpm phase0:codex:live -- --principal adult-a`. The command reruns containment before either operation. Native access remains Pending until observed; neither documentation nor the local fake provider establishes entitlement. Preserve real-account histories only long enough to inspect cleanup, within the existing bounded synthetic suite. Second-account, deployment, production privacy and broader Phase 0 gates remain Pending.
+
+The first product slice remains invitation → sign-in → private text save → authorized recall → correction → forget. Its manual behavior can be scoped now; the subscription-backed production adapter still requires the live qualification above. Retain the small experimental harness separately while this evidence is pending.
+
+## Original observation — before the containment correction
+
 **4 October 2026 — implemented; local containment blocked; live account access not tested.** Work is isolated on `codex/phase0-codex-sdk-spike`, with implementation commit `984f273`. This is G02 evidence, not production adoption or full Phase 0 completion. The owner selected their own account first; independent second-adult account proof remains pending.
 
 ## Outcome and stopping point

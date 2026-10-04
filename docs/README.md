@@ -41,7 +41,7 @@ Validation is independent: **Pending**, **Passed**, **Failed** or **Not enabled*
 
 The [4 October browser-validation timing amendment](reference/ACCEPTANCE.md#browser-validation-timing) accepts Chromium/Safari compatibility evidence for local development and moves physical-device checks to deployed acceptance. It changes timing, not observed test results.
 
-The [household and service feasibility proposal](reviews/PHASE-0-FEASIBILITY.md) adds candidate scenarios for Nishan and Manjula, current subscription/gateway research, the ₹3,000 cost worksheet and recovery responsibilities. Source code remains private by owner decision. The [Codex SDK spike](reviews/CODEX-SDK-SPIKE.md) passes offline checks but fails required containment preflight; account/payment evidence and independent recovery costs remain pending before claiming full Phase 0 completion.
+The [household and service feasibility proposal](reviews/PHASE-0-FEASIBILITY.md) adds candidate scenarios for Nishan and Manjula, current subscription/gateway research, the ₹3,000 cost worksheet and recovery responsibilities. Source code remains private by owner decision. The [Codex SDK spike](reviews/CODEX-SDK-SPIKE.md) passes offline checks and the corrected local containment preflight; account/payment evidence and independent recovery costs remain pending before claiming full Phase 0 completion.
 
 ## Maintaining the documents
 

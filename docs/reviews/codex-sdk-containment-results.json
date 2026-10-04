@@ -1,0 +1,165 @@
+{
+  "recordedAt": "2026-10-04T10:53:03.380383+00:00",
+  "branch": "codex/phase0-codex-sdk-spike",
+  "baseCommit": "ec43e9a118fcd9f19d138e5bd91a7561c6375d24",
+  "decision": "local containment passed; permit fresh native login and bounded synthetic live qualification; no production adoption",
+  "priorResult": "codex-sdk-spike-results.json",
+  "versions": {
+    "sdk": "0.160.0",
+    "cli": "0.160.0",
+    "node": "24.21.0",
+    "dockerServer": "29.8.1",
+    "kernel": "6.18.40.1-microsoft-standard-WSL2"
+  },
+  "codexSourceCommit": "a956835d020762cb2b570053af06f643a11c0ecc",
+  "seccompSourceCommit": "5ad5f40ecde90d78e4a7c861c003fe92747d5518",
+  "seccompAdditionalRules": [
+    "clone requires CLONE_NEWUSER",
+    "unshare equals CLONE_NEWUSER",
+    "mount, umount2, pivot_root"
+  ],
+  "preflight": {
+    "recordedAt": "2026-10-04T10:51:02.670Z",
+    "command": "preflight",
+    "principal": "adult-a",
+    "baseCommit": "ec43e9a118fcd9f19d138e5bd91a7561c6375d24",
+    "workingTreeDirty": true,
+    "imageId": "sha256:c90178a687f097e0068aeec94fb362a99f5793f59df2f223c0e6127a0e44002f",
+    "exitCode": 0,
+    "evidence": [
+      {
+        "kind": "preflight",
+        "checks": [
+          {
+            "id": "outer-container-restrictions",
+            "passed": true
+          },
+          {
+            "id": "pinned-cli",
+            "passed": true
+          },
+          {
+            "id": "effective-disabled-features",
+            "passed": true
+          },
+          {
+            "id": "sandbox-positive-control",
+            "passed": true
+          },
+          {
+            "id": "network-positive-control",
+            "passed": true
+          },
+          {
+            "id": "credential-read-denied",
+            "passed": true
+          },
+          {
+            "id": "proc-credential-bypass-denied",
+            "passed": true
+          },
+          {
+            "id": "work-write-denied",
+            "passed": true
+          },
+          {
+            "id": "tool-network-denied",
+            "passed": true
+          },
+          {
+            "id": "model-tool-catalog-empty",
+            "passed": true
+          },
+          {
+            "id": "forged-tool-calls-rejected",
+            "passed": true
+          },
+          {
+            "id": "preflight-cleanup",
+            "passed": true
+          }
+        ]
+      },
+      {
+        "kind": "cleanup",
+        "contentRemoved": true,
+        "credentialRetained": false
+      }
+    ]
+  },
+  "syntheticProviderRequestsPerPreflight": 2,
+  "liveInvocations": 0,
+  "liveTokenUsage": null,
+  "liveLatencyMs": null,
+  "livePeakMemoryBytes": null,
+  "nativeLogin": "pending owner connection",
+  "checks": [
+    {
+      "id": "offline-suite",
+      "category": "offline-simulation",
+      "status": "passed",
+      "tests": 41,
+      "command": "pnpm phase0:codex:test"
+    },
+    {
+      "id": "workspace",
+      "category": "local-runtime-observation",
+      "status": "passed",
+      "command": "pnpm check"
+    },
+    {
+      "id": "frozen-install",
+      "category": "local-runtime-observation",
+      "status": "passed",
+      "command": "pnpm install --frozen-lockfile"
+    },
+    {
+      "id": "unreviewed-model-fails-closed",
+      "category": "local-runtime-observation",
+      "status": "passed",
+      "fixture": "unreviewed-synthetic-model; no real provider"
+    },
+    {
+      "id": "application-readiness",
+      "category": "local-runtime-observation",
+      "status": "passed",
+      "endpoint": "http://localhost:5173/api/health/ready"
+    }
+  ],
+  "sourceSha256": {
+    "apps/api/experiments/phase0/codex-sdk/command.ts": "bb3548310f5ae265105104a0f07836dff58c913d7bd183edecab3bc7f9635c43",
+    "apps/api/experiments/phase0/codex-sdk/container.ts": "58d44b4e78e59393767657b05b129c73ff3ba5a98527c8f8ba8185b5b66af0fa",
+    "apps/api/experiments/phase0/codex-sdk/containment-config.test.ts": "bf7b0cb2d1c7573025513316d213b1eaad5a40175bd7c1ce877ae756c555fb62",
+    "apps/api/experiments/phase0/codex-sdk/evidence.test.ts": "c451b159f3f9eb3da78853bd22724a68501f67b9dc2e332ee548c971e57ea096",
+    "apps/api/experiments/phase0/codex-sdk/evidence.ts": "51724d3b6595cd7ff21afdfb4db02de489c4ac13e5b7b6f509afe619bf9b3f38",
+    "apps/api/experiments/phase0/codex-sdk/harness.test.ts": "ed586ca9e7447e607ac6dbda1d3dbb0ef8bed8aa83895ad9c97702f0cb7490b5",
+    "apps/api/experiments/phase0/codex-sdk/harness.ts": "ca77f36bba5d30a51928f060c1ea192b3891b23bf9d75909c7f5c69928ac96e8",
+    "apps/api/experiments/phase0/codex-sdk/runtime.test.ts": "3f33a19fa9acccdbda1da107848da845b6dfc90de8ece09875d178b7334d03f0",
+    "apps/api/experiments/phase0/codex-sdk/runtime.ts": "2fc040003adfba6c2d6b7a4d610bf11de04eeb6ff090b10f0bf89296bd54ecaf",
+    "apps/api/experiments/phase0/codex-sdk/tool-probe.test.ts": "2fdc7bf61b0667ee32bac65fe80bd48d0d2622febc182045f21ae0c371a7179e",
+    "apps/api/experiments/phase0/codex-sdk/tool-probe.ts": "8f6bcaca53621ef10d48c116a6672bc844f1d56f64844d8c22838266ed2efaf2",
+    "infra/docker/codex-spike/Dockerfile": "40807ffcf76f197815b4c6d8928b6bca6bd8f6d50f7f0c75177dea0bdcb5b5ce",
+    "infra/docker/codex-spike/NOTICE.txt": "49380416d53048f7311fdcf27dda9c388141a7dcc69305d3a7e7360bdb8f1927",
+    "infra/docker/codex-spike/UPSTREAM-LICENSE.txt": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "infra/docker/codex-spike/compose.yaml": "082efb1f7aaec9df2a8f8158a55148c7dcd18874e926ff1a93515e3de5857e27",
+    "infra/docker/codex-spike/models.json": "d786525acad1356fcb0e7005d5a0812aa2e6c3b942e8ec39a92956e4b1d50384",
+    "infra/docker/codex-spike/requirements.toml": "2538dd0bab1f0cf0a8b0380875150ffd63f037c3657b7cf6185aa64a533d25b6",
+    "infra/docker/codex-spike/seccomp.json": "d76252776448df8ea3ceea7605eb6b16d65ab366a3947b42561363493a19776a"
+  },
+  "remaining": [
+    "native account access and entitlement",
+    "bounded synthetic recall suite",
+    "native cancellation and generated-history cleanup",
+    "second independent account",
+    "deployment containment",
+    "production privacy",
+    "broader Phase 0 gates"
+  ],
+  "limitations": [
+    "Increased kernel syscall surface for nested sandbox; no claim of complete egress firewall or provider-side deletion.",
+    "Local synthetic provider observes actual CLI tools, not live model quality or eligibility.",
+    "Original identity/persistence proof is unchanged and was not rerun for this containment-only fix."
+  ],
+  "implementationCommit": "6e06f1a2fc9ef80940e073352bc8d2b43bf4a913",
+  "remainingRunningSpikeContainers": 0
+}

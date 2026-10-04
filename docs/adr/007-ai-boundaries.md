@@ -13,7 +13,7 @@
 The owner selected eligible personal ChatGPT subscriptions first and explicit paid fallback. Model availability, hosting eligibility, processing permission and authority to change household records are separate concerns.
 
 <a id="decision"></a>
-**Execution evidence, 4 October:** the [isolated spike](../reviews/CODEX-SDK-SPIKE.md) passes offline checks but fails required effective-tool and sandbox preflight. Native login and inference remain blocked; production adoption remains pending. Retain the harness separately for reproduction and preserve results if it is later removed.
+**Execution evidence, 4 October:** the [isolated spike](../reviews/CODEX-SDK-SPIKE.md) passes 41 offline tests and the corrected tool/sandbox preflight. Fresh native login and bounded live inference are the next validation step; production adoption remains pending. Retain the harness separately for reproduction and preserve results if it is later removed.
 
 ## Decision
 
