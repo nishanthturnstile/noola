@@ -40,6 +40,20 @@ The homepage Docker check uses the web container’s current network IP to satis
 
 Browser validation found and fixed hovered-button contrast, link-fragment mutation during render, cancellation of restriction requests, offline route downloading, pending-restriction replacement, and session-policy creation/revocation races. Biome and strict types remain separate from behavioral tests.
 
+## Browser validation follow-up
+
+The original implementation merged in [PR #2](https://github.com/nishanthturnstile/noola/pull/2) after its required check passed. Subsequent main-branch validation exposed intermittent Linux WebKit network-process crashes and an accessibility failure during a badge variant transition. The repeated failures affected different requests, including responses the server had completed.
+
+The installed Playwright 1.63 WebKit bundle reported libsoup 3.6.5. Its symptoms match the [reported queue-item memory defect](https://github.com/microsoft/playwright/issues/42803); WebKit [updated the library to 3.6.6](https://github.com/WebKit/WebKit/pull/74619), and Playwright's maintainer [confirmed inclusion in 1.64](https://github.com/microsoft/playwright/issues/42803#issuecomment-5837772701). Stable 1.64 was unavailable at validation time, so the test package is temporarily pinned to `1.64.0-alpha-2026-10-04`. The downloaded WebKit 2370 library reports 3.6.6, and the running network-process mappings confirm that it loads that bundle.
+
+Axe 4.13.0's `playwright-core` peer range excludes prereleases by SemVer. The workspace permits only this exact preview for that exact Axe dependency, retaining strict peer checking. The exact release-age exceptions cover only the three matching Playwright packages. Docker installs matching Chromium/WebKit binaries and caches them in the existing development cache volume; its base image supplies Linux dependencies. Remove these temporary exceptions when adopting stable 1.64 and rerun the browser/accessibility checks.
+
+Badges now transition shadows rather than interpolate text/background colors across status variants; primary link hover preserves contrast through brightness. Homepage navigation uses ordinary Router links with the existing button variant helper. Router recreation runs in the authority-clear event before the new private epoch renders, avoiding updates to mounted subscribers during React rendering. Identity browser tests also reject React's update-during-render console diagnostic. Existing lifecycle, delayed-response and axe assertions remain enabled.
+
+Delayed-policy fixtures install a passthrough handler for new probes before releasing captured replies and retiring their discovery handler. This keeps removal of the last interceptor from forwarding a paused request while its held callback is still fulfilling it.
+
+The repaired runtime passed all six WebKit checks with `--repeat-each=3`, including three complete identity journeys and three supplemental policy scenarios, with retries disabled. Final follow-up validation passed `pnpm check`, all six identity scenarios across Chromium/mobile Chromium/WebKit, and all four homepage/theme/health accessibility checks.
+
 ## Acceptance mapping
 
 These are delivered portions, not blanket passes for the full capability or scenario.

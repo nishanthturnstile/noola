@@ -39,7 +39,7 @@ This is the single inventory of technology choices and introduction points. [Tec
 | Recovery | Encrypted OneDrive bundles, separate Vaultwarden/offline keys, independent restriction journal | Selected direction; durability/custody proof pending |
 | Hosting | Local Docker Compose; Railway hosted testing; existing E2E Networks Linux VM | Owner-approved shortlist; production choice requires measurement |
 | Diagnostics | `pino`; application-owned audit, health and cost records | Recommended, Phase 1 |
-| Verification | `vitest`, `@playwright/test`, `@axe-core/playwright`, real PostgreSQL and actual phones | Recommended, incremental acceptance |
+| Verification | `vitest`, `@playwright/test`, `@axe-core/playwright`, real PostgreSQL and actual phones | Incremental; [Playwright preview](reviews/PHASE-1-SECTION-1-VALIDATION.md#browser-validation-follow-up) |
 | Code quality | Pinned `@biomejs/biome` with `biome.json`; separate TypeScript checks | Selected development convention |
 | Package management | Exact pnpm version, Turborepo task orchestration with local caching, workspace support and committed lockfile; ordinary package scripts | Selected convention; independent web/backend builds with shared contracts/client code |
 | Delivery/security | GitHub Actions/Dependabot; pnpm audit and pinned Gitleaks CLI | Bootstrap GitHub Actions pipeline configured; broader delivery/security gates remain incremental |

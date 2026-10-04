@@ -45,7 +45,7 @@
   "devDependencies": {
     "@axe-core/playwright": "4.13.0",
     "@biomejs/biome": "2.5.15",
-    "@playwright/test": "1.63.0",
+    "@playwright/test": "1.64.0-alpha-2026-10-04",
     "@types/node": "24.10.1",
     "dependency-cruiser": "18.5.0",
     "tsx": "4.23.15",

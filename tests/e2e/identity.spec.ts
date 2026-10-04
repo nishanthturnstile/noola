@@ -12,6 +12,16 @@ import {
 import { z } from "zod";
 
 const password = "Synthetic-browser-password-2026";
+function recordPageErrors(page: Page, errors: string[]) {
+  page.on("pageerror", (error) => errors.push(error.message));
+  page.on("console", (message) => {
+    if (
+      message.type() === "error" &&
+      message.text().includes("while rendering a different component")
+    )
+      errors.push(message.text());
+  });
+}
 async function unavailableResponse(route: Route) {
   await route.fulfill({
     status: 503,
@@ -235,8 +245,8 @@ test("two independent adults complete account setup, guardian approval, locks, b
   const ownerPage = await ownerContext.newPage();
   const adultPage = await adultContext.newPage();
   const errors: string[] = [];
-  ownerPage.on("pageerror", (error) => errors.push(error.message));
-  adultPage.on("pageerror", (error) => errors.push(error.message));
+  recordPageErrors(ownerPage, errors);
+  recordPageErrors(adultPage, errors);
   try {
     await enroll(ownerPage, request, ownerEmail, "Browser Owner", origin);
     expect(
@@ -621,7 +631,7 @@ test("background checks handle unknown and remotely changed policies while prese
   const controller = await browser.newContext({ baseURL: origin });
   const page = await context.newPage();
   const errors: string[] = [];
-  page.on("pageerror", (error) => errors.push(error.message));
+  recordPageErrors(page, errors);
   try {
     await enroll(page, request, email, "Boundary Owner", origin);
     await page.getByRole("button", { name: "Devices & security" }).click();
@@ -690,10 +700,10 @@ test("background checks handle unknown and remotely changed policies while prese
       });
       try {
         const publicPage = await publicContext.newPage();
-        publicPage.on("pageerror", (error) => errors.push(error.message));
+        recordPageErrors(publicPage, errors);
         let attempts = 0;
         const replies: Promise<void>[] = [];
-        await publicPage.route("**/api/v1/me", (route) => {
+        const discover = (route: Route) => {
           attempts++;
           const reply = (async () => {
             if (discovery === "failed") return unavailableResponse(route);
@@ -703,7 +713,8 @@ test("background checks handle unknown and remotely changed policies while prese
           })();
           replies.push(reply);
           return reply;
-        });
+        };
+        await publicPage.route("**/api/v1/me", discover);
         await publicPage.goto(origin);
         await expect(
           publicPage.getByRole("heading", { level: 1 }),
@@ -725,9 +736,13 @@ test("background checks handle unknown and remotely changed policies while prese
         // Remember the background even if the tab resumes before discovery.
         await setVisibility(publicPage, "visible");
         if (discovery === "failed") await publicContext.setOffline(false);
+        // New probes use the API while already captured responses finish.
+        // Removing the last interceptor can otherwise forward a paused route
+        // before its held callback fulfills it.
+        await publicPage.route("**/api/v1/me", (route) => route.continue());
         release();
         await Promise.all(replies);
-        await publicPage.unrouteAll({ behavior: "wait" });
+        await publicPage.unroute("**/api/v1/me", discover);
         if (discovery === "failed") await publicPage.goto(`${origin}/account`);
         await expect
           .poll(async () =>

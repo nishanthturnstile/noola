@@ -120,8 +120,10 @@ async function finishRestriction() {
 }
 export function SessionScope({
   children,
+  resetRouteScope,
 }: {
   children: (epoch: number) => React.ReactNode;
+  resetRouteScope: () => void;
 }) {
   const uncertain = useRef(true);
   const policy = useRef<{
@@ -200,6 +202,7 @@ export function SessionScope({
       if (detail.reason !== "signed-in")
         window.history.replaceState(null, "", "/sign-in");
       else window.history.replaceState(null, "", "/account");
+      resetRouteScope();
       setScope((previous) => ({
         epoch: previous.epoch + 1,
         client: new QueryClient({
@@ -280,7 +283,7 @@ export function SessionScope({
       window.removeEventListener("pagehide", hide);
       window.removeEventListener("pageshow", resume);
     };
-  }, [scope.client, register]);
+  }, [scope.client, register, resetRouteScope]);
   return (
     <SessionPolicyContext.Provider value={register}>
       <QueryClientProvider key={scope.epoch} client={scope.client}>
