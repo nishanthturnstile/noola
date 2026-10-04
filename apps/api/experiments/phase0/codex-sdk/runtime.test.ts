@@ -22,7 +22,12 @@ it("removes interrupted-run content, preserves native auth unchanged, then disco
       "synthetic-private-content",
     );
     await writeFile(join(root, "log"), "synthetic-private-content");
-    await cleanState(root);
+    expect(await cleanState(root)).toEqual({
+      contentRemoved: true,
+      credentialRetained: true,
+      removedEntryCount: 2,
+      remainingEntryCount: 1,
+    });
     expect(await readdir(root)).toEqual(["auth.json"]);
     expect(await readFile(join(root, "auth.json"), "utf8")).toBe(
       "synthetic-auth-canary",
@@ -53,6 +58,7 @@ it("refuses symlinked state roots and credentials without touching their targets
 });
 it("constructs an allowlisted environment without inheriting provider or database credentials", () => {
   expect(Object.keys(cliEnvironment()).sort()).toEqual([
+    "CODEX_CA_CERTIFICATE",
     "CODEX_HOME",
     "HOME",
     "LANG",

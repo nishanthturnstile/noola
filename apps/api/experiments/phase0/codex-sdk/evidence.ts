@@ -62,6 +62,7 @@ const evidenceSchema = z.discriminatedUnion("kind", [
       "provider_unknown",
     ]),
     elapsedMs: count,
+    wallClockDriftMs: z.number().int().optional(),
     invocations: count.max(10),
     model: safeName,
     usage: z
@@ -83,6 +84,7 @@ const evidenceSchema = z.discriminatedUnion("kind", [
   }),
   z.object({
     kind: z.literal("live-summary"),
+    invocationLimit: count.max(10).optional(),
     invocations: count.max(10),
     peakBytes: count.nullable(),
     model: safeName,
@@ -90,6 +92,8 @@ const evidenceSchema = z.discriminatedUnion("kind", [
   z.object({
     kind: z.literal("cleanup"),
     contentRemoved: z.boolean(),
+    removedEntryCount: count.optional(),
+    remainingEntryCount: count.optional(),
     credentialRetained: z.boolean(),
   }),
   z.object({

@@ -45,6 +45,10 @@ async function live() {
     process.exitCode = 2;
     return;
   }
+  const limitText = process.env.NOOLA_SPIKE_MAX_INVOCATIONS || "10";
+  if (!/^(?:[1-9]|10)$/.test(limitText))
+    throw new Error("invalid_invocation_limit");
+  const invocationLimit = Number(limitText);
   let usage: Usage | null = null;
   const state: State = { paused: false, connected, sources: [] };
   const harness = createHarness(
@@ -58,6 +62,7 @@ async function live() {
         usage = value;
       });
     },
+    invocationLimit,
   );
   const cases = [
     {
@@ -123,7 +128,18 @@ async function live() {
       found: true,
     },
   ];
-  for (const scenario of cases) {
+  const selectedIds = process.env.NOOLA_SPIKE_CASES?.split(",").filter(Boolean);
+  if (
+    selectedIds?.some((id) => !cases.some((scenario) => scenario.id === id)) ||
+    (selectedIds && new Set(selectedIds).size !== selectedIds.length)
+  )
+    throw new Error("invalid_scenario_selection");
+  const selected = selectedIds?.length
+    ? cases.filter((scenario) => selectedIds.includes(scenario.id))
+    : cases;
+  if (selected.length > invocationLimit)
+    throw new Error("selection_exceeds_budget");
+  for (const scenario of selected) {
     await prepare();
     usage = null;
     state.sources = scenario.text
@@ -135,6 +151,7 @@ async function live() {
         ? setTimeout(() => controller.abort(), 100)
         : undefined;
     const start = performance.now();
+    const wallStart = Date.now();
     const result = await harness.recall(
       {
         principal,
@@ -161,7 +178,7 @@ async function live() {
         }),
     );
     if (running.some(Boolean)) throw new Error("native_child_did_not_exit");
-    await cleanState("/state");
+    emit({ kind: "cleanup", ...(await cleanState("/state")) });
     const passed =
       scenario.id === "cancel"
         ? !result.ok && result.reason === "cancelled"
@@ -180,6 +197,9 @@ async function live() {
       passed,
       outcome: result.ok ? result.output.status : result.reason,
       elapsedMs: Math.round(performance.now() - start),
+      wallClockDriftMs: Math.round(
+        Date.now() - wallStart - (performance.now() - start),
+      ),
       invocations: harness.invocations,
       model,
       usage,
@@ -201,6 +221,7 @@ async function live() {
   }
   emit({
     kind: "live-summary",
+    invocationLimit,
     invocations: harness.invocations,
     peakBytes,
     model,

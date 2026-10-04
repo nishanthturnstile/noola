@@ -91,6 +91,7 @@ export function cliEnvironment() {
     PATH: "/usr/local/bin:/usr/bin:/bin",
     HOME: "/home/node",
     CODEX_HOME: "/state",
+    CODEX_CA_CERTIFICATE: "/etc/codex/ca-certificates.pem",
     TMPDIR: "/tmp",
     LANG: "C.UTF-8",
   };
@@ -117,6 +118,10 @@ export async function cleanState(root: string, disconnect = false) {
     throw new Error("cleanup_incomplete");
   return {
     contentRemoved: true,
+    removedEntryCount: names.filter(
+      (name) => name !== "auth.json" || disconnect,
+    ).length,
+    remainingEntryCount: remaining.length,
     credentialRetained: remaining.includes("auth.json"),
   };
 }

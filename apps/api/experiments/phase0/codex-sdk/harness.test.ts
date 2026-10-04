@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import {
   createHarness,
   ExecutionFailure,
@@ -271,4 +271,54 @@ describe("synthetic recall boundary", () => {
     });
     expect(calls).toEqual(["adult-a"]);
   });
+});
+
+it("a forward wall-clock correction does not prematurely expire an admitted request", async () => {
+  const wall = Date.now();
+  const date = vi.spyOn(Date, "now").mockReturnValue(wall);
+  try {
+    const { harness } = setup(async () => {
+      date.mockReturnValue(wall + 600_000);
+      return answer();
+    });
+    expect((await harness.recall(request(), freshSignal())).ok).toBe(true);
+  } finally {
+    date.mockRestore();
+  }
+});
+it("a backward wall-clock correction cannot extend the admitted monotonic budget", async () => {
+  const wall = Date.now();
+  const date = vi.spyOn(Date, "now").mockReturnValue(wall);
+  const mono = vi.spyOn(performance, "now").mockReturnValue(0);
+  try {
+    const { harness } = setup(async () => {
+      date.mockReturnValue(wall - 600_000);
+      mono.mockReturnValue(2_000);
+      return answer();
+    });
+    expect(await harness.recall(request(), freshSignal())).toEqual({
+      ok: false,
+      reason: "timeout",
+    });
+  } finally {
+    date.mockRestore();
+    mono.mockRestore();
+  }
+});
+it("caps even a distant caller deadline at ninety monotonic seconds", async () => {
+  const mono = vi.spyOn(performance, "now").mockReturnValue(0);
+  try {
+    const { harness } = setup(async () => {
+      mono.mockReturnValue(90_001);
+      return answer();
+    });
+    expect(
+      await harness.recall(
+        { ...request(), deadline: Date.now() + 900_000 },
+        freshSignal(),
+      ),
+    ).toEqual({ ok: false, reason: "timeout" });
+  } finally {
+    mono.mockRestore();
+  }
 });

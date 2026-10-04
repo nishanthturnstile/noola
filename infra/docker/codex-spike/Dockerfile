@@ -40,5 +40,7 @@ WORKDIR /runtime
 COPY --from=build /runtime ./
 COPY infra/docker/codex-spike/models.json /etc/codex/models.json
 COPY infra/docker/codex-spike/requirements.toml /etc/codex/requirements.toml
+# Native Rust HTTPS needs a CA store; the pinned Node image bundles Mozilla roots.
+RUN node -e "require('fs').writeFileSync('/etc/codex/ca-certificates.pem',require('tls').rootCertificates.join('\\n')+'\\n',{mode:0o644})"
 USER node
 ENTRYPOINT ["node", "container.js"]

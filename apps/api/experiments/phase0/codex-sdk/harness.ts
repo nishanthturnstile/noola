@@ -81,8 +81,9 @@ export function createHarness(
       if (current.paused) return { ok: false, reason: "paused" };
       if (!current.connected) return { ok: false, reason: "disconnected" };
       if (signal.aborted) return { ok: false, reason: "cancelled" };
-      if (request.deadline <= Date.now())
-        return { ok: false, reason: "timeout" };
+      const budgetMs = Math.min(90_000, request.deadline - Date.now());
+      const monotonicDeadline = performance.now() + budgetMs;
+      if (budgetMs <= 0) return { ok: false, reason: "timeout" };
       if (active.has(request.principal)) return { ok: false, reason: "busy" };
       if (invocations >= limit) return { ok: false, reason: "invocation_cap" };
       const sources = z.array(sourceSchema).safeParse(current.sources);
@@ -95,9 +96,10 @@ export function createHarness(
         new Set(snapshot.map((source) => source.id)).size !== snapshot.length
       )
         return { ok: false, reason: "invalid_request" };
-      const deadline = Math.min(request.deadline, Date.now() + 90_000);
+      // Convert the admitted wall-clock deadline once; clock corrections cannot reset elapsed time.
       const checkCurrent = () => {
-        if (Date.now() >= deadline) throw new ExecutionFailure("timeout");
+        if (performance.now() >= monotonicDeadline)
+          throw new ExecutionFailure("timeout");
         const latest = state(request.principal);
         if (latest.paused) throw new ExecutionFailure("paused");
         if (!latest.connected) throw new ExecutionFailure("disconnected");
@@ -124,7 +126,7 @@ export function createHarness(
           timeout = true;
           controller.abort();
         },
-        Math.max(1, deadline - Date.now()),
+        Math.max(1, monotonicDeadline - performance.now()),
       );
       active.add(request.principal);
       try {
