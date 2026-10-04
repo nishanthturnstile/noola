@@ -171,5 +171,16 @@
     "No actual generated-history or native cancellation proof",
     "No exact internal HTTP-attempt cap; unknown retries remain unknown",
     "Production hosting, privacy and model quality remain pending"
+  ],
+  "followUpObservations": [
+    {
+      "recordedAt": "2026-10-04T08:06:55.458632+00:00",
+      "category": "local-runtime-observation",
+      "id": "application-health-recovery",
+      "observed": "API watcher failed after existing phase0 runtime helper refreshed shared Docker dependencies; proxy HTTP 502",
+      "recoveryCommand": "docker restart noola-api-1",
+      "result": "HTTP 200 with status ready; all three application/infrastructure containers healthy",
+      "postgresRestarted": false
+    }
   ]
 }

@@ -44,7 +44,9 @@ No product endpoints, domain tables, frontend components, production identity sy
 | Native account access, language fixtures and provider usage | Pending | Zero live invocations; no account connected |
 | Native cancellation, real retained-history cleanup and latency/peak RAM | Pending | Offline simulations do not substitute for these observations |
 | Second-adult account, deployment and production privacy | Pending | Outside the observed single-account-first local scope |
-| Existing application health | Passed | Web/API/PostgreSQL remain healthy; proxied readiness returns `ready` |
+| Existing application health | Passed | Passed after an API watcher restart; proxied readiness returns `ready` |
+
+**Development-server interruption:** the existing `pnpm phase0:runtime` helper refreshed Docker-managed dependencies after the lockfile change. The running API watcher lost its `tsx` preload and the proxy briefly returned 502. `docker restart noola-api-1` restored HTTP 200 readiness; web and PostgreSQL stayed running. Coordinate a development-service restart when existing tooling refreshes its shared dependency volumes. Spike runtime containers use their own image and state volumes.
 
 The result JSON records the implementation commit, image identity, package integrity, commands and evidence categories. Docker reports approximately 907 MiB for the final image's uncompressed size; this is not incremental disk usage after shared-layer accounting. No spike container remains running, so there is no continuously resident spike process. Active inference resource use is unknown. Build cache is not broadly pruned because it may be shared with other local projects.
 
