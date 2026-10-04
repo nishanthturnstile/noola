@@ -1,6 +1,14 @@
 module.exports = {
   forbidden: [
     {
+      name: "production-cannot-import-spike-sdk",
+      severity: "error",
+      from: { path: "^(apps/(api|web)/src|packages/)" },
+      to: {
+        path: "node_modules/@openai/codex",
+      },
+    },
+    {
       name: "production-cannot-import-experiments",
       severity: "error",
       from: { path: "^(apps/(api|web)/src|packages/)" },

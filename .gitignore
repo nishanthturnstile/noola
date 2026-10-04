@@ -8,3 +8,6 @@ coverage/
 playwright-report/
 test-results/
 *.tsbuildinfo
+
+# Private experiment locks and uncommitted, sanitized local observations
+.codex-spike/

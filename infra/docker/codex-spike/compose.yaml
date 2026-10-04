@@ -1,0 +1,48 @@
+name: noola-codex-spike
+services:
+  probe:
+    image: noola-codex-spike:0.160.0
+    build:
+      context: ../../..
+      dockerfile: infra/docker/codex-spike/Dockerfile
+    init: true
+    user: '1000:1000'
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 1g
+    cpus: 1
+    pids_limit: 128
+    logging:
+      driver: none
+    environment:
+      SPIKE_CONTAINER: '1'
+      SPIKE_PRINCIPAL: ${SPIKE_PRINCIPAL:-adult-a}
+      NOOLA_SPIKE_MODEL: ${NOOLA_SPIKE_MODEL:-gpt-6.1-sol}
+    volumes:
+      - state:/state
+    tmpfs:
+      - /tmp:uid=1000,gid=1000,mode=1777
+      - /work:uid=1000,gid=1000,mode=0700
+      - /home/node:uid=1000,gid=1000,mode=0700
+    labels:
+      dev.noola.experiment: codex-sdk
+  init:
+    image: noola-codex-spike:0.160.0
+    user: '0:0'
+    network_mode: none
+    read_only: true
+    cap_drop: [ALL]
+    cap_add: [CHOWN, FOWNER, DAC_OVERRIDE]
+    security_opt: [no-new-privileges:true]
+    volumes:
+      - state:/state
+    entrypoint: [node, -e]
+    command: ["const fs=require('fs');fs.chownSync('/state',1000,1000);fs.chmodSync('/state',0o700)"]
+    labels:
+      dev.noola.experiment: codex-sdk
+volumes:
+  state:
+    name: noola-codex-spike-${SPIKE_PRINCIPAL:-adult-a}
+    labels:
+      dev.noola.experiment: codex-sdk
