@@ -1,0 +1,28 @@
+{
+  "private": true,
+  "type": "module",
+  "version": "0.0.0",
+  "name": "@noola/api-client",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "development": "./src/index.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json && node -e \"require('node:fs').copyFileSync('src/schema.d.ts', 'dist/schema.d.ts')\"",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "generate": "openapi-typescript ../contracts/openapi.json -o src/schema.d.ts",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@noola/contracts": "workspace:*",
+    "openapi-fetch": "0.17.0"
+  },
+  "devDependencies": {
+    "openapi-typescript": "7.13.0",
+    "json-schema-to-ts": "3.1.1",
+    "@types/js-yaml": "4.0.9"
+  }
+}

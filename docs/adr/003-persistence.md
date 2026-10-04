@@ -2,7 +2,7 @@
 
 **Status:** Proposed.
 
-**Validation:** Pending; see the linked gates.
+**Validation:** Pending. The [Phase 0 runtime experiment](../reviews/PHASE-0-READINESS.md) passes bounded synthetic cases and strict application checks under the [owner-approved backend compiler exception](../reviews/PERSISTENCE-COMPATIBILITY.md#compiler-policy-decision). Upstream declaration checking remains a separate failing diagnostic. See the linked gates for remaining evidence.
 
 **Provenance:** Extracted from the supplied product, architecture and stack baseline dated 3 October 2026. No original D-series record was available. External observations were not revalidated during consolidation.
 

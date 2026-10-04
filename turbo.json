@@ -1,0 +1,48 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "remoteCache": {
+    "enabled": false
+  },
+  "tasks": {
+    "generate": {
+      "dependsOn": ["^generate"],
+      "outputs": [],
+      "cache": false
+    },
+    "build": {
+      "dependsOn": ["^build", "generate"],
+      "outputs": ["dist/**"]
+    },
+    "typecheck": {
+      "dependsOn": ["^build", "generate"],
+      "outputs": []
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "cache": false
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true,
+      "env": ["API_PROXY_TARGET"]
+    },
+    "db:migrate": {
+      "cache": false
+    },
+    "test:integration": {
+      "cache": false
+    }
+  },
+  "globalPassThroughEnv": [
+    "CI",
+    "PLAYWRIGHT_BASE_URL",
+    "XDG_CONFIG_HOME",
+    "DATABASE_URL",
+    "MIGRATION_DATABASE_URL",
+    "ADMIN_DATABASE_URL",
+    "NOOLA_MIGRATION_PASSWORD",
+    "NOOLA_APP_PASSWORD",
+    "PORT",
+    "DB_POOL_SIZE"
+  ]
+}

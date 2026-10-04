@@ -1,0 +1,17 @@
+{
+  "generator": "shadcn@4.21.1",
+  "preset": "b5cRMiRzk",
+  "createUrl": "https://ui.shadcn.com/create?preset=b5cRMiRzk",
+  "configuration": {
+    "menuColor": "default",
+    "menuAccent": "subtle",
+    "radius": "default",
+    "font": "geist",
+    "iconLibrary": "lucide",
+    "theme": "teal",
+    "baseColor": "stone",
+    "style": "nova",
+    "chartColor": "teal",
+    "fontHeading": "inherit"
+  }
+}

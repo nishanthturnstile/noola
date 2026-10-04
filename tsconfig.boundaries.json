@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["apps/web/src/*"],
+      "@noola/contracts/*": ["packages/contracts/src/*"],
+      "@noola/api-client": ["packages/api-client/src/index.ts"]
+    }
+  },
+  "include": ["apps", "packages"]
+}

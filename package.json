@@ -1,0 +1,46 @@
+{
+  "private": true,
+  "type": "module",
+  "version": "0.0.0",
+  "name": "noola",
+  "packageManager": "pnpm@12.8.1",
+  "engines": {
+    "node": "24.21.x",
+    "pnpm": "12.8.1"
+  },
+  "scripts": {
+    "dev": "node scripts/local.mjs up",
+    "dev:down": "node scripts/local.mjs down",
+    "dev:logs": "node scripts/local.mjs logs",
+    "infra:up": "node scripts/local.mjs infra-up",
+    "db:provision": "node scripts/local.mjs provision",
+    "db:migrate": "node scripts/local.mjs migrate",
+    "env:init": "node scripts/local.mjs env",
+    "generate": "turbo run generate",
+    "generate:check": "node scripts/check-generated.mjs",
+    "build": "turbo run build",
+    "typecheck": "turbo run typecheck && tsc -p tsconfig.tools.json && pnpm phase0:typecheck",
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "check:boundaries": "depcruise apps/api/src apps/web/src packages/contracts/src packages/api-client/src --config .dependency-cruiser.cjs",
+    "test": "turbo run test",
+    "test:integration": "node scripts/local.mjs integration",
+    "test:e2e": "playwright test",
+    "check": "pnpm generate:check && pnpm lint && pnpm typecheck && pnpm check:boundaries && pnpm test && pnpm build && python3 scripts/check_docs.py",
+    "phase0:runtime": "node scripts/local.mjs phase0",
+    "phase0:typecheck": "pnpm --filter @noola/api phase0:typecheck",
+    "phase0:check": "pnpm phase0:typecheck && pnpm phase0:runtime",
+    "phase0:declarations": "pnpm --filter @noola/api phase0:declarations"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.15",
+    "@types/node": "24.10.1",
+    "@playwright/test": "1.63.0",
+    "@axe-core/playwright": "4.13.0",
+    "dependency-cruiser": "18.5.0",
+    "turbo": "2.11.7",
+    "typescript": "5.9.3",
+    "tsx": "4.23.15",
+    "vitest": "5.0.3"
+  }
+}

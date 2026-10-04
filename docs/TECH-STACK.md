@@ -1,6 +1,6 @@
 # Technology stack
 
-**Draft implementation selection; validation pending.** Consolidated 3 October 2026; backend separation and frontend choices revised on 4 October 2026. The complete architecture remains unapproved. Owner-selected directions are identified separately from recommendations. No application manifest, installed dependencies, deployed compatibility or measured cost is implied. [Documentation index](README.md).
+**Draft implementation selection; validation pending.** Consolidated 3 October 2026; backend separation and frontend choices revised on 4 October 2026. The complete architecture remains unapproved. Owner-selected directions are identified separately from recommendations. The authorized bootstrap now pins installed dependencies in workspace manifests; [bootstrap validation](reviews/BOOTSTRAP-VALIDATION.md) records its limited checks without implying product or production acceptance. [Documentation index](README.md).
 
 Use an independently built TypeScript/Node backend and React web client in a small pnpm workspace, with shared contracts and a reusable API client. Backend-owned household operations, one transactional database, purpose-specific adapters and bounded durable work preserve simple domain ownership. A package earns inclusion by removing demonstrated correctness or maintenance work; future capability names do not justify installing their dependencies now.
 
@@ -41,8 +41,8 @@ This is the single inventory of technology choices and introduction points. [Tec
 | Diagnostics | `pino`; application-owned audit, health and cost records | Recommended, Phase 1 |
 | Verification | `vitest`, `@playwright/test`, `@axe-core/playwright`, real PostgreSQL and actual phones | Recommended, incremental acceptance |
 | Code quality | Pinned `@biomejs/biome` with `biome.json`; separate TypeScript checks | Selected development convention |
-| Package management | Exact pnpm version, workspace support and committed lockfile; ordinary package scripts | Selected convention; independent web/backend builds with shared contracts/client code |
-| Delivery/security | GitHub Actions/Dependabot; pnpm audit and pinned Gitleaks CLI | Recommended; GitHub remote configured, no pipeline yet |
+| Package management | Exact pnpm version, Turborepo task orchestration with local caching, workspace support and committed lockfile; ordinary package scripts | Selected convention; independent web/backend builds with shared contracts/client code |
+| Delivery/security | GitHub Actions/Dependabot; pnpm audit and pinned Gitleaks CLI | Bootstrap GitHub Actions pipeline configured; broader delivery/security gates remain incremental |
 
 ## Application and data integration
 
@@ -74,9 +74,9 @@ At scaffold time, verify supported releases, project maturity and compatible pee
 
 Use strict TypeScript, checked external schemas and exhaustive domain states. Biome formats and lints supported source files; TypeScript checking, tests and SQL constraints remain separate. Do not add parallel ESLint/Prettier formatting for the same files. A demonstrated unsupported semantic rule may justify a narrowly scoped tool. Markdown needs prose and link review, not a new application toolchain.
 
-The future pipeline runs Biome, route/OpenAPI/client generation and drift checks, strict TypeScript and package-boundary checks, migrations/integration tests, independent builds and critical Playwright/axe flows, plus dependency and secret checks. The first UI proof covers URL navigation, typed forms, Base UI accessibility and identity/cache clearing. Use synthetic fixtures and no production credentials in pull requests. Browser emulation supplements actual-phone/manual evidence. [Acceptance tooling](reference/ACCEPTANCE.md#verification-tooling) defines responsibilities.
+The bootstrap pipeline runs applicable foundation checks; the full feature pipeline incrementally adds Biome, route/OpenAPI/client generation and drift checks, strict TypeScript and package-boundary checks, migrations/integration tests, independent builds and critical Playwright/axe flows, plus dependency and secret checks. The first UI proof covers URL navigation, typed forms, Base UI accessibility and identity/cache clearing. Use synthetic fixtures and no production credentials in pull requests. Browser emulation supplements actual-phone/manual evidence. [Acceptance tooling](reference/ACCEPTANCE.md#verification-tooling) defines responsibilities.
 
-Approve only necessary lifecycle/native build scripts. Keep credentials in ignored local environment files and document only non-secret examples. Do not suppress peer incompatibility with ignored warnings or broad casts. Native artifacts need separate Linux validation. Patch dependencies promptly; review majors and pre-1.0 changes with relevant regression checks. No Husky, lint-staged, monorepo orchestrator or remote build cache is needed initially.
+Approve only necessary lifecycle/native build scripts. Keep credentials in ignored local environment files and document only non-secret examples. Do not suppress peer incompatibility with ignored warnings or broad casts. Native artifacts need separate Linux validation. Patch dependencies promptly; review majors and pre-1.0 changes with relevant regression checks. Turborepo was owner-selected for bootstrap on 4 October 2026; remote caching is disabled. No Husky or lint-staged is needed initially.
 
 ## Introduction and replacement rules
 
@@ -85,3 +85,7 @@ Install only dependencies needed by the active workflow. Phase 0 experiments do 
 Semantic retrieval may enter early on measured recall failure; another search store follows database/model tuning. The disposable vector-service exception does not enlarge the app-host shortlist. Sentry or OpenTelemetry require observed diagnostic need. New device/connection SDKs require a selected future branch. No Redis, generalized agent framework, autonomous memory platform, microservices, Kubernetes, commercial billing or enterprise identity is an automatic graduation path.
 
 Provider replacement preserves source references, lifecycle, consent, receipts and manual continuity, not merely API shape. [ADRs](adr/README.md#decision-index) retain meaningful alternatives and exit consequences. Full cost feasibility, production arrangements and all device/recovery results remain [pending evidence](reference/DECISIONS-AND-GATES.md#evidence-gates).
+
+## Bootstrap adoption notes
+
+Separate `local-infra` and `noola` Compose projects provide shared PostgreSQL and Dockerized development. [Bootstrap validation](reviews/BOOTSTRAP-VALIDATION.md) records their checks. The [Phase 0 experiment](reviews/PHASE-0-READINESS.md) passes synthetic Drizzle migrations and Better Auth/adapter runtime cases, with an [owner-approved backend declaration-check exception](reviews/PERSISTENCE-COMPATIBILITY.md#compiler-policy-decision). Strict application checks remain enabled; upstream declarations still fail their separate diagnostic. Identity packages remain development-only; the running application uses `pg` health checks with no business tables. Exact pins and commands live in the [runbook](../README.md).

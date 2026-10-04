@@ -143,7 +143,7 @@ def check():
         return 1
     print(f'PASS: {len(files)} documents; local links/anchors; 205 catalog rows (135/52/18); FR/BR/QLT/T/X/F/V/DAR; aliases; 11 ADRs; phase gates.')
     print(f'Core documents: {total:,} words (baseline 81,199; reduction {100*(1-total/81199):.1f}%).')
-    print('Application lint/type-check/tests/build: not applicable; no application manifest. External sources and runtime gates: not validated by this check.')
+    print('Application checks run separately through pnpm check. External sources and runtime gates are not validated by this documentation check.')
     return 0
 
 

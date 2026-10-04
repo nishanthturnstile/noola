@@ -1,0 +1,7 @@
+FROM node:24.21.0-bookworm-slim@sha256:0e0ff40c39bc087845bfb27465a0df4ea419520094bc35842ff83dd8cbe6f9b6
+RUN npm install --global pnpm@12.8.1
+WORKDIR /workspace
+ENV PNPM_HOME=/pnpm
+ENV PATH=/pnpm:$PATH
+ENV TURBO_TELEMETRY_DISABLED=1
+RUN mkdir -p /pnpm/store /workspace/node_modules /workspace/apps/api/node_modules /workspace/apps/web/node_modules /workspace/packages/contracts/node_modules /workspace/packages/api-client/node_modules

@@ -1,0 +1,29 @@
+{
+  "private": true,
+  "type": "module",
+  "version": "0.0.0",
+  "name": "@noola/contracts",
+  "exports": {
+    "./health": {
+      "types": "./dist/health.d.ts",
+      "development": "./src/health.ts",
+      "default": "./dist/health.js"
+    },
+    "./routes": {
+      "types": "./dist/routes.d.ts",
+      "development": "./src/routes.ts",
+      "default": "./dist/routes.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "generate": "tsx scripts/generate.ts"
+  },
+  "dependencies": {
+    "zod": "4.6.5",
+    "@hono/zod-openapi": "1.6.3",
+    "hono": "4.13.12"
+  },
+  "devDependencies": {}
+}

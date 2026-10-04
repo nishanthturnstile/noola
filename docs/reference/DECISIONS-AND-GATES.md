@@ -1,8 +1,8 @@
 # Decisions and evidence gates
 
-Single index of supported decision status, policy clarifications and required evidence. The rule or ADR linked here owns the decision body. No implementation or household evidence has been supplied.
+Single index of supported decision status, policy clarifications and required evidence. The rule or ADR linked here owns the decision body. Bootstrap and bounded synthetic implementation evidence now exist; full household/product gates remain pending.
 
-[Documentation index](../README.md). Consolidated 3 October 2026; ISSUE-01 and ISSUE-02 resolved by Nishanth on 4 October 2026. Implementation and validation remain pending.
+[Documentation index](../README.md). Consolidated 3 October 2026; ISSUE-01 and ISSUE-02 resolved by Nishanth on 4 October 2026. Full implementation and acceptance remain pending.
 
 ## Status conventions
 
@@ -30,7 +30,9 @@ These interpretations were discovered during consolidation and explicitly resolv
 <a id="evidence-gates"></a>
 ## Evidence gates
 
-All gates below are Pending. The named owner is accountable for collecting or reviewing proof, not a claim that an operator or tester has already been appointed. Passing records must include date, configuration, method, observed result and a safe artifact link.
+All complete gates below remain Pending. The [Phase 0 execution record](../reviews/PHASE-0-READINESS.md) records partial G01 inventory, G04 identity isolation/session evidence, G05 synthetic lexical source evidence, G06 local deletion-aware restore evidence, and G09 manual-path evidence. The Drizzle application-compatibility sub-check now passes under the [owner-approved backend compiler exception](../reviews/PERSISTENCE-COMPATIBILITY.md#compiler-policy-decision); upstream declaration checking still fails and remains an explicit diagnostic. G13 remains Pending for its remaining dependency/integration evidence. The [bootstrap record](../reviews/BOOTSTRAP-VALIDATION.md) supplies independent build/local infrastructure evidence. No partial result passes its whole gate.
+
+ The named owner is accountable for collecting or reviewing proof, not a claim that an operator or tester has already been appointed. Passing records must include date, configuration, method, observed result and a safe artifact link.
 
 | Gate | Required proof | Owner | Needed by | Definition / decision |
 |---|---|---|---|---|

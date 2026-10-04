@@ -1,0 +1,287 @@
+--- a/apps/api/experiments/phase0/identity.ts
++++ b/apps/api/experiments/phase0/identity.ts
+@@ -1,20 +1,21 @@
+ import { randomBytes } from "node:crypto";
+-import { drizzleAdapter } from "@better-auth/drizzle-adapter";
+-import { betterAuth } from "better-auth/minimal";
+-import { drizzle } from "drizzle-orm/node-postgres";
++import { kyselyAdapter } from "@better-auth/kysely-adapter";
++import { type BetterAuthOptions, betterAuth } from "better-auth/minimal";
+ import type pg from "pg";
+-import * as schema from "./schema.js";
++import { createQueries } from "./queries.js";
+ 
+ export const origin = "http://phase0.invalid";
+-export function createIdentity(pool: pg.Pool, seedOnly = false) {
+-  return betterAuth({
++export function createIdentity(
++  pool: pg.Pool,
++  seedOnly = false,
++): ReturnType<typeof betterAuth> {
++  const options: BetterAuthOptions = {
+     appName: "Noola synthetic Phase 0 experiment",
+     baseURL: origin,
+     secret: randomBytes(48).toString("hex"),
+     trustedOrigins: [origin],
+-    database: drizzleAdapter(drizzle(pool, { schema }), {
+-      provider: "pg",
+-      schema,
++    database: kyselyAdapter(createQueries(pool), {
++      type: "postgres",
+       transaction: true,
+     }),
+     emailAndPassword: {
+@@ -33,5 +34,6 @@
+     },
+     logger: { disabled: true },
+     telemetry: { enabled: false },
+-  });
++  };
++  return betterAuth(options);
+ }
+--- a/apps/api/experiments/phase0/app.ts
++++ b/apps/api/experiments/phase0/app.ts
+@@ -1,25 +1,20 @@
+ import { randomUUID } from "node:crypto";
+-import { and, eq, sql } from "drizzle-orm";
+-import { drizzle } from "drizzle-orm/node-postgres";
+ import { Hono } from "hono";
++import { sql } from "kysely";
+ import type pg from "pg";
+ import { z } from "zod";
+ import { createIdentity, origin } from "./identity.js";
++import { createQueries } from "./queries.js";
+ import type { createJournal } from "./recovery.js";
+-import { record } from "./schema.js";
+ 
+-// Intentionally not imported by src/index.ts. No public listener, production route or AI adapter.
+ export function createExperiment(
+   pool: pg.Pool,
+   journal: ReturnType<typeof createJournal>,
+ ) {
+   const auth = createIdentity(pool);
+-  const db = drizzle(pool);
++  const db = createQueries(pool);
+   const app = new Hono<{ Variables: { actor: string } }>();
+   const input = z.strictObject({ text: z.string().trim().min(1).max(2000) });
+-  const projection = { id: record.id, text: record.text };
+-  const owned = (actor: string, id: string) =>
+-    and(eq(record.id, id), eq(record.ownerId, actor));
+   app.use("*", async (c, next) => {
+     c.header("Cache-Control", "no-store");
+     await next();
+@@ -50,14 +45,11 @@
+     const query = c.req.query("q") ?? "";
+     if (query.length > 200) return c.json({ error: "invalid-input" }, 400);
+     const rows = await db
+-      .select(projection)
+-      .from(record)
+-      .where(
+-        and(
+-          eq(record.ownerId, c.get("actor")),
+-          sql`strpos(${record.text}, ${query}) > 0`,
+-        ),
+-      );
++      .selectFrom("record")
++      .select(["id", "text"])
++      .where("ownerId", "=", c.get("actor"))
++      .where(sql<boolean>`strpos(text, ${query}) > 0`)
++      .execute();
+     return c.json({
+       items: rows.map((row) => ({
+         ...row,
+@@ -68,47 +60,61 @@
+   app.get("/records/export", async (c) =>
+     c.json({
+       items: await db
+-        .select(projection)
+-        .from(record)
+-        .where(eq(record.ownerId, c.get("actor"))),
++        .selectFrom("record")
++        .select(["id", "text"])
++        .where("ownerId", "=", c.get("actor"))
++        .execute(),
+     }),
+   );
+   app.post("/records/", async (c) => {
+     const body = input.safeParse(await c.req.json().catch(() => undefined));
+     if (!body.success) return c.json({ error: "invalid-input" }, 400);
+-    const [row] = await db
+-      .insert(record)
++    const row = await db
++      .insertInto("record")
+       .values({
+         id: randomUUID(),
+         ownerId: c.get("actor"),
+         text: body.data.text,
+       })
+-      .returning(projection);
++      .returning(["id", "text"])
++      .executeTakeFirstOrThrow();
+     return c.json(row, 201);
+   });
+   app.get("/records/:id", async (c) => {
+-    const [row] = await db
+-      .select(projection)
+-      .from(record)
+-      .where(owned(c.get("actor"), c.req.param("id")));
++    const row = await db
++      .selectFrom("record")
++      .select(["id", "text"])
++      .where("id", "=", c.req.param("id"))
++      .where("ownerId", "=", c.get("actor"))
++      .executeTakeFirst();
+     return row ? c.json(row) : c.json({ error: "not-found" }, 404);
+   });
+   app.patch("/records/:id", async (c) => {
+     const body = input.safeParse(await c.req.json().catch(() => undefined));
+     if (!body.success) return c.json({ error: "invalid-input" }, 400);
+-    const [row] = await db
+-      .update(record)
++    const row = await db
++      .updateTable("record")
+       .set(body.data)
+-      .where(owned(c.get("actor"), c.req.param("id")))
+-      .returning(projection);
++      .where("id", "=", c.req.param("id"))
++      .where("ownerId", "=", c.get("actor"))
++      .returning(["id", "text"])
++      .executeTakeFirst();
+     return row ? c.json(row) : c.json({ error: "not-found" }, 404);
+   });
+   app.delete("/records/:id", async (c) => {
+-    const filter = owned(c.get("actor"), c.req.param("id"));
+-    const [row] = await db.select(projection).from(record).where(filter);
++    const row = await db
++      .selectFrom("record")
++      .select("id")
++      .where("id", "=", c.req.param("id"))
++      .where("ownerId", "=", c.get("actor"))
++      .executeTakeFirst();
+     if (!row) return c.json({ error: "not-found" }, 404);
+     await journal.append(row.id);
+-    await db.delete(record).where(filter);
++    await db
++      .deleteFrom("record")
++      .where("id", "=", row.id)
++      .where("ownerId", "=", c.get("actor"))
++      .execute();
+     return c.body(null, 204);
+   });
+   return app;
+--- a/apps/api/experiments/phase0/database.ts
++++ b/apps/api/experiments/phase0/database.ts
+@@ -1,7 +1,7 @@
+ import { randomBytes } from "node:crypto";
+-import { fileURLToPath } from "node:url";
+-import { drizzle } from "drizzle-orm/node-postgres";
+-import { migrate } from "drizzle-orm/node-postgres/migrator";
++import { readFile } from "node:fs/promises";
++import { Kysely, PostgresDialect, sql } from "kysely";
++import { Migrator } from "kysely/migration";
+ import pg from "pg";
+ 
+ // Names/passwords are generated here, never accepted as SQL fragments from a caller.
+@@ -33,11 +33,35 @@
+     await owner.query(
+       `REVOKE ALL ON DATABASE ${name} FROM PUBLIC; GRANT CONNECT ON DATABASE ${name} TO ${name}; REVOKE ALL ON SCHEMA public FROM PUBLIC; GRANT USAGE ON SCHEMA public TO ${name}`,
+     );
+-    const migrationsFolder = fileURLToPath(
+-      new URL("./migrations", import.meta.url),
+-    );
+-    await migrate(drizzle(owner), { migrationsFolder });
+-    await migrate(drizzle(owner), { migrationsFolder });
++    const migrationDb = new Kysely<unknown>({
++      dialect: new PostgresDialect({
++        pool: new pg.Pool({ connectionString: ownerUrl.href, max: 1 }),
++      }),
++    });
++    try {
++      const migration = await readFile(
++        new URL("./migrations/0000_phase0.sql", import.meta.url),
++        "utf8",
++      );
++      const migrator = new Migrator({
++        db: migrationDb,
++        provider: {
++          getMigrations: async () => ({
++            "0000_phase0": {
++              up: async (db: Kysely<unknown>) => {
++                await sql.raw(migration).execute(db);
++              },
++            },
++          }),
++        },
++      });
++      for (let i = 0; i < 2; i++) {
++        const result = await migrator.migrateToLatest();
++        if (result.error) throw result.error;
++      }
++    } finally {
++      await migrationDb.destroy();
++    }
+     await owner.query(
+       `GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO ${name}`,
+     );
+--- a/apps/api/experiments/phase0/run.ts
++++ b/apps/api/experiments/phase0/run.ts
+@@ -3,14 +3,12 @@
+ import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+ import { tmpdir } from "node:os";
+ import { join } from "node:path";
+-import { eq } from "drizzle-orm";
+-import { drizzle } from "drizzle-orm/node-postgres";
+ import { z } from "zod";
+ import { createExperiment } from "./app.js";
+ import { withDatabase } from "./database.js";
+ import { createIdentity, origin } from "./identity.js";
++import { createQueries } from "./queries.js";
+ import { createJournal } from "./recovery.js";
+-import { record } from "./schema.js";
+ 
+ const recordSchema = z.strictObject({ id: z.string(), text: z.string() });
+ const searchSchema = z.strictObject({
+@@ -175,13 +173,16 @@
+     );
+ 
+     await assert.rejects(
+-      drizzle(pool).transaction(async (tx) => {
+-        await tx
+-          .update(record)
+-          .set({ text: "must roll back" })
+-          .where(eq(record.id, a.id));
+-        throw new Error("synthetic transaction interruption");
+-      }),
++      createQueries(pool)
++        .transaction()
++        .execute(async (tx) => {
++          await tx
++            .updateTable("record")
++            .set({ text: "must roll back" })
++            .where("id", "=", a.id)
++            .execute();
++          throw new Error("synthetic transaction interruption");
++        }),
+       /synthetic transaction interruption/,
+     );
+     assert.deepEqual(
+@@ -189,7 +190,7 @@
+       a,
+     );
+     console.info(
+-      "PASS: stable Drizzle fresh/repeated migration, restricted runtime role and transaction rollback.",
++      "PASS: Kysely fresh/repeated migration, restricted runtime role and transaction rollback.",
+     );
+     assert.equal(
+       (
+--- /dev/null
++++ b/apps/api/experiments/phase0/queries.ts
+@@ -0,0 +1,8 @@
++import { Kysely, PostgresDialect } from "kysely";
++import type pg from "pg";
++export interface ProofDatabase {
++  record: { id: string; ownerId: string; text: string };
++}
++export function createQueries(pool: pg.Pool) {
++  return new Kysely<ProofDatabase>({ dialect: new PostgresDialect({ pool }) });
++}

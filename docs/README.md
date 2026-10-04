@@ -1,6 +1,6 @@
 # Documentation guide
 
-Start here. The product baseline and roadmap sequence are established; the complete architecture is still Draft and implementation evidence is pending. This documentation-only workspace has committed Git history and a configured GitHub remote, but no application manifest or deployed service. Consolidated 3 October 2026; product policy amendments recorded on 4 October 2026.
+Start here. The product baseline and roadmap sequence are established; the complete architecture is still Draft and implementation evidence is pending. The workspace now contains the authorized pre-Phase-1 bootstrap, four application/shared packages and local Docker configuration. The [local runbook](../README.md) and [bootstrap validation](reviews/BOOTSTRAP-VALIDATION.md) distinguish executed scaffold checks from pending product gates. The [Phase 0 execution record](reviews/PHASE-0-READINESS.md) is the current work plan and proof/gap summary. Consolidated 3 October 2026; product policy amendments recorded on 4 October 2026.
 
 ## Reading order
 

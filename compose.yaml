@@ -1,0 +1,77 @@
+name: noola
+x-dev: &dev
+  image: noola-dev:local
+  working_dir: /workspace
+  init: true
+  user: "${LOCAL_UID:-1000}:${LOCAL_GID:-1000}"
+  volumes:
+    - .:/workspace
+    - root-modules:/workspace/node_modules
+    - api-modules:/workspace/apps/api/node_modules
+    - web-modules:/workspace/apps/web/node_modules
+    - contracts-modules:/workspace/packages/contracts/node_modules
+    - client-modules:/workspace/packages/api-client/node_modules
+    - pnpm-store:/pnpm/store
+  logging:
+    driver: json-file
+    options:
+      max-size: 10m
+      max-file: "3"
+services:
+  dependencies:
+    <<: *dev
+    build:
+      context: .
+      dockerfile: infra/docker/Dockerfile.dev
+    user: root
+    environment:
+      LOCAL_UID: ${LOCAL_UID:-1000}
+      LOCAL_GID: ${LOCAL_GID:-1000}
+    command: [sh, infra/docker/install.sh]
+  api:
+    <<: *dev
+    depends_on:
+      dependencies:
+        condition: service_completed_successfully
+    command: [pnpm, --filter, '@noola/api', dev]
+    environment:
+      DATABASE_URL: ${DATABASE_URL:?Run pnpm env:init}
+      DB_POOL_SIZE: ${DB_POOL_SIZE:-5}
+      PORT: 3001
+    networks: [default, databases]
+    healthcheck:
+      test: [CMD, node, -e, "fetch('http://127.0.0.1:3001/api/health/ready').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+  web:
+    <<: *dev
+    depends_on:
+      api:
+        condition: service_healthy
+    command: [pnpm, --filter, '@noola/web', dev]
+    environment:
+      API_PROXY_TARGET: http://api:3001
+    ports:
+      - "127.0.0.1:${WEB_PORT:-5173}:5173"
+    healthcheck:
+      test: [CMD, node, -e, "fetch('http://127.0.0.1:5173').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+  tools:
+    <<: *dev
+    profiles: [tools]
+    networks: [default, databases]
+    command: [pnpm, check]
+volumes:
+  root-modules:
+  api-modules:
+  web-modules:
+  contracts-modules:
+  client-modules:
+  pnpm-store:
+networks:
+  databases:
+    external: true
+    name: local-databases

@@ -21,7 +21,7 @@ Initially expose both builds through one browser origin on a permitted host, wit
 
 ## Alternatives
 
-React Router Framework mode and integrated Express were the prior proposal. TanStack Start adds SSR/server functions but introduces another server framework without a measured rendering requirement. oRPC is a credible alternative with unresolved strict declaration checks in the reviewed stable version. Reviewed stable ts-rest peers conflicted with React 19/Zod 4; tRPC is viable for TypeScript clients but less direct for a language-neutral contract. The [review](../reviews/CODE-STRUCTURE-REVIEW.md) records evidence and limits. Plain pnpm scripts suffice; Nx/Turborepo, microservices and additional domain stores have no measured need.
+React Router Framework mode and integrated Express were the prior proposal. TanStack Start adds SSR/server functions but introduces another server framework without a measured rendering requirement. oRPC is a credible alternative with unresolved strict declaration checks in the reviewed stable version. Reviewed stable ts-rest peers conflicted with React 19/Zod 4; tRPC is viable for TypeScript clients but less direct for a language-neutral contract. The [review](../reviews/CODE-STRUCTURE-REVIEW.md) records evidence and limits. On 4 October 2026 Nishanth selected pnpm with Turborepo for bootstrap task orchestration and local caching, while retaining the four workspaces. Remote caching, Nx, microservices and additional domain stores remain unnecessary.
 
 ## Consequences
 
