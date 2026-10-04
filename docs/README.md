@@ -39,6 +39,10 @@ Validation is independent: **Pending**, **Passed**, **Failed** or **Not enabled*
 
 [ISSUE-01 and ISSUE-02](reference/DECISIONS-AND-GATES.md#open-policy-questions) were resolved by Nishanth on 4 October 2026. Paid-budget exhaustion temporarily pauses all optional AI features, including subscription and background routes; manual controls continue. Development/testing/staging/UAT may evaluate any available model/processor in any affordable available region without production residency, no-training qualification or thirty-day processor-retention eligibility gates. Access/terms, permissions, funding approval and informed consent for real data still apply. Production qualification and implementation evidence remain pending. The unavailable D01–D29 decision history is recorded as [missing provenance](reference/DECISIONS-AND-GATES.md#missing-history), not reconstructed.
 
+The [4 October browser-validation timing amendment](reference/ACCEPTANCE.md#browser-validation-timing) accepts Chromium/Safari compatibility evidence for local development and moves physical-device checks to deployed acceptance. It changes timing, not observed test results.
+
+The [household and service feasibility proposal](reviews/PHASE-0-FEASIBILITY.md) adds candidate scenarios for Nishan and Manjula, current subscription/gateway research, the ₹3,000 cost worksheet and recovery responsibilities. Source code remains private by owner decision. Codex SDK containment, account/payment evidence and independent recovery costs remain pending before claiming full Phase 0 completion.
+
 ## Maintaining the documents
 
 Edit the authoritative definition first, then update affected links, mappings, ADR status and acceptance/gates. Keep the four cores near 1,000–2,000 words each. Extract unique detailed contracts into the existing topic references; remove copied policy tables, parallel decision registers and repeated inventories. Prefer a short linked summary over another definition.

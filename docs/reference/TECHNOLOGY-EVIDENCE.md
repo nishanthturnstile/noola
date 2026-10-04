@@ -6,6 +6,11 @@ Most observations are inherited research attributed to 3 October 2026. Backend c
 
 Revalidate relevant claims before installing dependencies or enabling a provider. Record the exact configuration, source URL, observation date, scope and result under the applicable [evidence gate](DECISIONS-AND-GATES.md#evidence-gates). Core technology choices remain in the [stack](../TECH-STACK.md#selection-inventory); rationale belongs in [ADRs](../adr/README.md).
 
+<a id="provider-feasibility-review"></a>
+## Provider and operating feasibility review
+
+The [4 October research proposal](../reviews/PHASE-0-FEASIBILITY.md) supplies newly fetched official evidence for ChatGPT plan access, Vercel AI Gateway, OpenCode Zen/Go, and Railway/Resend prices. It supersedes inherited provider/price assumptions only within that stated scope. Noola remains private; the owner selected a native Codex SDK spike and deferred the newer private-client registration route; Plus/Pro account assumptions do not establish access and ChatGPT Go is not presumed eligible. Vercel remains the first paid candidate, Zen an alternative, and Go is not selected for household-assistant traffic. INR billing, exact accounts and hosted durability remain unverified. The cost worksheet is an explicitly assumed workload, with no live provider calls or purchases.
+
 <a id="deferred-technologies"></a>
 ## Deferred Technologies
 
@@ -56,6 +61,21 @@ The [complete TanStack review](../reviews/TANSTACK-AND-UI-REVIEW.md#complete-tan
 | Vitest 5 / Playwright 1 | Node 24 and Vite 8 | Browser binaries pinned with test package; emulation does not replace actual phones |
 
 The 4 October [frontend metadata capture](../reviews/frontend-research-evidence.json) records official versions, peers and licenses; the [backend experiment](../reviews/code-structure-evidence.json) records actual strict compilation/HTTP checks and limits. Other rows retain inherited observations, including [auth adapter](https://registry.npmjs.org/@better-auth/drizzle-adapter), [AI SDK](https://registry.npmjs.org/ai) and [Vitest](https://registry.npmjs.org/vitest). A scaffold must run full install/build/integration checks rather than suppress peer warnings.
+
+<a id="browser-feasibility-review"></a>
+## Browser feasibility review — 4 October 2026
+
+Nishanth selected Chromium-based browsers and Safari as the browser families. Current stable versions are the planning assumption; historical minimum versions below describe library/platform support, not a promised Noola minimum. Under the [owner timing amendment](ACCEPTANCE.md#browser-validation-timing), this review supplies the Phase 0 browser-feasibility go-ahead. Actual-device acceptance follows deployment.
+
+| Area | Published evidence and implication |
+|---|---|
+| UI/CSS | [Tailwind 4 compatibility](https://tailwindcss.com/docs/compatibility) lists Chrome 111+ and Safari 16.4+ for core features. Newer optional CSS features still need feature-specific checks. Current stable Chromium/Safari are a reasonable development baseline. |
+| JavaScript build | [Vite browser compatibility](https://vite.dev/guide/build.html#browser-compatibility) documents its modern-browser build target. Build transforms do not provide every runtime Web API; review browser-specific APIs when introduced. |
+| Secure browser APIs | [Service workers](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API) require a secure context; localhost is a development exception. A phone visiting a laptop's ordinary LAN HTTP address does not inherit that localhost exception. HTTPS belongs in the deployed preview. |
+| iPhone push | [WebKit's Web Push documentation](https://webkit.org/blog/13878/web-push-for-web-apps-on-ios-and-ipados/) supports Home Screen web apps from iOS/iPadOS 16.4, with permission requested through user interaction. Generic Safari-tab compatibility does not prove installed-app push delivery. |
+| Automated evidence | [Playwright browser documentation](https://playwright.dev/docs/browsers) distinguishes its WebKit build from branded Safari. Noola's existing desktop and mobile-sized projects both run Chromium; the latter is layout emulation, not an iPhone/Safari pass. |
+
+**Review outcome:** Browser feasibility accepted as a planning assumption for laptop development; no newly observed Safari or physical-phone result. Keep the existing laptop checks for implemented behaviour and avoid a separate repeated generic-browser test exercise now. Later deployed checks focus on installation, permission/closed/locked push, session resume/private-state clearing, accessibility and capture when enabled. Feature-detect optional APIs and keep server-side scheduling; browser support tables do not establish notification timing or application correctness. Other Phase 0 account, cost, trust and household evidence is unaffected.
 
 <a id="version-snapshot"></a>
 ## Version Strategy
@@ -141,7 +161,7 @@ The Phase 3 HEIC build is the material non-permissive native dependency question
 | Independent recovery needs unavailable operator access | Hosting/storage/auth | Builder remains a single point of operational dependence | Test adult account recovery and infrastructure recovery separately |
 | Old snapshot restores revoked authority | PostgreSQL/object recovery | Privacy breach | Independent current restriction journal; fail-closed restore; TD-004 |
 | Stale worker submits after acknowledged cancellation | Runner/push | Unstoppable or duplicate prompts | Serialize handoff, preserve unknown outcomes, fault-injection tests; TD-007 |
-| PWA push/capture fails on actual phones | Browser/PWA | Required Release 1 capability absent | Early device gate; native/hybrid fallback without inbox-only substitution |
+| PWA push/capture fails on actual phones | Browser/PWA | Required Release 1 capability absent | Deployed device acceptance under the owner timing amendment; native/hybrid fallback without inbox-only substitution |
 | Lexical retrieval misses mixed-language meaning | PostgreSQL search | QLT-04 failure | Separate Tamil/transliteration fixtures; trigger eligible semantic retrieval |
 | Stable and preview APIs are mixed | Drizzle/Prisma/framework docs | Broken builds or unsupported production dependency | Registry/release verification; stable pinned set; no ignored peer errors |
 | Parser or HEIC codec creates native-build/security burden | Sharp/PDF.js/libheif | Failed uploads, resource exhaustion or licensing issue | Phase 3 actual-image/container tests, restricted parsing and patch policy |

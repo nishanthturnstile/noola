@@ -2,7 +2,7 @@
 
 **Draft implementation selection; validation pending.** Consolidated 3 October 2026; backend separation and frontend choices revised on 4 October 2026. The complete architecture remains unapproved. Owner-selected directions are identified separately from recommendations. The authorized bootstrap now pins installed dependencies in workspace manifests; [bootstrap validation](reviews/BOOTSTRAP-VALIDATION.md) records its limited checks without implying product or production acceptance. [Documentation index](README.md).
 
-Use an independently built TypeScript/Node backend and React web client in a small pnpm workspace, with shared contracts and a reusable API client. Backend-owned household operations, one transactional database, purpose-specific adapters and bounded durable work preserve simple domain ownership. A package earns inclusion by removing demonstrated correctness or maintenance work; future capability names do not justify installing their dependencies now.
+Use independently built TypeScript/Node and React applications in a pnpm workspace, with shared contracts and API client. Backend operations, PostgreSQL, purpose-specific adapters and bounded durable jobs preserve domain ownership. A package earns inclusion by removing demonstrated correctness or maintenance work; future capability names do not justify installing their dependencies now.
 
 ## Selection inventory
 
@@ -25,8 +25,8 @@ This is the single inventory of technology choices and introduction points. [Tec
 | Primary data | PostgreSQL 18, `pg`, Drizzle stable `drizzle-orm` and `drizzle-kit` | Recommended, Phase 1 |
 | Identity | `better-auth` and matching `@better-auth/drizzle-adapter`; opaque DB sessions | Recommended, Phase 1; independent recovery gate |
 | Authorization | Application-owned current record policy, approval and processing checks | Required boundary; Phase 1 onward |
-| Text AI | Dedicated subscription OAuth/Responses adapter; AI SDK Core `ai` and supported gateway/provider adapters | Owner subscription-first direction; access/quality gates in Phase 0/1 |
-| Paid fallback | Configurable Vercel AI Gateway first; narrow purpose/direct adapters where required | Selected direction; explicit permission/funding and eligibility gates |
+| Text AI | `@openai/codex-sdk` for an isolated subscription spike; AI SDK Core `ai` for supported paid gateway/provider adapters | Owner-approved SDK spike; exact pin at implementation; access/containment/quality gates remain pending |
+| Paid fallback | Configurable Vercel AI Gateway first; OpenCode Zen evaluated alternative; narrow purpose/direct adapters where required | Vercel direction retained; no gateway enabled; OpenCode Go not selected |
 | Models | Configurable candidates; discover actual connected-account availability | Evaluation choices, never assumed entitlement |
 | Retrieval | Authorized SQL, PostgreSQL full-text search and `pg_trgm` | Recommended, Phase 1 |
 | Semantic retrieval | `pgvector` and an eligible configurable multilingual embedding model | Quality-triggered, potentially Phase 1 |
@@ -62,7 +62,9 @@ The [full TanStack review](reviews/TANSTACK-AND-UI-REVIEW.md) evaluates every cu
 
 Each adult’s eligible ChatGPT plan is the first AI funding route, with independently authorized paid fallback. Household identity and authority stay application-owned. The source candidates remain GPT-6 Luna for paid text/structured work, GPT-6.1 Sol as an alternative, gpt-transcribe and gpt-4o-mini-transcribe for transcription comparison, and gpt-4o-mini-tts for requested speech, only where actually available and qualified. Existing multimodal/web routes remain configurable candidates. No model name guarantees account access, modality support or quality.
 
-Keep subscription OAuth credentials separate from gateway API credentials. The dedicated subscription adapter must respect its actual request/capability restrictions; speech, embeddings and other unsupported operations require an authorized purpose route. Shared routines identify their consenting funding principal. Paid-budget exhaustion pauses all optional AI features across paid and subscription routes, including background work; manual controls and direct briefs continue. Nonproduction may evaluate any available model/processor in any affordable available region without production residency, no-training qualification or thirty-day processor-retention eligibility gates. Actual access/terms, permissions, funding approval and informed consent for real data still apply. The [provider contracts](reference/APPLICATION-DESIGN.md#provider-contracts), [ADR-007](adr/007-ai-boundaries.md), and G02/G03 own eligibility and disclosure details; the [resolved policy clarifications](reference/DECISIONS-AND-GATES.md#open-policy-questions) do not imply passing validation.
+The [provider review](reviews/PHASE-0-FEASIBILITY.md#ai-access) records the owner-approved Codex SDK spike, native account eligibility, INR uncertainty and cost assumptions. The newer Sign in with ChatGPT OAuth/Responses adapter is deferred; its private-client approval is not a prerequisite for this native Codex login experiment.
+
+Isolate each adult's Codex credentials/history and gateway keys. Verify route capabilities; shared routines name a consenting funding principal. Paid-budget exhaustion pauses all optional AI, preserving manual controls and direct briefs. The [provider contracts](reference/APPLICATION-DESIGN.md#provider-contracts), [ADR-007](adr/007-ai-boundaries.md) and [policy clarifications](reference/DECISIONS-AND-GATES.md#open-policy-questions) own eligibility, disclosure and the nonproduction exception. Actual access/terms, permissions, funding and real-data consent remain required; production privacy and runtime evidence remain pending.
 
 Queue state is not notification delivery or cancellation proof. pg-boss supplies durable lifecycle machinery while application state owns versions, receipts, eligibility and handoff serialization. Split a worker only for measured host limits, contention or isolation. The [dispatch contract](reference/APPLICATION-DESIGN.md#dispatch-integration) preserves scan/retry defaults and required race tests. Do not add a broker or second queue platform without a demonstrated limitation.
 
@@ -70,7 +72,7 @@ Voice and document processing reuse policy and action boundaries. Verify actual 
 
 ## Versions, dependencies and verification
 
-At scaffold time, verify supported releases, project maturity and compatible peers, then pin direct dependencies, runtime/package-manager versions and production artifacts. Commit the lockfile and `biome.json`; use frozen installs in CI. Router and its plugin have different observed patch versions; honor peer ranges rather than forcing matching numbers. The OpenAPI generator experiment needed TypeScript 5.9.3 instead of latest 7.x. The updated evidence tables require adoption-time revalidation under G13.
+Verify supported releases, maturity and peers; pin direct dependencies, runtime/package-manager versions and production artifacts. Commit the lockfile and `biome.json`; use frozen installs in CI. Router and its plugin have different observed patch versions; honor peer ranges rather than forcing matching numbers. The OpenAPI generator experiment needed TypeScript 5.9.3 instead of latest 7.x. The updated evidence tables require adoption-time revalidation under G13.
 
 Use strict TypeScript, checked external schemas and exhaustive domain states. Biome formats and lints supported source files; TypeScript checking, tests and SQL constraints remain separate. Do not add parallel ESLint/Prettier formatting for the same files. A demonstrated unsupported semantic rule may justify a narrowly scoped tool. Markdown needs prose and link review, not a new application toolchain.
 

@@ -543,6 +543,13 @@ Automated WebKit testing is not actual iPhone push testing. The quality criteria
 
 The original D21 research record is unavailable; use the preserved protocol above and the evidence gates, without claiming additional sample-allocation evidence. Use versioned synthetic fixtures, separate tuning/acceptance sets, recorded configuration and redacted results. Count failed and excluded cases explicitly. Collect evidence in the active phase; the acceptance reference owns the shared test protocol.
 
+<a id="browser-validation-timing"></a>
+## Browser baseline and device-validation timing
+
+**Owner amendment — Nishanth, 4 October 2026:** Use current stable Chromium-based browsers and Safari as the planning baseline on laptop, desktop and mobile. Published browser/library compatibility is sufficient for the Phase 0 browser-feasibility go-ahead; continue implementation and relevant regression checks on the laptop. Do not require connecting phones, building a separate device-test surface or deploying solely to close Phase 0 browser feasibility.
+
+Actual iPhone/Android/Mac checks move to deployed acceptance at the end of the relevant implementation scope. Record exact versions then. Installation, closed/locked/background push, permission/reconnect behaviour, session resumption/private-state clearing, accessibility and later microphone/file capture remain observed tests before relying on those capabilities. This timing amendment applies to the phase criteria below: device evidence is not a prerequisite for local implementation. It does not waive functional/privacy requirements, change numerical acceptance targets, certify every Chromium browser, or turn unperformed Safari/phone tests into Passed results. [Browser compatibility evidence](TECHNOLOGY-EVIDENCE.md#browser-feasibility-review) records the desktop review and limitations.
+
 <a id="phase-exit-gates"></a>
 ## Phase exit gates
 
@@ -551,8 +558,8 @@ These are the accepted roadmap exit criteria. They supplement the canonical requ
 <a id="phase-0"></a>
 ### Phase 0 — Prove household boundaries and feasibility
 
-- The selected jobs and device inventory are recorded, or missing participation is explicitly blocked rather than inferred.
-- Synthetic evidence addresses authenticated isolation, source-backed recall, deletion-aware recovery, manual-only use, and phone push feasibility.
+- The selected jobs and reported device inventory/browser baseline are recorded, or missing participation is explicitly blocked rather than inferred. Exact device versions may be collected at deployed acceptance under the [timing amendment](#browser-validation-timing).
+- Synthetic evidence addresses authenticated isolation, source-backed recall, deletion-aware recovery and manual-only use. Phone/browser feasibility uses the owner-approved compatibility review; physical-device push validation is deferred to deployed acceptance under the [timing amendment](#browser-validation-timing).
 - A later technical proposal demonstrates a feasible path for the [technical feasibility](../TECH-STACK.md#selection-inventory) obligations and the INR 3,000 ceiling; no vendor selection is made here.
 - Nishanth owns policy decisions. Development/testing/staging/UAT may evaluate any available LLM model or processor in any affordable available region without production residency, no-training qualification or thirty-day processor-retention eligibility gates. Actual account/capability eligibility, funding approval and consent for real data still apply; production disclosure, no-training and retention evidence is collected separately before production. Incompatible operations stay unavailable in the environment whose rules they cannot meet.
 - A failing constraint results in a specific proposed product revision or corrective work, never a silently weaker promise.

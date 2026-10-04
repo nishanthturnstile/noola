@@ -1,6 +1,6 @@
 # Phase 0 readiness and execution plan
 
-**Status: Available synthetic proofs implemented; Phase 0 remains Pending.** Started 4 October 2026. This is an execution/evidence record, not a replacement for the [roadmap](../ROADMAP.md), [acceptance criteria](../reference/ACCEPTANCE.md#phase-0) or [gate register](../reference/DECISIONS-AND-GATES.md#evidence-gates).
+**Status: Available synthetic proofs and public feasibility research completed; account and operating evidence remain Pending.** Started 4 October 2026. Phase 0 is not yet passed. This is an execution/evidence record, not a replacement for the [roadmap](../ROADMAP.md), [acceptance criteria](../reference/ACCEPTANCE.md#phase-0) or [gate register](../reference/DECISIONS-AND-GATES.md#evidence-gates).
 
 ## Starting position
 
@@ -18,9 +18,13 @@ The running bootstrap has four workspaces, independently built web/API applicati
 | 6 | Run normal workspace checks, experiment runtime and separate strict experiment checking; review cleanup, authority, SQL parameters and exposed routes | Preserve failing adoption checks as failures; verify running health endpoint and no experiment routes in production |
 | 7 | Reconcile gate evidence and define the next implementation slice | Each gate remains pending until its complete criteria are met; list exact human/account/device inputs |
 
+## Browser planning decision — completed for local development
+
+Nishanth approved Chromium-based browsers and Safari on 4 October 2026, with laptop testing now and physical-device validation after deployment. The [compatibility review](../reference/TECHNOLOGY-EVIDENCE.md#browser-feasibility-review) supplies the Phase 0 browser-feasibility go-ahead. No phone connection, separate mobile test page or preview deployment is needed now. The [canonical timing amendment](../reference/ACCEPTANCE.md#browser-validation-timing) moves actual-device checks to deployed acceptance; it does not record them as passed.
+
 ## Reported device inventory
 
-Nishanth reported these available test devices on 4 October 2026. This is an inventory report, not an observed test or either adult's acceptance.
+Nishanth reported these available test devices on 4 October 2026. Exact model/OS/browser details below are deferred to deployed acceptance and do not block laptop development. This is an inventory report, not an observed test or either adult's acceptance.
 
 | Device | Known information | Still needed |
 |---|---|---|
@@ -29,13 +33,19 @@ Nishanth reported these available test devices on 4 October 2026. This is an inv
 | Mac | Safari available | macOS/Safari versions |
 | Windows | Chrome and other browsers available; development is in WSL | Windows/browser versions; identify additional browsers |
 
-Each adult's top 2–3 jobs and independent participation remain **blocked on input**. No second adult's consent or answers have been inferred from the device inventory. For device validation, record model/OS/browser, installability, session persistence/revocation, background/foreground behavior, accessibility and network conditions with observed date/result. Push requires a secure reachable origin, explicit device permission, and its own actual-phone experiment; the current loopback-only placeholder is not that test surface.
+The owner supplied Nishan's hybrid IT-work and Manjula's home/child-care contexts and requested [candidate useful scenarios](PHASE-0-FEASIBILITY.md#household-scenarios). Proposed private recall, shared shopping and editable checklists are now recorded. Their independent ranking/acceptance remains pending; Manjula's consent has not been inferred. For device validation, record model/OS/browser, installability, session persistence/revocation, background/foreground behavior, accessibility and network conditions with observed date/result. Push-specific checks will use the deployed secure origin with explicit device permission. The local placeholder remains sufficient for current laptop work.
+
+## Provider and cost research completed
+
+The [feasibility proposal](PHASE-0-FEASIBILITY.md) records official-source findings, explicit workload/currency assumptions, cost sensitivities and the remaining recovery responsibilities. The owner reconfirmed ₹3,000/month, chose to keep the source private, and asked us to assume Pro for Nishant and Plus or Go for Manjula. No Noola client registration/configuration exists. Plus/Pro eligibility must be verified; Go is not an assumed subscription-inference route. The next item is the [owner-approved Codex SDK spike](PHASE-0-FEASIBILITY.md#codex-sdk-spike) with native per-adult login. The newer private-client registration route is deferred.
+
+Vercel remains the first paid gateway candidate; Zen is an evaluated alternative, while OpenCode Go is not selected for household traffic. INR checkout and the exact owner-purchased OpenCode product are unconfirmed. Modest paid text use fits the AI allocation under stated assumptions; actual host, independent journal, storage and recovery costs remain unmeasured. No account, purchase, provider call or product route was enabled by this research.
 
 ## External and later-phase work
 
-- Each adult independently supplies intended jobs and their actual phone/browser inventory. Missing participation must be explicitly recorded; one adult cannot consent for the other.
-- G01/G07 need actual-device installation/session/accessibility and push feasibility. Browser emulation does not prove phone delivery. The seven-day timing observation must be scheduled around actual devices and explicit notification permission.
-- G02 requires an expressly connected account, scopes, terms and actual model/modality/quota evidence. No account entitlement follows from this coding session. No provider call or paid service is authorized by a synthetic test.
+- Each adult independently ranks or replaces the proposed jobs; exact phone/browser versions are collected at deployed acceptance. Missing participation must be explicitly recorded; one adult cannot consent for the other.
+- G01/G07 physical-device installation/session/accessibility and push checks are deferred to deployed acceptance by the owner. The browser-feasibility planning item is complete through the compatibility review. The seven-day notification timing observation remains required before delivery reliance, using actual devices and explicit permission.
+- G02 requires native Codex account/deployment eligibility, isolated credentials/history, tool containment and actual model/modality/quota evidence. The public documentation review is complete; no account entitlement follows from it or this coding session. The owner approved the synthetic SDK spike; live access uses an explicitly connected account, never this coding session's credentials. No paid purchase is authorized.
 - G09 needs a priced workload and host/storage/recovery arrangement within the INR 3,000 monthly ceiling, separate subscription/variable accounting, and all-route pause evidence once routes exist. Local idle RAM is only one input.
 - G04 independent recovery/email delivery, invitation lifecycle, device locks and private browser-state clearing remain Phase 1 work before real use.
 - G06 independent journal custody, keys, alternate operator, encrypted off-host backups, lost-primary/crash ordering and all derivative cleanup remain required before retained real data.
@@ -89,9 +99,9 @@ This resolves the application adoption blocker, not the upstream declarations th
 ## Next implementation order
 
 1. **Persistence decision completed:** retain Drizzle with the approved backend exception; keep query regression checks and upstream diagnostics. Revisit on dependency upgrades.
-2. **Actual-device feasibility:** confirm inventory details, establish a secure development test origin and run the bounded phone/session/push experiment with explicit permission. Collect each adult's jobs independently in parallel.
-3. **Provider and cost feasibility:** explicitly connect the intended account and inventory actual permitted capabilities, then price the agreed workload and independent recovery arrangement. Keep synthetic data and no paid calls until their route/funding is authorized.
-4. **Phase 0 review:** reconcile those results against the Phase 0 criteria and gate register. Only then scope the Phase 1 private-text vertical slice: verified invitation → sign-in → manual save → authorized evidence → correction → forget, including recovery and private browser-state clearing before real data.
+2. **Browser feasibility completed for local development:** use Chromium/Safari compatibility assumptions and laptop tests. Collect exact versions and run focused physical-device checks at deployed acceptance; do not create a separate device-test surface now. Each adult's jobs remain independently supplied.
+3. **Public feasibility research completed:** review the [scenario/provider/cost proposal](PHASE-0-FEASIBILITY.md). Implement the [Codex SDK spike](PHASE-0-FEASIBILITY.md#codex-sdk-spike), starting with an offline harness, then native login and bounded synthetic live requests. Qualify a paid route only when needed and funded. Replace existing-host and recovery assumptions with actual costs and an alternate operator. Keep tests synthetic until real-data consent and applicable controls exist.
+4. **Phase 0 review:** reconcile collected results and remaining phase-timed evidence against the Phase 0 criteria and gate register. Then scope the Phase 1 private-text vertical slice: verified invitation → sign-in → manual save → authorized evidence → correction → forget, including recovery and private browser-state clearing before real data. Shared shopping lists follow within Phase 1.
 
 
 ## Validation and review record

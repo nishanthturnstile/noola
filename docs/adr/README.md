@@ -15,7 +15,7 @@ These records explain supported technical choices extracted on 3 October 2026. T
 | [ADR-004](004-identity-and-authority.md) | Identity, record authorization and approval | Proposed | Pending |
 | [ADR-005](005-lifecycle-recovery.md) | Lifecycle controls and deletion-aware recovery | Proposed | Pending |
 | [ADR-006](006-durable-execution.md) | Durable execution and external handoff | Proposed | Pending |
-| [ADR-007](007-ai-boundaries.md) | AI access, context and checked delivery | Proposed — owner funding direction retained | Pending |
+| [ADR-007](007-ai-boundaries.md) | AI access, context and checked delivery | Accepted — bounded Codex SDK spike and provider order; production adoption pending | Pending |
 | [ADR-008](008-retrieval.md) | Retrieval and evaluated evolution | Proposed | Pending |
 | [ADR-009](009-cost-admission.md) | Cost admission and reconciliation | Proposed — owner budget-exhaustion policy decided | Pending |
 | [ADR-010](010-hosting-and-custody.md) | Hosting, storage and recovery custody | Proposed — owner shortlist retained | Pending |

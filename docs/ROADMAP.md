@@ -23,11 +23,11 @@ Every phase applies current permissions, processing choices, retention, cancella
 
 ### Phase 0 — Prove household boundaries and feasibility
 
-**Outcome:** The team has independent household jobs, an actual-device inventory, and evidence for the core trust, AI, notification, and operating boundaries. This phase is not a usable product.
+**Outcome:** The team has independent household jobs, a reported device/browser baseline, and evidence for the core trust, AI, notification, and operating boundaries. This phase is not a usable product.
 
 **Included:** Independent needs and device baseline; Core trust and feasibility evidence; Requirement evidence and decision gates.
 
-**Dependencies:** Approved PRODUCT-PLAN.md and access to the actual household devices for capability checks.
+**Dependencies:** Approved PRODUCT-PLAN.md and the Chromium/Safari compatibility baseline. Under the [4 October timing amendment](reference/ACCEPTANCE.md#browser-validation-timing), local development proceeds on the laptop; physical-device validation moves to deployed acceptance.
 
 **Exit:** Pass the [Phase 0 exit criteria](reference/ACCEPTANCE.md#phase-0) and applicable [evidence gates](reference/DECISIONS-AND-GATES.md#evidence-gates).
 
@@ -51,7 +51,7 @@ Every phase applies current permissions, processing choices, retention, cancella
 
 **Included:** Tasks and recipient-controlled requests; In-app communication with bounded disclosure; One-time reminders, inbox, and tested phone delivery.
 
-**Dependencies:** Phase 1 identity, control, list, and memory gates. Actual-phone capability evidence and snapshot-policy decisions.
+**Dependencies:** Phase 1 identity, control, list, and memory gates and snapshot-policy decisions. Actual-phone evidence is collected at deployed acceptance before delivery reliance; it does not block local implementation.
 
 **Exit:** Pass the [Phase 2 exit criteria](reference/ACCEPTANCE.md#phase-2) and applicable [evidence gates](reference/DECISIONS-AND-GATES.md#evidence-gates).
 

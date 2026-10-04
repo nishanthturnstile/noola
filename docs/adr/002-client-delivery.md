@@ -2,7 +2,7 @@
 
 **Status:** Accepted — evaluation direction only.
 
-**Validation:** Pending; see the linked gates.
+**Validation:** Browser feasibility accepted for local development by Nishanth on 4 October 2026 using the Chromium/Safari baseline and published compatibility. Actual-device results remain Pending until deployed acceptance; see the [timing amendment](../reference/ACCEPTANCE.md#browser-validation-timing).
 
 **Provenance:** Extracted from the supplied product, architecture and stack baseline dated 3 October 2026. No original D-series record was available. External observations were not revalidated during consolidation.
 
@@ -21,7 +21,7 @@ A hybrid or native client remains a reconsideration path if required phone behav
 
 ## Consequences
 
-Actual iPhone Home Screen installation and Android push/capture must be tested, including closed, locked, denied-permission and reconnect states. Browser emulation does not prove these outcomes. Maintain feature detection and honest alternatives where APIs differ. A change of origin may require push subscription registration again. Session locks, profile switches and browser back/forward state must not expose the previous adult. This accepted direction does not approve the full architecture or certify device suitability.
+At deployed acceptance, actual iPhone Home Screen installation and Android push/capture must be tested, including closed, locked, denied-permission and reconnect states. Browser emulation does not prove these outcomes. Maintain feature detection and honest alternatives where APIs differ. A change of origin may require push subscription registration again. Session locks, profile switches and browser back/forward state must not expose the previous adult. This accepted direction does not approve the full architecture or certify device suitability.
 
 ## Reconsideration trigger
 

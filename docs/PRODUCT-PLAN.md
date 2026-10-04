@@ -12,6 +12,8 @@ The intended users are Nishanth, his wife as an independent equal participant in
 
 Each adult supplies their own consent, language, preferences, recurring situations and feedback. Each selects three recurring situations during onboarding or supplies equivalents. The second adult’s needs and technical familiarity must not be inferred from the builder’s. The [role and record-rights policy](reference/PRODUCT-RULES.md#roles-and-permissions) defines the separate owner, guardian, coordinator and operator boundaries.
 
+On 4 October, the owner supplied Nishan's hybrid IT-work and Manjula's home/child-care contexts and requested [candidate first scenarios](reviews/PHASE-0-FEASIBILITY.md#household-scenarios). These are proposed private recall, shared shopping and editable checklist workflows, not independently validated preferences. He also confirmed that Noola's application source remains private; subscription integration must qualify for that deployment rather than assume open-source eligibility.
+
 The primary goals are to reduce mental overhead, retrieve deliberately retained facts with evidence and visible uncertainty, turn agreed intentions into understandable commitments, and protect independent adult control. Secondary goals are practical text/voice/document input, manual continuity, independent daily use, and inspectable correction, export and removal. More conversation, more retention or more notifications are not success measures.
 
 ## Release scope
